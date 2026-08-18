@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Nạp Free Fire</title>
+<title>Shop Nạp Free Fire</title>
 
 <style>
 * {
@@ -14,276 +14,254 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #fff;
-  color: #454752;
+  background: #f5f7fb;
+  color: #333;
 }
 
 .container {
+  width: 100%;
   max-width: 850px;
   margin: auto;
-  padding: 20px 30px 60px;
+  padding: 20px;
 }
 
 /* TIÊU ĐỀ */
 .title {
-  font-size: 30px;
-  font-weight: 700;
-  margin: 15px 0;
-}
-
-.icon {
-  margin-right: 12px;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 20px 0 15px;
 }
 
 /* ID */
-.id-row {
+.id-box {
   display: flex;
-  gap: 15px;
+  gap: 12px;
 }
 
 .id-input {
   flex: 1;
-  height: 78px;
+  height: 65px;
   border: 2px solid #ddd;
-  border-radius: 15px;
-  padding: 0 25px;
-  font-size: 24px;
+  border-radius: 14px;
+  padding: 0 20px;
+  font-size: 18px;
   outline: none;
+  background: white;
 }
 
 .check-btn {
-  width: 230px;
-  border: 0;
-  border-radius: 15px;
-  background: #428be8;
+  width: 150px;
+  border: none;
+  border-radius: 14px;
+  background: #287bea;
   color: white;
-  font-size: 24px;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
-}
-
-.check-btn:active {
-  transform: scale(.98);
 }
 
 .help {
   display: block;
-  margin-top: 15px;
-  color: #2875e8;
-  font-size: 21px;
+  margin-top: 12px;
+  color: #287bea;
+  text-decoration: none;
   font-style: italic;
 }
 
-/* PHƯƠNG THỨC */
+/* THANH TOÁN */
 .section-title {
-  font-size: 30px;
-  font-weight: 700;
-  margin-top: 45px;
-  margin-bottom: 25px;
+  margin-top: 35px;
+  margin-bottom: 18px;
+  font-size: 27px;
+  font-weight: bold;
 }
 
 .payment-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  gap: 12px;
 }
 
 .payment {
-  height: 90px;
-  border: 2px solid #d9dde5;
-  border-radius: 16px;
+  min-height: 75px;
+  border: 2px solid #ddd;
+  border-radius: 14px;
   background: white;
+  padding: 15px;
   display: flex;
   align-items: center;
-  padding: 0 20px;
-  font-size: 21px;
+  font-size: 17px;
   cursor: pointer;
 }
 
 .payment.active {
-  border: 3px solid #287cff;
-  background: #f2f7ff;
-  color: #2160bd;
+  border-color: #287bea;
+  background: #eef5ff;
 }
 
 /* GÓI */
 .package-tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: #f4f6f9;
-  border: 2px solid #d9dde5;
-  border-radius: 16px;
-  padding: 8px;
   gap: 8px;
+  padding: 7px;
+  border-radius: 14px;
+  background: #e9edf3;
 }
 
 .package-tab {
-  height: 75px;
-  border: 0;
-  border-radius: 13px;
+  height: 55px;
+  border: none;
+  border-radius: 11px;
   background: transparent;
-  font-size: 21px;
-  color: #5d6472;
+  font-size: 17px;
   cursor: pointer;
 }
 
 .package-tab.active {
   background: white;
-  color: #2160bd;
-  box-shadow: 0 3px 10px rgba(0,0,0,.08);
+  color: #287bea;
+  font-weight: bold;
 }
 
-/* GÓI KIM CƯƠNG */
+/* DANH SÁCH GÓI */
 .packages {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  gap: 12px;
   margin-top: 15px;
 }
 
 .package {
-  min-height: 145px;
-  border: 2px solid #d9dde5;
-  border-radius: 16px;
+  min-height: 125px;
+  border: 2px solid #ddd;
+  border-radius: 14px;
   background: white;
   text-align: center;
-  padding: 18px 10px;
+  padding: 15px 8px;
   cursor: pointer;
-  transition: .15s;
-}
-
-.package:hover {
-  border-color: #5598ff;
 }
 
 .package.active {
-  border: 3px solid #287cff;
-  background: #f2f7ff;
+  border: 3px solid #287bea;
+  background: #eef5ff;
 }
 
 .diamond {
-  font-size: 34px;
-  margin-bottom: 8px;
+  font-size: 30px;
 }
 
-.diamond-name {
-  font-size: 21px;
+.package-name {
+  margin-top: 8px;
+  font-size: 17px;
   font-weight: bold;
-  margin-bottom: 10px;
 }
 
 .price {
-  font-size: 22px;
-  color: #2874e8;
+  margin-top: 7px;
+  color: #287bea;
   font-weight: bold;
 }
 
 /* ĐIỀU KHOẢN */
 .agree {
-  margin: 25px 0;
-  font-size: 18px;
+  margin: 22px 0;
+  font-size: 15px;
 }
 
 .agree a {
-  color: #2875e8;
+  color: #287bea;
 }
 
-/* NẠP NGAY */
+/* NẠP */
 .recharge {
   width: 100%;
-  height: 75px;
-  border: 0;
-  border-radius: 15px;
-  background: #347cf0;
+  height: 65px;
+  border: none;
+  border-radius: 14px;
+  background: #287bea;
   color: white;
-  font-size: 29px;
-  cursor: pointer;
-}
-
-.recharge:active {
-  transform: scale(.99);
-}
-
-/* CHAT */
-.chat {
-  position: fixed;
-  left: 30px;
-  bottom: 30px;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: #2475ef;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 23px;
   font-weight: bold;
-  font-size: 18px;
-  box-shadow: 0 5px 20px rgba(0,0,0,.2);
+  cursor: pointer;
 }
 
 /* THÔNG BÁO */
 #message {
-  margin-top: 20px;
+  display: none;
+  margin-top: 15px;
   padding: 15px;
   border-radius: 12px;
-  background: #f2f6ff;
+  background: #eef5ff;
   color: #2160bd;
-  display: none;
+  line-height: 1.6;
+}
+
+/* LIÊN HỆ */
+.contact {
+  margin-top: 40px;
+  padding: 25px 20px;
+  border-radius: 18px;
+  background: white;
+  border: 2px solid #e1e5ec;
+  text-align: center;
+}
+
+.contact h2 {
+  margin-top: 0;
+  font-size: 25px;
+}
+
+.contact p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.zalo-btn {
+  display: inline-block;
+  padding: 15px 35px;
+  border-radius: 40px;
+  background: #1688ff;
+  color: white;
+  text-decoration: none;
+  font-size: 19px;
+  font-weight: bold;
 }
 
 /* MOBILE */
-@media(max-width:600px) {
+@media (max-width: 600px) {
 
   .container {
-    padding: 15px 20px 100px;
+    padding: 15px;
   }
 
-  .title,
-  .section-title {
+  .title {
     font-size: 25px;
   }
 
-  .id-row {
+  .id-box {
     flex-direction: column;
   }
 
   .id-input {
     width: 100%;
-    height: 65px;
-    font-size: 20px;
   }
 
   .check-btn {
     width: 100%;
-    height: 65px;
+    height: 60px;
+  }
+
+  .section-title {
+    font-size: 23px;
   }
 
   .payment {
-    height: 80px;
-    font-size: 17px;
+    font-size: 15px;
   }
 
-  .packages {
-    gap: 12px;
-  }
-
-  .package {
-    min-height: 135px;
-  }
-
-  .diamond-name {
-    font-size: 18px;
-  }
-
-  .price {
-    font-size: 19px;
-  }
-
-  .chat {
-    width: 65px;
-    height: 65px;
-    left: 20px;
-    bottom: 20px;
+  .package-name {
+    font-size: 15px;
   }
 }
 </style>
@@ -293,33 +271,36 @@ body {
 
 <div class="container">
 
-  <!-- ID NHÂN VẬT -->
+  <!-- ID -->
   <div class="title">
     👤 ID Nhân Vật
   </div>
 
-  <div class="id-row">
+  <div class="id-box">
 
     <input
       id="playerId"
       class="id-input"
       type="text"
       inputmode="numeric"
-      placeholder="Mời nhập ID FF (Server Việt Nam)"
+      placeholder="Nhập ID Free Fire"
     >
 
-    <button class="check-btn" onclick="kiemTraID()">
+    <button
+      class="check-btn"
+      onclick="kiemTraID()"
+    >
       🔍 Kiểm tra
     </button>
 
   </div>
 
   <a class="help" href="#">
-    * Làm sao để lấy ID Nhân vật?
+    * Làm sao để lấy ID nhân vật?
   </a>
 
 
-  <!-- PHƯƠNG THỨC THANH TOÁN -->
+  <!-- THANH TOÁN -->
   <div class="section-title">
     💳 Phương thức thanh toán
   </div>
@@ -330,20 +311,20 @@ body {
       class="payment active"
       onclick="chonThanhToan(this, 'Chuyển khoản ngân hàng')"
     >
-      🏦 &nbsp; Chuyển khoản ngân hàng
+      🏦 Chuyển khoản ngân hàng
     </div>
 
     <div
       class="payment"
       onclick="chonThanhToan(this, 'Thẻ cào điện thoại')"
     >
-      💳 &nbsp; Thẻ cào điện thoại
+      💳 Thẻ cào điện thoại
     </div>
 
   </div>
 
 
-  <!-- CHỌN GÓI -->
+  <!-- GÓI -->
   <div class="section-title">
     💎 Chọn gói nạp
   </div>
@@ -361,83 +342,69 @@ body {
       class="package-tab"
       onclick="chonLoai(this)"
     >
-      📅 Thẻ tuần, tháng
+      📅 Thẻ tuần / tháng
     </button>
 
   </div>
 
 
-  <!-- DANH SÁCH GÓI -->
+  <!-- DANH SÁCH -->
   <div class="packages">
 
     <div class="package active"
-         onclick="chonGoi(this, '25 Kim Cương', 4700)">
+      onclick="chonGoi(this,'25 Kim Cương',4700)">
       <div class="diamond">💎</div>
-      <div class="diamond-name">25 Kim Cương</div>
-      <div class="price">4,700 VNĐ</div>
+      <div class="package-name">25 Kim Cương</div>
+      <div class="price">4.700 VNĐ</div>
     </div>
 
     <div class="package"
-         onclick="chonGoi(this, '51 Kim Cương', 9400)">
+      onclick="chonGoi(this,'51 Kim Cương',9400)">
       <div class="diamond">💎</div>
-      <div class="diamond-name">51 Kim Cương</div>
-      <div class="price">9,400 VNĐ</div>
+      <div class="package-name">51 Kim Cương</div>
+      <div class="price">9.400 VNĐ</div>
     </div>
 
     <div class="package"
-         onclick="chonGoi(this, '113 Kim Cương', 18800)">
+      onclick="chonGoi(this,'113 Kim Cương',18800)">
       <div class="diamond">💎</div>
-      <div class="diamond-name">113 Kim Cương</div>
-      <div class="price">18,800 VNĐ</div>
+      <div class="package-name">113 Kim Cương</div>
+      <div class="price">18.800 VNĐ</div>
     </div>
 
     <div class="package"
-         onclick="chonGoi(this, '283 Kim Cương', 47000)">
+      onclick="chonGoi(this,'283 Kim Cương',47000)">
       <div class="diamond">💎</div>
-      <div class="diamond-name">283 Kim Cương</div>
-      <div class="price">47,000 VNĐ</div>
+      <div class="package-name">283 Kim Cương</div>
+      <div class="price">47.000 VNĐ</div>
     </div>
 
     <div class="package"
-         onclick="chonGoi(this, '566 Kim Cương', 94000)">
+      onclick="chonGoi(this,'566 Kim Cương',94000)">
       <div class="diamond">💎</div>
-      <div class="diamond-name">566 Kim Cương</div>
-      <div class="price">94,000 VNĐ</div>
+      <div class="package-name">566 Kim Cương</div>
+      <div class="price">94.000 VNĐ</div>
     </div>
 
     <div class="package"
-         onclick="chonGoi(this, '1,132 Kim Cương', 188000)">
+      onclick="chonGoi(this,'1.132 Kim Cương',188000)">
       <div class="diamond">💎</div>
-      <div class="diamond-name">1,132 Kim Cương</div>
-      <div class="price">188,000 VNĐ</div>
+      <div class="package-name">1.132 Kim Cương</div>
+      <div class="price">188.000 VNĐ</div>
     </div>
 
     <div class="package"
-         onclick="chonGoi(this, '2,830 Kim Cương', 470000)">
+      onclick="chonGoi(this,'2.830 Kim Cương',470000)">
       <div class="diamond">💎</div>
-      <div class="diamond-name">2,830 Kim Cương</div>
-      <div class="price">470,000 VNĐ</div>
+      <div class="package-name">2.830 Kim Cương</div>
+      <div class="price">470.000 VNĐ</div>
     </div>
 
     <div class="package"
-         onclick="chonGoi(this, '5,660 Kim Cương', 940000)">
+      onclick="chonGoi(this,'5.660 Kim Cương',940000)">
       <div class="diamond">💎</div>
-      <div class="diamond-name">5,660 Kim Cương</div>
-      <div class="price">940,000 VNĐ</div>
-    </div>
-
-    <div class="package"
-         onclick="chonGoi(this, '11,320 Kim Cương', 1880000)">
-      <div class="diamond">💎</div>
-      <div class="diamond-name">11,320 Kim Cương</div>
-      <div class="price">1,880,000 VNĐ</div>
-    </div>
-
-    <div class="package"
-         onclick="chonGoi(this, '22,640 Kim Cương', 4700000)">
-      <div class="diamond">💎</div>
-      <div class="diamond-name">22,640 Kim Cương</div>
-      <div class="price">4,700,000 VNĐ</div>
+      <div class="package-name">5.660 Kim Cương</div>
+      <div class="price">940.000 VNĐ</div>
     </div>
 
   </div>
@@ -445,31 +412,48 @@ body {
 
   <!-- ĐIỀU KHOẢN -->
   <div class="agree">
+
     <input
       type="checkbox"
       id="agree"
     >
+
     Tôi đồng ý với
     <a href="#">điều khoản sử dụng</a>
+
   </div>
 
 
-  <!-- NÚT NẠP -->
+  <!-- NÚT -->
   <button
     class="recharge"
     onclick="napNgay()"
   >
-    🛒 Nạp Ngay
+    🛒 NẠP NGAY
   </button>
 
   <div id="message"></div>
 
-</div>
 
+  <!-- LIÊN HỆ ZALO -->
+  <section class="contact">
 
-<!-- CHAT -->
-<div class="chat">
-  Zalo
+    <h2>📞 Thông tin liên hệ</h2>
+
+    <p>
+      Cần hỗ trợ? Liên hệ với chúng tôi qua Zalo.
+    </p>
+
+    <a
+      class="zalo-btn"
+      href="https://zalo.me/03786353625"
+      target="_blank"
+    >
+      💬 Liên hệ Zalo
+    </a>
+
+  </section>
+
 </div>
 
 
@@ -483,10 +467,9 @@ let giaDaChon = 4700;
 /* KIỂM TRA ID */
 function kiemTraID() {
 
-  const id = document
-    .getElementById("playerId")
-    .value
-    .trim();
+  const id =
+    document.getElementById("playerId")
+      .value.trim();
 
   if (!id) {
     alert("Vui lòng nhập ID nhân vật!");
@@ -498,20 +481,18 @@ function kiemTraID() {
     return;
   }
 
-  alert(
-    "Đã nhận ID: " + id
-  );
+  alert("ID hợp lệ: " + id);
 }
 
 
-/* CHỌN PHƯƠNG THỨC */
+/* THANH TOÁN */
 function chonThanhToan(element, value) {
 
   document
     .querySelectorAll(".payment")
-    .forEach(x => {
-      x.classList.remove("active");
-    });
+    .forEach(x =>
+      x.classList.remove("active")
+    );
 
   element.classList.add("active");
 
@@ -519,14 +500,14 @@ function chonThanhToan(element, value) {
 }
 
 
-/* CHỌN LOẠI GÓI */
+/* LOẠI GÓI */
 function chonLoai(element) {
 
   document
     .querySelectorAll(".package-tab")
-    .forEach(x => {
-      x.classList.remove("active");
-    });
+    .forEach(x =>
+      x.classList.remove("active")
+    );
 
   element.classList.add("active");
 }
@@ -537,9 +518,9 @@ function chonGoi(element, ten, gia) {
 
   document
     .querySelectorAll(".package")
-    .forEach(x => {
-      x.classList.remove("active");
-    });
+    .forEach(x =>
+      x.classList.remove("active")
+    );
 
   element.classList.add("active");
 
@@ -551,14 +532,13 @@ function chonGoi(element, ten, gia) {
 /* NẠP NGAY */
 function napNgay() {
 
-  const id = document
-    .getElementById("playerId")
-    .value
-    .trim();
+  const id =
+    document.getElementById("playerId")
+      .value.trim();
 
-  const agree = document
-    .getElementById("agree")
-    .checked;
+  const agree =
+    document.getElementById("agree")
+      .checked;
 
   if (!id) {
     alert("Vui lòng nhập ID nhân vật!");
@@ -566,7 +546,7 @@ function napNgay() {
   }
 
   if (!agree) {
-    alert("Bạn cần đồng ý với điều khoản sử dụng!");
+    alert("Bạn cần đồng ý với điều khoản!");
     return;
   }
 
@@ -576,24 +556,13 @@ function napNgay() {
   message.style.display = "block";
 
   message.innerHTML =
-    "Đang tạo đơn...<br><br>" +
+    "✅ Đã tạo đơn!<br><br>" +
     "ID: " + id + "<br>" +
     "Gói: " + goiDaChon + "<br>" +
     "Giá: " +
     giaDaChon.toLocaleString("vi-VN") +
     " VNĐ<br>" +
     "Thanh toán: " + phuongThuc;
-
-  /*
-    ĐÂY LÀ PHẦN KẾT NỐI BACKEND.
-
-    Khi bạn có API thanh toán/nạp Free Fire
-    hợp lệ, gửi thông tin đơn hàng từ đây
-    về server của bạn.
-
-    Không đặt API KEY hoặc mật khẩu
-    trực tiếp trong file HTML.
-  */
 }
 
 </script>
