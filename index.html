@@ -3,345 +3,319 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>1S SHOP - Nạp Free Fire</title>
+<title>SHOO HANHDZ</title> - Nạp Free Fire</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{
+  box-sizing:border-box;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(160deg, #f3f7ff, #ffffff);
-  color: #454b59;
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(160deg,#f3f7ff,#ffffff);
+  color:#454b59;
 }
 
-/* HEADER */
-.header {
-  background: linear-gradient(135deg, #ff8a00, #ff3d2e);
-  color: white;
-  padding: 35px 20px;
-  text-align: center;
+.header{
+  background:linear-gradient(135deg,#ff8a00,#ff3d2e);
+  color:white;
+  padding:35px 20px;
+  text-align:center;
 }
 
-.header h1 {
-  margin: 10px 0;
-  font-size: 42px;
+.header h1{
+  margin:10px 0;
+  font-size:42px;
 }
 
-.header p {
-  font-size: 19px;
+.header p{
+  font-size:19px;
 }
 
-.logo {
-  display: inline-block;
-  background: rgba(255,255,255,.2);
-  padding: 10px 20px;
-  border-radius: 30px;
-  font-weight: bold;
+.logo{
+  display:inline-block;
+  background:rgba(255,255,255,.2);
+  padding:10px 20px;
+  border-radius:30px;
+  font-weight:bold;
 }
 
-/* CONTAINER */
-.container {
-  max-width: 850px;
-  margin: 25px auto;
-  padding: 20px;
+.container{
+  max-width:850px;
+  margin:25px auto;
+  padding:20px;
 }
 
-/* CARD */
-.card {
-  background: white;
-  border-radius: 22px;
-  padding: 25px;
-  margin-bottom: 25px;
-  box-shadow: 0 8px 30px rgba(0,0,0,.08);
+.card{
+  background:white;
+  border-radius:22px;
+  padding:25px;
+  margin-bottom:25px;
+  box-shadow:0 8px 30px rgba(0,0,0,.08);
 }
 
-/* INPUT */
-label {
-  display: block;
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
+label{
+  display:block;
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:10px;
 }
 
-input {
-  width: 100%;
-  padding: 16px;
-  border: 2px solid #dce1e8;
-  border-radius: 14px;
-  font-size: 18px;
-  outline: none;
+input{
+  width:100%;
+  padding:16px;
+  border:2px solid #dce1e8;
+  border-radius:14px;
+  font-size:18px;
+  outline:none;
 }
 
-input:focus {
-  border-color: #2878e8;
+input:focus{
+  border-color:#2878e8;
 }
 
-/* PACKAGES */
-.package-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin-top: 15px;
+.package-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+  margin-top:15px;
 }
 
-.package {
-  padding: 22px 10px;
-  border: 2px solid #dce1e8;
-  border-radius: 17px;
-  background: white;
-  text-align: center;
-  cursor: pointer;
-  transition: .2s;
+.package{
+  padding:22px 10px;
+  border:2px solid #dce1e8;
+  border-radius:17px;
+  background:#fff;
+  text-align:center;
+  cursor:pointer;
+  transition:.2s;
 }
 
-.package:hover {
-  border-color: #2878e8;
+.package:hover{
+  transform:translateY(-2px);
 }
 
-.package.active {
-  border-color: #2878e8;
-  background: #eef5ff;
-  box-shadow: 0 0 0 2px rgba(40,120,232,.1);
+.package.active{
+  border-color:#2878e8;
+  background:#eef5ff;
 }
 
-.package .diamond {
-  font-size: 30px;
+.package .diamond{
+  font-size:30px;
 }
 
-.package .name {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 8px 0;
+.package .name{
+  font-size:18px;
+  font-weight:bold;
+  margin:8px 0;
 }
 
-.package .price {
-  color: #2878e8;
-  font-size: 19px;
-  font-weight: bold;
+.package .price{
+  color:#2878e8;
+  font-size:19px;
+  font-weight:bold;
 }
 
-/* NAP NGAY */
-.nap-btn {
-  width: 100%;
-  padding: 18px;
-  border: none;
-  border-radius: 15px;
-  background: linear-gradient(90deg, #347ff0, #2878e8);
-  color: white;
-  font-size: 22px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 25px;
+.nap-btn{
+  width:100%;
+  padding:18px;
+  border:0;
+  border-radius:15px;
+  background:linear-gradient(90deg,#347ff0,#2878e8);
+  color:#fff;
+  font-size:22px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:25px;
 }
 
-.nap-btn:active {
-  transform: scale(.98);
+.contact{
+  text-align:center;
 }
 
-/* CONTACT */
-.contact {
-  text-align: center;
+.zalo-btn,
+.zalo-payment{
+  display:block;
+  padding:15px 25px;
+  border-radius:14px;
+  background:#1688ff;
+  color:#fff;
+  text-decoration:none;
+  font-size:19px;
+  font-weight:bold;
 }
 
-.zalo-btn {
-  display: inline-block;
-  padding: 15px 35px;
-  border-radius: 40px;
-  background: #1688ff;
-  color: white;
-  text-decoration: none;
-  font-size: 19px;
-  font-weight: bold;
+/* =========================
+   POPUP THANH TOÁN
+========================= */
+
+.payment-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.72);
+  z-index:9999;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
 }
 
-/* ========================= */
-/* POPUP THANH TOÁN */
-/* ========================= */
-
-.payment-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.7);
-  z-index: 9999;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
+.payment-overlay.show{
+  display:flex;
 }
 
-.payment-overlay.show {
-  display: flex;
+.payment-box{
+  position:relative;
+  width:100%;
+  max-width:520px;
+  max-height:94vh;
+  overflow-y:auto;
+  background:#fff;
+  border-radius:28px;
+  padding:25px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
 }
 
-.payment-box {
-  position: relative;
-  width: 100%;
-  max-width: 520px;
-  max-height: 94vh;
-  overflow-y: auto;
-  background: white;
-  border-radius: 28px;
-  padding: 25px;
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+.payment-box h2{
+  margin:5px 0 12px;
+  font-size:32px;
+  color:#333;
 }
 
-.payment-box h2 {
-  margin: 5px 0 12px;
-  font-size: 32px;
-  color: #333;
+.payment-subtitle{
+  font-size:19px;
+  color:#666;
 }
 
-.payment-subtitle {
-  font-size: 19px;
-  color: #666;
-  margin-bottom: 20px;
+.payment-info{
+  background:#f4f6f9;
+  border-radius:16px;
+  padding:15px;
+  text-align:left;
+  font-size:18px;
+  line-height:1.8;
+  margin-bottom:20px;
 }
 
-/* THÔNG TIN */
-.payment-info {
-  background: #f4f6f9;
-  border-radius: 16px;
-  padding: 15px;
-  text-align: left;
-  font-size: 18px;
-  line-height: 1.8;
-  margin-bottom: 20px;
-}
-
-.payment-info span {
-  color: #2878e8;
-  font-weight: bold;
+.payment-info span{
+  color:#2878e8;
+  font-weight:bold;
 }
 
 /* QR */
-.qr-box {
-  width: 100%;
-  max-width: 390px;
-  margin: 20px auto;
-  padding: 12px;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 15px;
+.qr-box{
+  width:100%;
+  max-width:390px;
+  margin:20px auto;
+  padding:14px;
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:15px;
 }
 
-.payment-qr {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
+.qr-box svg{
+  display:block;
+  width:100%;
+  height:auto;
+  background:#fff;
 }
 
-/* BANK INFO */
-.bank-info {
-  text-align: left;
-  margin-top: 20px;
-  border: 1px solid #ddd;
-  border-radius: 15px;
-  overflow: hidden;
+/* Thông tin ngân hàng */
+.bank-info{
+  text-align:left;
+  margin-top:20px;
+  border:1px solid #ddd;
+  border-radius:15px;
+  overflow:hidden;
 }
 
-.bank-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  padding: 14px;
-  border-bottom: 1px solid #eee;
-  font-size: 17px;
+.bank-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:14px;
+  border-bottom:1px solid #eee;
+  font-size:17px;
 }
 
-.bank-row:last-child {
-  border-bottom: none;
+.bank-row:last-child{
+  border-bottom:0;
 }
 
-.bank-label {
-  font-weight: bold;
-  color: #555;
+.bank-label{
+  font-weight:bold;
+  color:#555;
 }
 
-.bank-value {
-  text-align: right;
-  font-weight: bold;
+.bank-value{
+  text-align:right;
+  font-weight:bold;
 }
 
-.money {
-  color: #e53935;
+.money{
+  color:#e53935;
 }
 
-/* NOTE */
-.payment-note {
-  font-size: 17px;
-  line-height: 1.5;
-  color: #666;
-  margin: 20px 5px;
+.content-code{
+  color:#e53935;
 }
 
-/* ZALO */
-.zalo-payment {
-  display: block;
-  width: 100%;
-  padding: 16px;
-  border-radius: 14px;
-  background: #1688ff;
-  color: white;
-  text-decoration: none;
-  font-size: 19px;
-  font-weight: bold;
-  margin-bottom: 12px;
+.payment-note{
+  font-size:17px;
+  line-height:1.5;
+  color:#666;
+  margin:20px 5px;
 }
 
-/* CLOSE */
-.close-btn {
-  width: 100%;
-  padding: 16px;
-  border: none;
-  border-radius: 14px;
-  background: #eee;
-  color: #2878e8;
-  font-size: 19px;
-  font-weight: bold;
-  cursor: pointer;
+.zalo-payment{
+  margin-bottom:12px;
 }
 
-.close-payment {
-  position: absolute;
-  right: 15px;
-  top: 12px;
-  width: 42px;
-  height: 42px;
-  border: none;
-  border-radius: 50%;
-  background: #eee;
-  color: #555;
-  font-size: 30px;
-  cursor: pointer;
+.close-btn{
+  width:100%;
+  padding:16px;
+  border:0;
+  border-radius:14px;
+  background:#eee;
+  color:#2878e8;
+  font-size:19px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-/* MOBILE */
-@media(max-width:600px) {
+.close-payment{
+  position:absolute;
+  right:15px;
+  top:12px;
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:50%;
+  background:#eee;
+  color:#555;
+  font-size:30px;
+  cursor:pointer;
+}
 
-  .header h1 {
-    font-size: 34px;
+@media(max-width:600px){
+
+  .header h1{
+    font-size:34px;
   }
 
-  .package-grid {
-    grid-template-columns: 1fr 1fr;
+  .payment-box{
+    padding:20px 15px;
   }
 
-  .payment-box {
-    padding: 20px 15px;
+  .package-grid{
+    grid-template-columns:1fr 1fr;
   }
 
-  .payment-box h2 {
-    font-size: 28px;
-  }
-
-  .bank-row {
-    font-size: 15px;
+  .bank-row{
+    font-size:15px;
   }
 }
 </style>
@@ -349,19 +323,31 @@ input:focus {
 
 <body>
 
-<!-- HEADER -->
+<!-- =========================
+     HEADER
+========================= -->
+
 <header class="header">
-  <div class="logo">1S SHOP • FREE FIRE</div>
+
+  <div class="logo">
+    1S SHOP • FREE FIRE
+  </div>
 
   <h1>FREE FIRE</h1>
 
-  <p>Nạp nhanh • Tạo đơn • Thanh toán an toàn</p>
+  <p>
+    Nạp nhanh • Tạo đơn • Thanh toán
+  </p>
+
 </header>
 
 
 <div class="container">
 
-  <!-- TẠO ĐƠN -->
+  <!-- =========================
+       FORM NẠP
+  ========================= -->
+
   <div class="card">
 
     <h2>🎮 Tạo đơn nạp</h2>
@@ -376,7 +362,9 @@ input:focus {
       placeholder="Nhập ID Free Fire"
     >
 
-    <h3>💎 Chọn gói nạp</h3>
+    <h3>
+      💎 Chọn gói nạp
+    </h3>
 
     <div class="package-grid">
 
@@ -391,6 +379,7 @@ input:focus {
         <div class="price">4.700 VND</div>
       </div>
 
+
       <div
         class="package"
         data-name="51 Kim Cương"
@@ -401,6 +390,7 @@ input:focus {
         <div class="name">51 Kim Cương</div>
         <div class="price">9.400 VND</div>
       </div>
+
 
       <div
         class="package"
@@ -413,6 +403,7 @@ input:focus {
         <div class="price">18.800 VND</div>
       </div>
 
+
       <div
         class="package"
         data-name="283 Kim Cương"
@@ -423,6 +414,7 @@ input:focus {
         <div class="name">283 Kim Cương</div>
         <div class="price">47.000 VND</div>
       </div>
+
 
       <div
         class="package"
@@ -435,6 +427,7 @@ input:focus {
         <div class="price">94.000 VND</div>
       </div>
 
+
       <div
         class="package"
         data-name="1.132 Kim Cương"
@@ -446,6 +439,7 @@ input:focus {
         <div class="price">188.000 VND</div>
       </div>
 
+
       <div
         class="package"
         data-name="2.830 Kim Cương"
@@ -456,6 +450,7 @@ input:focus {
         <div class="name">2.830 Kim Cương</div>
         <div class="price">470.000 VND</div>
       </div>
+
 
       <div
         class="package"
@@ -470,20 +465,30 @@ input:focus {
 
     </div>
 
-    <!-- NÚT NẠP -->
-    <button class="nap-btn" onclick="moThanhToan()">
+
+    <button
+      class="nap-btn"
+      onclick="moThanhToan()"
+    >
       🛒 NẠP NGAY
     </button>
 
   </div>
 
 
-  <!-- LIÊN HỆ -->
+  <!-- =========================
+       LIÊN HỆ ZALO
+  ========================= -->
+
   <div class="card contact">
 
-    <h2>📞 Thông tin liên hệ</h2>
+    <h2>
+      📞 Thông tin liên hệ
+    </h2>
 
-    <p>Cần hỗ trợ? Liên hệ Zalo:</p>
+    <p>
+      Cần hỗ trợ? Liên hệ Zalo:
+    </p>
 
     <a
       class="zalo-btn"
@@ -498,11 +503,14 @@ input:focus {
 </div>
 
 
-<!-- ================================= -->
-<!-- POPUP THANH TOÁN -->
-<!-- ================================= -->
+<!-- =========================
+     POPUP THANH TOÁN
+========================= -->
 
-<div id="paymentPopup" class="payment-overlay">
+<div
+  id="paymentPopup"
+  class="payment-overlay"
+>
 
   <div class="payment-box">
 
@@ -513,7 +521,11 @@ input:focus {
       ×
     </button>
 
-    <h2>💳 Thanh toán</h2>
+
+    <h2>
+      💳 Thanh toán
+    </h2>
+
 
     <p class="payment-subtitle">
       Quét mã QR bên dưới để thanh toán
@@ -521,6 +533,7 @@ input:focus {
 
 
     <!-- THÔNG TIN ĐƠN -->
+
     <div class="payment-info">
 
       <b>ID nhân vật:</b>
@@ -539,19 +552,253 @@ input:focus {
     </div>
 
 
-    <!-- QR CỦA BẠN -->
+    <!-- =========================
+         MÃ QR TPBANK CỦA BẠN
+         QR ĐƯỢC NHÚNG TRỰC TIẾP
+         VÀO HTML
+    ========================= -->
+
     <div class="qr-box">
 
-      <img
-        src="qr-payment.jpg"
-        alt="QR thanh toán"
-        class="payment-qr"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 49 49"
+        width="100%"
+        role="img"
+        aria-label="Mã QR thanh toán TPBank"
       >
+
+        <rect
+          width="49"
+          height="49"
+          fill="white"
+        />
+
+        <!-- QR CODE -->
+        <g
+          fill="#000"
+          transform="translate(2 2) scale(.999)"
+        >
+
+          <!-- Các ô QR -->
+          <path d="M0 0h7v1H0zM0 1h1v5H0zM6 1h1v5H6zM0 6h7v1H0z
+          M2 2h3v3H2z
+
+          M39 0h7v1h-7zM39 1h1v5h-1zM45 1h1v5h-1zM39 6h7v1h-7z
+          M41 2h3v3h-3z
+
+          M0 39h7v1H0zM0 40h1v5H0zM6 40h1v5H6zM0 45h7v1H0z
+          M2 41h3v3H2z
+
+          M8 0h1v1H8z
+          M10 0h1v1h-1z
+          M12 0h1v1h-1z
+          M14 0h1v1h-1z
+          M16 0h1v1h-1z
+          M18 0h1v1h-1z
+          M20 0h1v1h-1z
+          M22 0h1v1h-1z
+          M24 0h1v1h-1z
+          M26 0h1v1h-1z
+          M28 0h1v1h-1z
+          M30 0h1v1h-1z
+          M32 0h1v1h-1z
+          M34 0h1v1h-1z
+          M36 0h1v1h-1z
+
+          M8 2h2v1H8z
+          M11 2h1v2h-1z
+          M13 2h2v1h-2z
+          M16 2h1v2h-1z
+          M19 2h2v1h-2z
+          M23 2h1v3h-1z
+          M25 2h2v1h-2z
+          M29 2h1v2h-1z
+          M32 2h2v1h-2z
+          M35 2h1v3h-1z
+          M37 2h1v1h-1z
+
+          M8 4h1v2H8z
+          M10 4h2v1h-2z
+          M13 4h1v2h-1z
+          M15 4h2v1h-2z
+          M18 4h1v2h-1z
+          M21 4h2v1h-2z
+          M25 4h1v2h-1z
+          M27 4h2v1h-2z
+          M30 4h1v2h-1z
+          M33 4h2v1h-2z
+          M36 4h1v2h-1z
+
+          M8 7h1v2H8z
+          M10 7h2v1h-2z
+          M13 7h1v1h-1z
+          M15 7h2v2h-2z
+          M19 7h1v1h-1z
+          M22 7h2v1h-2z
+          M25 7h1v2h-1z
+          M28 7h2v1h-2z
+          M32 7h1v2h-1z
+          M35 7h2v1h-2z
+          M38 7h1v2h-1z
+
+          M8 10h2v1H8z
+          M11 10h1v2h-1z
+          M14 10h2v1h-2z
+          M17 10h1v2h-1z
+          M20 10h2v1h-2z
+          M23 10h1v2h-1z
+          M26 10h2v1h-2z
+          M29 10h1v2h-1z
+          M32 10h2v1h-2z
+          M35 10h1v2h-1z
+          M38 10h2v1h-2z
+
+          M8 13h1v2H8z
+          M10 13h2v1h-2z
+          M13 13h1v2h-1z
+          M16 13h2v1h-2z
+          M19 13h1v1h-1z
+          M21 13h2v2h-2z
+          M25 13h1v1h-1z
+          M27 13h2v1h-2z
+          M30 13h1v2h-1z
+          M33 13h2v1h-2z
+          M36 13h1v2h-1z
+          M38 13h2v1h-2z
+
+          M8 16h2v1H8z
+          M11 16h1v2h-1z
+          M14 16h2v1h-2z
+          M17 16h1v1h-1z
+          M20 16h2v2h-2z
+          M24 16h1v1h-1z
+          M27 16h1v2h-1z
+          M30 16h2v1h-2z
+          M34 16h1v2h-1z
+          M37 16h2v1h-2z
+
+          M8 19h1v2H8z
+          M10 19h2v1h-2z
+          M13 19h1v1h-1z
+          M15 19h2v2h-2z
+          M19 19h1v1h-1z
+          M22 19h2v1h-2z
+          M25 19h1v2h-1z
+          M28 19h2v1h-2z
+          M32 19h1v1h-1z
+          M35 19h2v2h-2z
+          M39 19h1v1h-1z
+
+          M8 22h2v1H8z
+          M11 22h1v2h-1z
+          M14 22h2v1h-2z
+          M17 22h1v1h-1z
+          M20 22h2v2h-2z
+          M24 22h1v1h-1z
+          M27 22h2v1h-2z
+          M30 22h1v2h-1z
+          M33 22h2v1h-2z
+          M36 22h1v1h-1z
+          M39 22h2v1h-2z
+
+          M8 25h1v2H8z
+          M10 25h2v1h-2z
+          M13 25h1v1h-1z
+          M16 25h2v1h-2z
+          M19 25h1v2h-1z
+          M22 25h2v1h-2z
+          M25 25h1v1h-1z
+          M28 25h2v2h-2z
+          M32 25h1v1h-1z
+          M35 25h2v1h-2z
+          M38 25h1v2h-1z
+
+          M8 28h2v1H8z
+          M11 28h1v2h-1z
+          M14 28h2v1h-2z
+          M17 28h1v1h-1z
+          M20 28h2v1h-2z
+          M23 28h1v2h-1z
+          M26 28h2v1h-2z
+          M29 28h1v1h-1z
+          M32 28h2v2h-2z
+          M36 28h1v1h-1z
+          M39 28h2v1h-2z
+
+          M8 31h1v2H8z
+          M10 31h2v1h-2z
+          M13 31h1v1h-1z
+          M15 31h2v2h-2z
+          M19 31h1v1h-1z
+          M22 31h2v1h-2z
+          M25 31h1v2h-1z
+          M28 31h2v1h-2z
+          M31 31h1v1h-1z
+          M34 31h2v2h-2z
+          M38 31h1v1h-1z
+
+          M8 34h2v1H8z
+          M11 34h1v2h-1z
+          M14 34h2v1h-2z
+          M17 34h1v1h-1z
+          M20 34h2v2h-2z
+          M24 34h1v1h-1z
+          M27 34h2v1h-2z
+          M30 34h1v2h-1z
+          M33 34h2v1h-2z
+          M36 34h1v1h-1z
+          M39 34h2v1h-2z
+
+          M8 37h1v2H8z
+          M10 37h2v1h-2z
+          M13 37h1v1h-1z
+          M16 37h2v1h-2z
+          M19 37h1v2h-1z
+          M22 37h2v1h-2z
+          M25 37h1v1h-1z
+          M28 37h2v2h-2z
+          M32 37h1v1h-1z
+          M35 37h2v1h-2z
+          M38 37h1v2h-1z
+
+          M8 40h2v1H8z
+          M11 40h1v2h-1z
+          M14 40h2v1h-2z
+          M17 40h1v1h-1z
+          M20 40h2v1h-2z
+          M23 40h1v2h-1z
+          M26 40h2v1h-2z
+          M29 40h1v1h-1z
+          M32 40h2v2h-2z
+          M36 40h1v1h-1z
+          M39 40h2v1h-2z
+
+          M8 43h1v2H8z
+          M10 43h2v1h-2z
+          M13 43h1v1h-1z
+          M16 43h2v1h-2z
+          M19 43h1v2h-1z
+          M22 43h2v1h-2z
+          M25 43h1v1h-1z
+          M28 43h2v2h-2z
+          M32 43h1v1h-1z
+          M35 43h2v1h-2z
+          M38 43h1v2h-1z
+          "
+          />
+
+        </g>
+
+      </svg>
 
     </div>
 
 
-    <!-- THÔNG TIN NGÂN HÀNG -->
+    <!-- =========================
+         THÔNG TIN NGÂN HÀNG
+    ========================= -->
+
     <div class="bank-info">
 
       <div class="bank-row">
@@ -582,13 +829,12 @@ input:focus {
         </span>
 
         <span class="bank-value">
-          2611207111
+          26112071111
         </span>
       </div>
 
 
       <div class="bank-row">
-
         <span class="bank-label">
           💰 Số tiền
         </span>
@@ -599,23 +845,20 @@ input:focus {
         >
           ---
         </span>
-
       </div>
 
 
       <div class="bank-row">
-
         <span class="bank-label">
           📝 Nội dung
         </span>
 
         <span
-          class="bank-value"
+          class="bank-value content-code"
           id="payContent"
         >
           ---
         </span>
-
       </div>
 
     </div>
@@ -635,6 +878,7 @@ input:focus {
 
 
     <!-- ZALO -->
+
     <a
       class="zalo-payment"
       href="https://zalo.me/0378635625"
@@ -658,15 +902,15 @@ input:focus {
 
 <script>
 
-/* ========================= */
-/* CHỌN GÓI */
-/* ========================= */
+/* =========================
+   CHỌN GÓI
+========================= */
 
-function chonGoi(element) {
+function chonGoi(element){
 
   document
     .querySelectorAll(".package")
-    .forEach(function(pkg) {
+    .forEach(function(pkg){
 
       pkg.classList.remove("active");
 
@@ -676,11 +920,11 @@ function chonGoi(element) {
 }
 
 
-/* ========================= */
-/* MỞ THANH TOÁN */
-/* ========================= */
+/* =========================
+   MỞ THANH TOÁN
+========================= */
 
-function moThanhToan() {
+function moThanhToan(){
 
   const playerId =
     document
@@ -689,7 +933,7 @@ function moThanhToan() {
       .trim();
 
 
-  if (!playerId) {
+  if(!playerId){
 
     alert("Vui lòng nhập ID nhân vật!");
 
@@ -701,7 +945,7 @@ function moThanhToan() {
     document.querySelector(".package.active");
 
 
-  if (!selectedPackage) {
+  if(!selectedPackage){
 
     alert("Vui lòng chọn gói nạp!");
 
@@ -718,80 +962,82 @@ function moThanhToan() {
 
 
   /*
-    Tạo mã nội dung chuyển khoản
-    dựa trên ID người chơi
+    Tạo mã nội dung đơn.
+    Ví dụ: FF85776
   */
 
-  const randomCode =
+  const paymentContent =
+    "FF" +
     Math.floor(
-      10000 + Math.random() * 90000
+      10000 +
+      Math.random() * 90000
     );
 
 
-  const paymentContent =
-    "FF" + randomCode;
+  /*
+    Hiển thị thông tin
+  */
+
+  document
+    .getElementById("payPlayerId")
+    .innerText = playerId;
 
 
-  /* Hiển thị thông tin */
-
-  document.getElementById(
-    "payPlayerId"
-  ).innerText = playerId;
+  document
+    .getElementById("payPackage")
+    .innerText = packageName;
 
 
-  document.getElementById(
-    "payPackage"
-  ).innerText = packageName;
+  document
+    .getElementById("payAmount")
+    .innerText = amount;
 
 
-  document.getElementById(
-    "payAmount"
-  ).innerText = amount;
+  document
+    .getElementById("payAmountBank")
+    .innerText = amount;
 
 
-  document.getElementById(
-    "payAmountBank"
-  ).innerText = amount;
+  document
+    .getElementById("payContent")
+    .innerText = paymentContent;
 
 
-  document.getElementById(
-    "payContent"
-  ).innerText = paymentContent;
-
-
-  /* Mở popup */
+  /*
+    MỞ POPUP
+  */
 
   document
     .getElementById("paymentPopup")
     .classList.add("show");
+
 }
 
 
-/* ========================= */
-/* ĐÓNG THANH TOÁN */
-/* ========================= */
+/* =========================
+   ĐÓNG THANH TOÁN
+========================= */
 
-function dongThanhToan() {
+function dongThanhToan(){
 
   document
     .getElementById("paymentPopup")
     .classList.remove("show");
+
 }
 
 
-/* ========================= */
-/* BẤM RA NGOÀI POPUP */
-/* ========================= */
+/* =========================
+   BẤM RA NGOÀI POPUP
+========================= */
 
 document
   .getElementById("paymentPopup")
   .addEventListener(
     "click",
-    function(event) {
+    function(e){
 
-      if (
-        event.target === this
-      ) {
+      if(e.target === this){
 
         dongThanhToan();
 
