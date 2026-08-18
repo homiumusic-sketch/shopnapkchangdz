@@ -1,4 +1,4 @@
-let<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -29,10 +29,10 @@ let<!DOCTYPE html>
     }
 
     .box {
-      background: white;
+      background: #fff;
       padding: 20px;
       border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
       margin-bottom: 20px;
     }
 
@@ -67,10 +67,22 @@ let<!DOCTYPE html>
       opacity: 0.8;
     }
 
+    button:disabled {
+      opacity: 0.6;
+    }
+
     #message {
       margin-top: 12px;
       font-weight: bold;
       text-align: center;
+    }
+
+    .error {
+      color: #d93025;
+    }
+
+    .success {
+      color: #159447;
     }
 
     .order {
@@ -79,6 +91,7 @@ let<!DOCTYPE html>
       border-radius: 12px;
       padding: 15px;
       margin-bottom: 12px;
+      line-height: 1.7;
     }
 
     .order-code {
@@ -96,10 +109,6 @@ let<!DOCTYPE html>
     .pending {
       color: #e09b00;
       font-weight: bold;
-    }
-
-    .error {
-      color: #d93025;
     }
 
     .empty {
@@ -129,14 +138,13 @@ let<!DOCTYPE html>
         autocomplete="current-password"
       >
 
-      <button id="load">
+      <button type="button" id="load">
         🔄 Xem đơn hàng
       </button>
 
       <div id="message"></div>
 
     </div>
-
 
     <div class="box">
 
@@ -167,6 +175,12 @@ let<!DOCTYPE html>
     const messageBox =
       document.getElementById("message");
 
+    let autoRefreshTimer = null;
+
+
+    // ================================
+    // CHỐNG HTML INJECTION
+    // ================================
 
     function escapeHtml(value) {
 
@@ -180,6 +194,10 @@ let<!DOCTYPE html>
     }
 
 
+    // ================================
+    // ĐỊNH DẠNG TIỀN
+    // ================================
+
     function formatMoney(amount) {
 
       return Number(amount || 0)
@@ -188,10 +206,14 @@ let<!DOCTYPE html>
     }
 
 
+    // ================================
+    // ĐỊNH DẠNG NGÀY
+    // ================================
+
     function formatDate(date) {
 
       if (!date) {
-        return "N/A";
+        return "Chưa có";
       }
 
       try {
@@ -201,12 +223,16 @@ let<!DOCTYPE html>
 
       } catch {
 
-        return date;
+        return String(date);
 
       }
 
     }
 
+
+    // ================================
+    // TRẠNG THÁI
+    // ================================
 
     function statusText(status) {
 
@@ -238,7 +264,106 @@ let<!DOCTYPE html>
     }
 
 
-    async function loadOrders() {
+    // ================================
+    // HIỂN THỊ ĐƠN
+    // ================================
+
+    function renderOrders(orders) {
+
+      if (!Array.isArray(orders) || orders.length === 0) {
+
+        ordersBox.innerHTML =
+          '<div class="empty">Chưa có đơn hàng.</div>';
+
+        return;
+
+      }
+
+
+      ordersBox.innerHTML = orders.map(order => {
+
+        const status =
+          String(order.status || "");
+
+
+        return `
+
+          <div class="order">
+
+            <div class="order-code">
+              ${escapeHtml(
+                order.order_code ||
+                "Không có mã đơn"
+              )}
+            </div>
+
+            <div>
+              👤 UID:
+              <strong>
+                ${escapeHtml(
+                  order.player_id || "N/A"
+                )}
+              </strong>
+            </div>
+
+            <div>
+              🎁 Gói:
+              <strong>
+                ${escapeHtml(
+                  order.package_name || "N/A"
+                )}
+              </strong>
+            </div>
+
+            <div>
+              💰 Số tiền:
+              <strong>
+                ${formatMoney(order.amount)}
+              </strong>
+            </div>
+
+            <div>
+              📌 Trạng thái:
+              <span class="${statusClass(status)}">
+                ${escapeHtml(statusText(status))}
+              </span>
+            </div>
+
+            <div>
+              💳 Mã giao dịch:
+              ${escapeHtml(
+                order.payment_id || "Chưa có"
+              )}
+            </div>
+
+            <div>
+              🕒 Tạo lúc:
+              ${escapeHtml(
+                formatDate(order.created_at)
+              )}
+            </div>
+
+            <div>
+              ✅ Thanh toán lúc:
+              ${escapeHtml(
+                formatDate(order.paid_at)
+              )}
+            </div>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+    }
+
+
+    // ================================
+    // LẤY DANH SÁCH ĐƠN
+    // ================================
+
+    async function loadOrders(showMessage = true) {
 
       const pass =
         passwordInput.value.trim();
@@ -246,24 +371,31 @@ let<!DOCTYPE html>
 
       if (!pass) {
 
-        messageBox.className = "error";
+        if (showMessage) {
 
-        messageBox.textContent =
-          "Vui lòng nhập mật khẩu admin.";
+          messageBox.className = "error";
 
-        return;
+          messageBox.textContent =
+            "Vui lòng nhập mật khẩu admin.";
+
+        }
+
+        return false;
 
       }
 
 
-      messageBox.className = "";
+      if (showMessage) {
 
-      messageBox.textContent =
-        "Đang tải đơn hàng...";
+        messageBox.className = "";
 
+        messageBox.textContent =
+          "Đang tải đơn hàng...";
 
-      ordersBox.innerHTML =
-        '<div class="empty">Đang tải...</div>';
+        ordersBox.innerHTML =
+          '<div class="empty">Đang tải...</div>';
+
+      }
 
 
       try {
@@ -274,32 +406,71 @@ let<!DOCTYPE html>
 
 
         const res =
-          await fetch("/api/admin/orders", {
+          await fetch(
+            "/api/admin/orders",
+            {
+              method: "GET",
 
-            method: "GET",
+              headers: {
+                "Authorization": auth,
+                "Accept": "application/json"
+              },
 
-            headers: {
-              "Authorization": auth,
-              "Accept": "application/json"
+              cache: "no-store"
             }
+          );
 
-          });
 
+        // ================================
+        // KIỂM TRA LỖI ĐĂNG NHẬP
+        // ================================
 
         if (!res.ok) {
 
-          messageBox.className = "error";
+          if (autoRefreshTimer) {
 
-          messageBox.textContent =
-            "Sai mật khẩu admin hoặc không được phép.";
+            clearInterval(autoRefreshTimer);
+
+            autoRefreshTimer = null;
+
+          }
+
+
+          if (res.status === 401) {
+
+            messageBox.className = "error";
+
+            messageBox.textContent =
+              "Chưa được xác thực.";
+
+          } else if (res.status === 403) {
+
+            messageBox.className = "error";
+
+            messageBox.textContent =
+              "Sai mật khẩu Admin.";
+
+          } else {
+
+            messageBox.className = "error";
+
+            messageBox.textContent =
+              "Lỗi máy chủ: HTTP " + res.status;
+
+          }
+
 
           ordersBox.innerHTML =
             '<div class="empty">Không thể tải đơn hàng.</div>';
 
-          return;
+          return false;
 
         }
 
+
+        // ================================
+        // ĐỌC JSON
+        // ================================
 
         const result =
           await res.json();
@@ -315,103 +486,18 @@ let<!DOCTYPE html>
               );
 
 
-        if (orders.length === 0) {
-
-          messageBox.className = "";
-
-          messageBox.textContent =
-            "Đăng nhập thành công.";
-
-          ordersBox.innerHTML =
-            '<div class="empty">Chưa có đơn hàng.</div>';
-
-          return;
-
-        }
+        renderOrders(orders);
 
 
-        messageBox.className = "";
+        messageBox.className = "success";
 
         messageBox.textContent =
-          "Đã tải " + orders.length + " đơn hàng.";
+          "Đã tải " +
+          orders.length +
+          " đơn hàng.";
 
 
-        ordersBox.innerHTML =
-          orders.map(order => {
-
-            const status =
-              escapeHtml(order.status);
-
-
-            return `
-
-              <div class="order">
-
-                <div class="order-code">
-                  ${escapeHtml(
-                    order.order_code ||
-                    "Không có mã đơn"
-                  )}
-                </div>
-
-                <div>
-                  👤 UID:
-                  <strong>
-                    ${escapeHtml(
-                      order.player_id || "N/A"
-                    )}
-                  </strong>
-                </div>
-
-                <div>
-                  🎁 Gói:
-                  <strong>
-                    ${escapeHtml(
-                      order.package_name || "N/A"
-                    )}
-                  </strong>
-                </div>
-
-                <div>
-                  💰 Số tiền:
-                  <strong>
-                    ${formatMoney(order.amount)}
-                  </strong>
-                </div>
-
-                <div>
-                  📌 Trạng thái:
-                  <span class="${statusClass(status)}">
-                    ${statusText(status)}
-                  </span>
-                </div>
-
-                <div>
-                  💳 Mã giao dịch:
-                  ${escapeHtml(
-                    order.payment_id || "Chưa có"
-                  )}
-                </div>
-
-                <div>
-                  🕒 Tạo lúc:
-                  ${escapeHtml(
-                    formatDate(order.created_at)
-                  )}
-                </div>
-
-                <div>
-                  ✅ Thanh toán lúc:
-                  ${escapeHtml(
-                    formatDate(order.paid_at)
-                  )}
-                </div>
-
-              </div>
-
-            `;
-
-          }).join("");
+        return true;
 
 
       } catch (error) {
@@ -431,166 +517,98 @@ let<!DOCTYPE html>
         ordersBox.innerHTML =
           '<div class="empty">Kiểm tra Render/server.js.</div>';
 
+
+        return false;
+
       }
 
     }
 
+
+    // ================================
+    // TỰ ĐỘNG CẬP NHẬT 3 GIÂY
+    // ================================
+
+    function startAutoRefresh() {
+
+      if (autoRefreshTimer) {
+
+        clearInterval(autoRefreshTimer);
+
+      }
+
+
+      autoRefreshTimer =
+        setInterval(async () => {
+
+          const pass =
+            passwordInput.value.trim();
+
+
+          if (!pass) {
+            return;
+          }
+
+
+          await loadOrders(false);
+
+        }, 3000);
+
+    }
+
+
+    // ================================
+    // NÚT XEM ĐƠN HÀNG
+    // ================================
 
     loadButton.addEventListener(
       "click",
-      loadOrders
+      async () => {
+
+        const success =
+          await loadOrders(true);
+
+
+        if (success) {
+
+          startAutoRefresh();
+
+        }
+
+      }
     );
 
+
+    // ================================
+    // NHẤN ENTER
+    // ================================
 
     passwordInput.addEventListener(
       "keydown",
-      event => {
+      async (event) => {
 
         if (event.key === "Enter") {
 
-          loadOrders();
+          event.preventDefault();
+
+
+          const success =
+            await loadOrders(true);
+
+
+          if (success) {
+
+            startAutoRefresh();
+
+          }
 
         }
 
       }
     );
 
- <script>
-  let autoRefreshTimer = null;
 
-  function startAutoRefresh() {
-    if (autoRefreshTimer) {
-      clearInterval(autoRefreshTimer);
-    }
-
-    autoRefreshTimer = setInterval(async () => {
-      const pass = passwordInput.value.trim();
-
-      // Chưa nhập mật khẩu thì không gọi API
-      if (!pass) return;
-
-      try {
-        const auth =
-          "Basic " + btoa("admin:" + pass);
-
-        const res = await fetch("/api/admin/orders", {
-          method: "GET",
-          headers: {
-            "Authorization": auth,
-            "Accept": "application/json"
-          }
-        });
-
-        // Mật khẩu sai thì dừng tự động cập nhật
-        if (!res.ok) {
-          clearInterval(autoRefreshTimer);
-          autoRefreshTimer = null;
-          return;
-        }
-
-        const result = await res.json();
-
-        const orders =
-          Array.isArray(result.orders)
-            ? result.orders
-            : [];
-
-        if (orders.length === 0) {
-          ordersBox.innerHTML =
-            '<div class="empty">Chưa có đơn hàng.</div>';
-          return;
-        }
-
-        ordersBox.innerHTML = orders.map(order => {
-          const status = order.status || "";
-
-          return `
-            <div class="order">
-
-              <div class="order-code">
-                ${escapeHtml(order.order_code || "Không có mã đơn")}
-              </div>
-
-              <div>
-                👤 UID:
-                <strong>
-                  ${escapeHtml(order.player_id || "N/A")}
-                </strong>
-              </div>
-
-              <div>
-                🎁 Gói:
-                <strong>
-                  ${escapeHtml(order.package_name || "N/A")}
-                </strong>
-              </div>
-
-              <div>
-                💰 Số tiền:
-                <strong>
-                  ${formatMoney(order.amount)}
-                </strong>
-              </div>
-
-              <div>
-                📌 Trạng thái:
-                <span class="${statusClass(status)}">
-                  ${statusText(status)}
-                </span>
-              </div>
-
-              <div>
-                💳 Mã giao dịch:
-                ${escapeHtml(order.payment_id || "Chưa có")}
-              </div>
-
-              <div>
-                🕒 Tạo lúc:
-                ${escapeHtml(formatDate(order.created_at))}
-              </div>
-
-              <div>
-                ✅ Thanh toán lúc:
-                ${escapeHtml(formatDate(order.paid_at))}
-              </div>
-
-            </div>
-          `;
-        }).join("");
-
-        messageBox.className = "";
-        messageBox.textContent =
-          "Đã cập nhật " + orders.length + " đơn hàng.";
-
-      } catch (error) {
-        console.error("AUTO REFRESH ERROR:", error);
-      }
-
-    }, 3000);
-  }
-
-  // Khi bấm Xem đơn hàng thành công thì bắt đầu tự cập nhật
-  const oldLoadOrders = loadOrders;
-
-  loadButton.addEventListener("click", () => {
-    setTimeout(() => {
-      if (passwordInput.value.trim()) {
-        startAutoRefresh();
-      }
-    }, 500);
-  });
-
-  // Nhấn Enter cũng bắt đầu tự cập nhật
-  passwordInput.addEventListener("keydown", event => {
-    if (event.key === "Enter") {
-      setTimeout(() => {
-        if (passwordInput.value.trim()) {
-          startAutoRefresh();
-        }
-      }, 500);
-    }
-  });
-</script>
+  </script>
 
 </body>
 </html>
