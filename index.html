@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>1S SHOP - Nạp Free Fire</title>
 
 <style>
@@ -18,46 +19,44 @@ body {
 }
 
 .container {
-  max-width: 800px;
+  max-width: 850px;
   margin: auto;
   padding: 20px;
 }
 
-/* HEADER */
+/* TIÊU ĐỀ */
 .hero {
-  background: linear-gradient(135deg, #ff9800, #e65100);
-  color: white;
   text-align: center;
-  padding: 55px 20px 65px;
-  border-radius: 0 0 30px 30px;
+  padding: 35px 10px 25px;
 }
 
-.tag {
+.hero-tag {
   display: inline-block;
+  background: #ffad19;
+  color: #111;
   padding: 12px 25px;
-  background: rgba(255,255,255,.18);
   border-radius: 30px;
   font-weight: bold;
   font-size: 18px;
 }
 
 .hero h1 {
-  font-size: 55px;
-  margin: 30px 0 15px;
+  margin: 25px 0 15px;
+  font-size: 48px;
+  color: #ff9d00;
 }
 
 .hero p {
-  font-size: 22px;
-  margin: 0;
+  font-size: 21px;
 }
 
 /* CARD */
 .card {
   background: white;
-  margin-top: 25px;
-  padding: 25px;
   border-radius: 22px;
-  box-shadow: 0 5px 20px rgba(0,0,0,.08);
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.08);
 }
 
 .card h2 {
@@ -75,130 +74,108 @@ label {
 
 input {
   width: 100%;
-  height: 58px;
+  height: 60px;
   border: 2px solid #ddd;
-  border-radius: 14px;
+  border-radius: 15px;
   padding: 0 18px;
-  font-size: 17px;
+  font-size: 18px;
   outline: none;
 }
 
 input:focus {
-  border-color: #287bea;
+  border-color: #3182f6;
 }
 
 /* PHƯƠNG THỨC */
-.payment-title {
-  font-size: 22px;
-  font-weight: bold;
-  margin: 25px 0 12px;
-}
-
-.payment {
+.methods {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 15px;
+  margin-top: 15px;
 }
 
-.payment button {
-  height: 65px;
-  border: 2px solid #d8dde6;
-  background: white;
+.method {
+  border: 2px solid #ddd;
   border-radius: 15px;
+  padding: 20px;
+  cursor: pointer;
   font-size: 17px;
   font-weight: bold;
-  color: #555;
+  background: white;
 }
 
-.payment button.active {
-  border-color: #287bea;
+.method.active {
+  border-color: #3182f6;
   background: #eef5ff;
-  color: #287bea;
+  color: #2164c4;
 }
 
-/* GÓI NẠP */
-.package-title {
-  font-size: 22px;
-  font-weight: bold;
-  margin: 30px 0 12px;
-}
-
+/* GÓI */
 .packages {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 15px;
+  margin-top: 15px;
 }
 
 .package {
   min-height: 120px;
-  border: 2px solid #d8dde6;
-  background: white;
-  border-radius: 16px;
+  border: 2px solid #d9dce3;
+  border-radius: 15px;
   padding: 18px 10px;
   text-align: center;
   cursor: pointer;
-  font-size: 17px;
-  font-weight: bold;
-}
-
-.package:hover {
-  border-color: #287bea;
+  background: white;
 }
 
 .package.active {
-  border-color: #287bea;
+  border-color: #287cff;
   background: #eef5ff;
-  color: #205bb0;
 }
 
-.diamond {
-  font-size: 30px;
-  display: block;
-  margin-bottom: 5px;
+.package .diamond {
+  font-size: 28px;
 }
 
-.price {
-  display: block;
-  color: #287bea;
+.package-name {
+  font-size: 18px;
+  font-weight: bold;
   margin-top: 8px;
-  font-size: 19px;
 }
 
-/* NẠP NGAY */
-.recharge {
+.package-price {
+  color: #2875ed;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+/* NÚT NẠP */
+.recharge-btn {
   width: 100%;
   height: 65px;
   margin-top: 25px;
   border: none;
   border-radius: 15px;
-  background: #287bea;
+  background: #287cff;
   color: white;
   font-size: 25px;
   font-weight: bold;
   cursor: pointer;
 }
 
-.recharge:active {
+.recharge-btn:active {
   transform: scale(.98);
 }
 
 /* ZALO */
 .contact {
-  margin-top: 25px;
-  padding: 25px;
   text-align: center;
-  border-radius: 20px;
-  background: white;
-  box-shadow: 0 5px 20px rgba(0,0,0,.07);
-}
-
-.contact h2 {
-  margin-top: 0;
 }
 
 .zalo-btn {
   display: inline-block;
-  padding: 15px 35px;
+  padding: 16px 30px;
   border-radius: 40px;
   background: #1688ff;
   color: white;
@@ -207,85 +184,130 @@ input:focus {
   font-weight: bold;
 }
 
-/* QR POPUP */
-.qr-overlay {
+/* =========================
+   POPUP THANH TOÁN
+========================= */
+
+.payment-overlay {
   display: none;
   position: fixed;
-  z-index: 9999;
   inset: 0;
-  background: rgba(0,0,0,.75);
-  padding: 20px;
+  background: rgba(0,0,0,.65);
+  z-index: 9999;
   align-items: center;
   justify-content: center;
+  padding: 20px;
 }
 
-.qr-overlay.show {
+.payment-overlay.show {
   display: flex;
 }
 
-.qr-modal {
+.payment-box {
+  position: relative;
   width: 100%;
-  max-width: 430px;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
   background: white;
-  border-radius: 25px;
-  padding: 25px;
+  color: #444;
+  border-radius: 28px;
+  padding: 30px 25px;
   text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
 }
 
-.qr-modal h2 {
-  margin: 0 0 10px;
+.payment-box h2 {
+  margin: 0 0 15px;
+  font-size: 34px;
   color: #333;
 }
 
-.qr-modal p {
+.close-payment {
+  position: absolute;
+  right: 18px;
+  top: 12px;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  background: #eee;
+  color: #555;
+  font-size: 32px;
+  cursor: pointer;
+}
+
+.payment-subtitle {
+  font-size: 20px;
   color: #666;
 }
 
+.payment-info {
+  font-size: 19px;
+  line-height: 1.7;
+  margin: 20px 0;
+}
+
 .qr-box {
-  background: white;
-  padding: 10px;
+  width: 100%;
+  max-width: 380px;
   margin: 20px auto;
-  border-radius: 15px;
+  padding: 10px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
 }
 
-.qr-box img {
-  width: 100%;
-  max-width: 330px;
+.payment-qr {
   display: block;
-  margin: auto;
-}
-
-.close-qr {
   width: 100%;
-  height: 55px;
-  border: none;
-  border-radius: 15px;
-  background: #eee;
-  font-size: 18px;
-  font-weight: bold;
+  height: auto;
 }
 
-/* THÔNG BÁO */
-.notice {
-  margin-top: 20px;
-  padding: 20px;
-  background: #fff8e1;
-  border-radius: 15px;
-  line-height: 1.6;
-  font-size: 15px;
+.payment-note {
+  font-size: 17px;
+  line-height: 1.5;
+  color: #666;
+  margin: 20px 10px;
+}
+
+.zalo-payment {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  background: #1688ff;
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.close-btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 14px;
+  background: #eee;
+  color: #2878e8;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 /* MOBILE */
 @media(max-width:600px) {
 
   .hero h1 {
-    font-size: 43px;
+    font-size: 40px;
   }
 
   .hero p {
     font-size: 18px;
   }
 
+  .methods,
   .packages {
     grid-template-columns: 1fr 1fr;
   }
@@ -293,199 +315,223 @@ input:focus {
   .package {
     min-height: 110px;
   }
+
+  .package-name {
+    font-size: 16px;
+  }
+
+  .package-price {
+    font-size: 18px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- PHẦN ĐẦU -->
-<section class="hero">
-
-  <div class="tag">
-    1S SHOP • DEMO
-  </div>
-
-  <h1>FREE FIRE</h1>
-
-  <p>
-    Nạp nhanh • Tạo đơn • Thanh toán an toàn
-  </p>
-
-</section>
-
-
 <div class="container">
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <div class="hero-tag">
+      1S SHOP • DEMO
+    </div>
+
+    <h1>FREE FIRE</h1>
+
+    <p>
+      Nạp nhanh • Tạo đơn • Thanh toán an toàn
+    </p>
+
+  </section>
+
 
   <!-- TẠO ĐƠN -->
   <section class="card">
 
     <h2>🛒 Tạo đơn nạp</h2>
 
-    <label>ID Nhân Vật</label>
+    <label>ID nhân vật</label>
 
     <input
       id="playerId"
       type="text"
       inputmode="numeric"
-      placeholder="Mời nhập ID FF (Server Việt Nam)"
+      placeholder="Ví dụ: 123456789"
     >
 
-    <!-- PHƯƠNG THỨC -->
-    <div class="payment-title">
-      💳 Phương thức thanh toán
-    </div>
 
-    <div class="payment">
+    <label>Phương thức thanh toán</label>
 
-      <button
-        id="bankBtn"
-        class="active"
-        onclick="chonThanhToan('Chuyển khoản ngân hàng')"
+    <div class="methods">
+
+      <div
+        class="method active"
+        onclick="chonPhuongThuc(this)"
       >
         🏦 Chuyển khoản ngân hàng
-      </button>
+      </div>
 
-      <button
-        id="cardBtn"
-        onclick="chonThanhToan('Thẻ cào điện thoại')"
+      <div
+        class="method"
+        onclick="chonPhuongThuc(this)"
       >
         💳 Thẻ cào điện thoại
-      </button>
+      </div>
 
     </div>
 
 
-    <!-- GÓI NẠP -->
-    <div class="package-title">
-      💎 Chọn gói nạp
-    </div>
+    <label>Chọn gói nạp</label>
 
     <div class="packages">
 
       <div
         class="package active"
-        onclick="chonGoi(this, '25 Kim Cương', 4700)"
+        data-name="25 Kim Cương"
+        data-price="4.700 VND"
+        onclick="chonGoi(this)"
       >
-        <span class="diamond">💎</span>
-        25 Kim Cương
-        <span class="price">4.700 VNĐ</span>
+        <div class="diamond">💎</div>
+        <div class="package-name">25 Kim Cương</div>
+        <div class="package-price">4.700 VND</div>
       </div>
+
 
       <div
         class="package"
-        onclick="chonGoi(this, '51 Kim Cương', 9400)"
+        data-name="51 Kim Cương"
+        data-price="9.400 VND"
+        onclick="chonGoi(this)"
       >
-        <span class="diamond">💎</span>
-        51 Kim Cương
-        <span class="price">9.400 VNĐ</span>
+        <div class="diamond">💎</div>
+        <div class="package-name">51 Kim Cương</div>
+        <div class="package-price">9.400 VND</div>
       </div>
+
 
       <div
         class="package"
-        onclick="chonGoi(this, '113 Kim Cương', 18800)"
+        data-name="113 Kim Cương"
+        data-price="18.800 VND"
+        onclick="chonGoi(this)"
       >
-        <span class="diamond">💎</span>
-        113 Kim Cương
-        <span class="price">18.800 VNĐ</span>
+        <div class="diamond">💎</div>
+        <div class="package-name">113 Kim Cương</div>
+        <div class="package-price">18.800 VND</div>
       </div>
+
 
       <div
         class="package"
-        onclick="chonGoi(this, '283 Kim Cương', 47000)"
+        data-name="283 Kim Cương"
+        data-price="47.000 VND"
+        onclick="chonGoi(this)"
       >
-        <span class="diamond">💎</span>
-        283 Kim Cương
-        <span class="price">47.000 VNĐ</span>
+        <div class="diamond">💎</div>
+        <div class="package-name">283 Kim Cương</div>
+        <div class="package-price">47.000 VND</div>
       </div>
+
 
       <div
         class="package"
-        onclick="chonGoi(this, '566 Kim Cương', 94000)"
+        data-name="566 Kim Cương"
+        data-price="94.000 VND"
+        onclick="chonGoi(this)"
       >
-        <span class="diamond">💎</span>
-        566 Kim Cương
-        <span class="price">94.000 VNĐ</span>
+        <div class="diamond">💎</div>
+        <div class="package-name">566 Kim Cương</div>
+        <div class="package-price">94.000 VND</div>
       </div>
+
 
       <div
         class="package"
-        onclick="chonGoi(this, '1.132 Kim Cương', 188000)"
+        data-name="1.132 Kim Cương"
+        data-price="188.000 VND"
+        onclick="chonGoi(this)"
       >
-        <span class="diamond">💎</span>
-        1.132 Kim Cương
-        <span class="price">188.000 VNĐ</span>
+        <div class="diamond">💎</div>
+        <div class="package-name">1.132 Kim Cương</div>
+        <div class="package-price">188.000 VND</div>
       </div>
+
 
       <div
         class="package"
-        onclick="chonGoi(this, '2.830 Kim Cương', 470000)"
+        data-name="2.830 Kim Cương"
+        data-price="470.000 VND"
+        onclick="chonGoi(this)"
       >
-        <span class="diamond">💎</span>
-        2.830 Kim Cương
-        <span class="price">470.000 VNĐ</span>
+        <div class="diamond">💎</div>
+        <div class="package-name">2.830 Kim Cương</div>
+        <div class="package-price">470.000 VND</div>
       </div>
+
 
       <div
         class="package"
-        onclick="chonGoi(this, '5.660 Kim Cương', 940000)"
+        data-name="5.660 Kim Cương"
+        data-price="940.000 VND"
+        onclick="chonGoi(this)"
       >
-        <span class="diamond">💎</span>
-        5.660 Kim Cương
-        <span class="price">940.000 VNĐ</span>
+        <div class="diamond">💎</div>
+        <div class="package-name">5.660 Kim Cương</div>
+        <div class="package-price">940.000 VND</div>
       </div>
+
 
       <div
         class="package"
-        onclick="chonGoi(this, '11.320 Kim Cương', 1880000)"
+        data-name="11.320 Kim Cương"
+        data-price="1.880.000 VND"
+        onclick="chonGoi(this)"
       >
-        <span class="diamond">💎</span>
-        11.320 Kim Cương
-        <span class="price">1.880.000 VNĐ</span>
+        <div class="diamond">💎</div>
+        <div class="package-name">11.320 Kim Cương</div>
+        <div class="package-price">1.880.000 VND</div>
       </div>
+
 
       <div
         class="package"
-        onclick="chonGoi(this, '22.640 Kim Cương', 4700000)"
+        data-name="22.640 Kim Cương"
+        data-price="4.700.000 VND"
+        onclick="chonGoi(this)"
       >
-        <span class="diamond">💎</span>
-        22.640 Kim Cương
-        <span class="price">4.700.000 VNĐ</span>
+        <div class="diamond">💎</div>
+        <div class="package-name">22.640 Kim Cương</div>
+        <div class="package-price">4.700.000 VND</div>
       </div>
 
     </div>
 
 
-    <!-- NẠP NGAY -->
+    <!-- NÚT NẠP NGAY -->
     <button
-      class="recharge"
-      onclick="napNgay()"
+      class="recharge-btn"
+      onclick="moThanhToan()"
     >
       🛒 NẠP NGAY
     </button>
 
-
-    <div class="notice">
-      📌 Vui lòng kiểm tra đúng ID và gói nạp trước khi thanh toán.
-      <br><br>
-      ⚠️ Sau khi thanh toán, hãy giữ lại thông tin giao dịch để đối soát.
-    </div>
-
   </section>
 
 
-  <!-- ZALO -->
-  <section class="contact">
+  <!-- THÔNG TIN LIÊN HỆ -->
+  <section class="card contact">
 
     <h2>📞 Thông tin liên hệ</h2>
 
     <p>
-      Cần hỗ trợ? Liên hệ Zalo với chúng tôi.
+      Cần hỗ trợ hoặc xác nhận đơn?
     </p>
 
     <a
       class="zalo-btn"
-      href="https://zalo.me/03786353625"
+      href="https://zalo.me/0378635625"
       target="_blank"
     >
       💬 Liên hệ Zalo
@@ -496,39 +542,81 @@ input:focus {
 </div>
 
 
-<!-- QR POPUP -->
+<!-- =========================
+     POPUP THANH TOÁN
+========================= -->
+
 <div
-  id="qrOverlay"
-  class="qr-overlay"
+  id="paymentPopup"
+  class="payment-overlay"
 >
 
-  <div class="qr-modal">
+  <div class="payment-box">
+
+    <button
+      class="close-payment"
+      onclick="dongThanhToan()"
+    >
+      ×
+    </button>
+
 
     <h2>💳 Thanh toán</h2>
 
-    <p>
+
+    <p class="payment-subtitle">
       Quét mã QR bên dưới để thanh toán
     </p>
 
-    <p id="paymentInfo"></p>
 
+    <div class="payment-info">
+
+      <b>ID:</b>
+      <span id="payPlayerId">---</span>
+
+      <br>
+
+      <b>Gói:</b>
+      <span id="payPackage">---</span>
+
+      <br>
+
+      <b>Số tiền:</b>
+      <span id="payAmount">---</span>
+
+    </div>
+
+
+    <!-- QR CỦA BẠN -->
     <div class="qr-box">
 
-      <!-- ẢNH QR BẠN ĐÃ GỬI -->
       <img
-        src="qr.jpg"
+        src="qr-payment.jpg"
         alt="Mã QR thanh toán"
+        class="payment-qr"
       >
 
     </div>
 
-    <p>
-      Sau khi chuyển khoản, hãy liên hệ Zalo để xác nhận đơn.
+
+    <p class="payment-note">
+      Sau khi chuyển khoản, hãy liên hệ Zalo
+      để xác nhận đơn.
     </p>
 
+
+    <a
+      class="zalo-payment"
+      href="https://zalo.me/0378635625"
+      target="_blank"
+    >
+      💬 Liên hệ Zalo xác nhận
+    </a>
+
+
     <button
-      class="close-qr"
-      onclick="dongQR()"
+      class="close-btn"
+      onclick="dongThanhToan()"
     >
       Đóng
     </button>
@@ -540,65 +628,47 @@ input:focus {
 
 <script>
 
+/* =========================
+   PHƯƠNG THỨC THANH TOÁN
+========================= */
+
 let phuongThuc = "Chuyển khoản ngân hàng";
 
-let goiNap = "25 Kim Cương";
-
-let soTien = 4700;
-
-
-/* CHỌN PHƯƠNG THỨC */
-function chonThanhToan(loai) {
-
-  phuongThuc = loai;
+function chonPhuongThuc(element) {
 
   document
-    .getElementById("bankBtn")
-    .classList.remove("active");
-
-  document
-    .getElementById("cardBtn")
-    .classList.remove("active");
-
-  if (loai === "Chuyển khoản ngân hàng") {
-
-    document
-      .getElementById("bankBtn")
-      .classList.add("active");
-
-  } else {
-
-    document
-      .getElementById("cardBtn")
-      .classList.add("active");
-
-  }
-
-}
-
-
-/* CHỌN GÓI */
-function chonGoi(element, tenGoi, gia) {
-
-  document
-    .querySelectorAll(".package")
-    .forEach(function(x) {
-
+    .querySelectorAll(".method")
+    .forEach(x => {
       x.classList.remove("active");
-
     });
 
   element.classList.add("active");
 
-  goiNap = tenGoi;
-
-  soTien = gia;
-
+  phuongThuc = element.innerText.trim();
 }
 
 
-/* BẤM NẠP NGAY */
-function napNgay() {
+/* =========================
+   CHỌN GÓI
+========================= */
+
+function chonGoi(element) {
+
+  document
+    .querySelectorAll(".package")
+    .forEach(x => {
+      x.classList.remove("active");
+    });
+
+  element.classList.add("active");
+}
+
+
+/* =========================
+   MỞ POPUP THANH TOÁN
+========================= */
+
+function moThanhToan() {
 
   const playerId =
     document
@@ -606,46 +676,94 @@ function napNgay() {
       .value
       .trim();
 
+
   if (!playerId) {
 
     alert("Vui lòng nhập ID nhân vật!");
 
-    return;
+    document
+      .getElementById("playerId")
+      .focus();
 
+    return;
   }
 
 
-  /*
-   * Hiện QR ngay trên chính trang.
-   * Không chuyển sang website khác.
-   */
+  const selectedPackage =
+    document.querySelector(
+      ".package.active"
+    );
+
+
+  if (!selectedPackage) {
+
+    alert("Vui lòng chọn gói nạp!");
+
+    return;
+  }
+
+
+  const packageName =
+    selectedPackage.dataset.name;
+
+
+  const amount =
+    selectedPackage.dataset.price;
+
 
   document
-    .getElementById("paymentInfo")
-    .innerText =
-      "ID: " + playerId +
-      " • " +
-      goiNap +
-      " • " +
-      soTien.toLocaleString("vi-VN") +
-      " VNĐ";
+    .getElementById("payPlayerId")
+    .innerText = playerId;
 
 
   document
-    .getElementById("qrOverlay")
+    .getElementById("payPackage")
+    .innerText = packageName;
+
+
+  document
+    .getElementById("payAmount")
+    .innerText = amount;
+
+
+  document
+    .getElementById("paymentPopup")
     .classList.add("show");
-
 }
 
 
-/* ĐÓNG QR */
-function dongQR() {
+/* =========================
+   ĐÓNG POPUP
+========================= */
+
+function dongThanhToan() {
 
   document
-    .getElementById("qrOverlay")
+    .getElementById("paymentPopup")
     .classList.remove("show");
-
 }
+
+
+/* =========================
+   BẤM RA NGOÀI POPUP
+========================= */
+
+document
+  .getElementById("paymentPopup")
+  .addEventListener(
+    "click",
+    function(event) {
+
+      if (
+        event.target === this
+      ) {
+
+        dongThanhToan();
+
+      }
+
+    }
+  );
 
 </script>
 
