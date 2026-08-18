@@ -1,61 +1,602 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>FF Shop — Nạp Kim Cương Demo</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nạp Free Fire</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #fff;
+  color: #454752;
+}
+
+.container {
+  max-width: 850px;
+  margin: auto;
+  padding: 20px 30px 60px;
+}
+
+/* TIÊU ĐỀ */
+.title {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 15px 0;
+}
+
+.icon {
+  margin-right: 12px;
+}
+
+/* ID */
+.id-row {
+  display: flex;
+  gap: 15px;
+}
+
+.id-input {
+  flex: 1;
+  height: 78px;
+  border: 2px solid #ddd;
+  border-radius: 15px;
+  padding: 0 25px;
+  font-size: 24px;
+  outline: none;
+}
+
+.check-btn {
+  width: 230px;
+  border: 0;
+  border-radius: 15px;
+  background: #428be8;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.check-btn:active {
+  transform: scale(.98);
+}
+
+.help {
+  display: block;
+  margin-top: 15px;
+  color: #2875e8;
+  font-size: 21px;
+  font-style: italic;
+}
+
+/* PHƯƠNG THỨC */
+.section-title {
+  font-size: 30px;
+  font-weight: 700;
+  margin-top: 45px;
+  margin-bottom: 25px;
+}
+
+.payment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.payment {
+  height: 90px;
+  border: 2px solid #d9dde5;
+  border-radius: 16px;
+  background: white;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.payment.active {
+  border: 3px solid #287cff;
+  background: #f2f7ff;
+  color: #2160bd;
+}
+
+/* GÓI */
+.package-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #f4f6f9;
+  border: 2px solid #d9dde5;
+  border-radius: 16px;
+  padding: 8px;
+  gap: 8px;
+}
+
+.package-tab {
+  height: 75px;
+  border: 0;
+  border-radius: 13px;
+  background: transparent;
+  font-size: 21px;
+  color: #5d6472;
+  cursor: pointer;
+}
+
+.package-tab.active {
+  background: white;
+  color: #2160bd;
+  box-shadow: 0 3px 10px rgba(0,0,0,.08);
+}
+
+/* GÓI KIM CƯƠNG */
+.packages {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.package {
+  min-height: 145px;
+  border: 2px solid #d9dde5;
+  border-radius: 16px;
+  background: white;
+  text-align: center;
+  padding: 18px 10px;
+  cursor: pointer;
+  transition: .15s;
+}
+
+.package:hover {
+  border-color: #5598ff;
+}
+
+.package.active {
+  border: 3px solid #287cff;
+  background: #f2f7ff;
+}
+
+.diamond {
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+
+.diamond-name {
+  font-size: 21px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 22px;
+  color: #2874e8;
+  font-weight: bold;
+}
+
+/* ĐIỀU KHOẢN */
+.agree {
+  margin: 25px 0;
+  font-size: 18px;
+}
+
+.agree a {
+  color: #2875e8;
+}
+
+/* NẠP NGAY */
+.recharge {
+  width: 100%;
+  height: 75px;
+  border: 0;
+  border-radius: 15px;
+  background: #347cf0;
+  color: white;
+  font-size: 29px;
+  cursor: pointer;
+}
+
+.recharge:active {
+  transform: scale(.99);
+}
+
+/* CHAT */
+.chat {
+  position: fixed;
+  left: 30px;
+  bottom: 30px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #2475ef;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+  box-shadow: 0 5px 20px rgba(0,0,0,.2);
+}
+
+/* THÔNG BÁO */
+#message {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  background: #f2f6ff;
+  color: #2160bd;
+  display: none;
+}
+
+/* MOBILE */
+@media(max-width:600px) {
+
+  .container {
+    padding: 15px 20px 100px;
+  }
+
+  .title,
+  .section-title {
+    font-size: 25px;
+  }
+
+  .id-row {
+    flex-direction: column;
+  }
+
+  .id-input {
+    width: 100%;
+    height: 65px;
+    font-size: 20px;
+  }
+
+  .check-btn {
+    width: 100%;
+    height: 65px;
+  }
+
+  .payment {
+    height: 80px;
+    font-size: 17px;
+  }
+
+  .packages {
+    gap: 12px;
+  }
+
+  .package {
+    min-height: 135px;
+  }
+
+  .diamond-name {
+    font-size: 18px;
+  }
+
+  .price {
+    font-size: 19px;
+  }
+
+  .chat {
+    width: 65px;
+    height: 65px;
+    left: 20px;
+    bottom: 20px;
+  }
+}
+</style>
 </head>
+
 <body>
-  <main class="wrap">
-    <section class="hero">
-      <span class="tag">1S SHOP • DEMO</span>
-      <h1>FREE FIRE</h1>
-      <p>Nạp nhanh • Tạo đơn • Thanh toán an toàn</p>
-    </section>
 
-    <section class="card">
-      <h2>Tạo đơn nạp</h2>
-      <form id="form">
-        <label>ID nhân vật</label>
-        <input id="playerId" inputmode="numeric" placeholder="Ví dụ: 123456789" required>
+<div class="container">
 
-        <label>Mệnh giá</label>
-        <select id="amount" required>
-          <option value="">Chọn mệnh giá</option>
-          <option value="10000">10.000đ</option>
-          <option value="20000">20.000đ</option>
-          <option value="50000">50.000đ</option>
-          <option value="100000">100.000đ</option>
-          <option value="200000">200.000đ</option>
-          <option value="500000">500.000đ</option>
-        </select>
-<button type="button" onclick="window.location.href='https://doicard68.com'">
-  TẠO ĐƠN
-</button>
+  <!-- ID NHÂN VẬT -->
+  <div class="title">
+    👤 ID Nhân Vật
+  </div>
+
+  <div class="id-row">
+
+    <input
+      id="playerId"
+      class="id-input"
+      type="text"
+      inputmode="numeric"
+      placeholder="Mời nhập ID FF (Server Việt Nam)"
+    >
+
+    <button class="check-btn" onclick="kiemTraID()">
+      🔍 Kiểm tra
+    </button>
+
+  </div>
+
+  <a class="help" href="#">
+    * Làm sao để lấy ID Nhân vật?
+  </a>
 
 
+  <!-- PHƯƠNG THỨC THANH TOÁN -->
+  <div class="section-title">
+    💳 Phương thức thanh toán
+  </div>
 
-   </form>
-     
+  <div class="payment-grid">
 
-      <div id="result"></div>
-    </section>
+    <div
+      class="payment active"
+      onclick="chonThanhToan(this, 'Chuyển khoản ngân hàng')"
+    >
+      🏦 &nbsp; Chuyển khoản ngân hàng
+    </div>
 
-    <section class="card">
-      <h2>Tra cứu đơn</h2>
-      <div class="row">
-        <input id="lookup" placeholder="Mã đơn FF...">
-        <button id="check">Tra cứu</button>
-      </div>
-      <div id="status"></div>
-    </section>
+    <div
+      class="payment"
+      onclick="chonThanhToan(this, 'Thẻ cào điện thoại')"
+    >
+      💳 &nbsp; Thẻ cào điện thoại
+    </div>
 
-    <p class="warning">
-      DEMO: chưa kết nối Garena hoặc cổng thanh toán thật. Không nhập mật khẩu
-      Garena, mã thẻ hoặc thông tin nhạy cảm vào trang này.
-    </p>
-  </main>
-  <script src="app.js"></script>
+  </div>
+
+
+  <!-- CHỌN GÓI -->
+  <div class="section-title">
+    💎 Chọn gói nạp
+  </div>
+
+  <div class="package-tabs">
+
+    <button
+      class="package-tab active"
+      onclick="chonLoai(this)"
+    >
+      💎 Kim Cương
+    </button>
+
+    <button
+      class="package-tab"
+      onclick="chonLoai(this)"
+    >
+      📅 Thẻ tuần, tháng
+    </button>
+
+  </div>
+
+
+  <!-- DANH SÁCH GÓI -->
+  <div class="packages">
+
+    <div class="package active"
+         onclick="chonGoi(this, '25 Kim Cương', 4700)">
+      <div class="diamond">💎</div>
+      <div class="diamond-name">25 Kim Cương</div>
+      <div class="price">4,700 VNĐ</div>
+    </div>
+
+    <div class="package"
+         onclick="chonGoi(this, '51 Kim Cương', 9400)">
+      <div class="diamond">💎</div>
+      <div class="diamond-name">51 Kim Cương</div>
+      <div class="price">9,400 VNĐ</div>
+    </div>
+
+    <div class="package"
+         onclick="chonGoi(this, '113 Kim Cương', 18800)">
+      <div class="diamond">💎</div>
+      <div class="diamond-name">113 Kim Cương</div>
+      <div class="price">18,800 VNĐ</div>
+    </div>
+
+    <div class="package"
+         onclick="chonGoi(this, '283 Kim Cương', 47000)">
+      <div class="diamond">💎</div>
+      <div class="diamond-name">283 Kim Cương</div>
+      <div class="price">47,000 VNĐ</div>
+    </div>
+
+    <div class="package"
+         onclick="chonGoi(this, '566 Kim Cương', 94000)">
+      <div class="diamond">💎</div>
+      <div class="diamond-name">566 Kim Cương</div>
+      <div class="price">94,000 VNĐ</div>
+    </div>
+
+    <div class="package"
+         onclick="chonGoi(this, '1,132 Kim Cương', 188000)">
+      <div class="diamond">💎</div>
+      <div class="diamond-name">1,132 Kim Cương</div>
+      <div class="price">188,000 VNĐ</div>
+    </div>
+
+    <div class="package"
+         onclick="chonGoi(this, '2,830 Kim Cương', 470000)">
+      <div class="diamond">💎</div>
+      <div class="diamond-name">2,830 Kim Cương</div>
+      <div class="price">470,000 VNĐ</div>
+    </div>
+
+    <div class="package"
+         onclick="chonGoi(this, '5,660 Kim Cương', 940000)">
+      <div class="diamond">💎</div>
+      <div class="diamond-name">5,660 Kim Cương</div>
+      <div class="price">940,000 VNĐ</div>
+    </div>
+
+    <div class="package"
+         onclick="chonGoi(this, '11,320 Kim Cương', 1880000)">
+      <div class="diamond">💎</div>
+      <div class="diamond-name">11,320 Kim Cương</div>
+      <div class="price">1,880,000 VNĐ</div>
+    </div>
+
+    <div class="package"
+         onclick="chonGoi(this, '22,640 Kim Cương', 4700000)">
+      <div class="diamond">💎</div>
+      <div class="diamond-name">22,640 Kim Cương</div>
+      <div class="price">4,700,000 VNĐ</div>
+    </div>
+
+  </div>
+
+
+  <!-- ĐIỀU KHOẢN -->
+  <div class="agree">
+    <input
+      type="checkbox"
+      id="agree"
+    >
+    Tôi đồng ý với
+    <a href="#">điều khoản sử dụng</a>
+  </div>
+
+
+  <!-- NÚT NẠP -->
+  <button
+    class="recharge"
+    onclick="napNgay()"
+  >
+    🛒 Nạp Ngay
+  </button>
+
+  <div id="message"></div>
+
+</div>
+
+
+<!-- CHAT -->
+<div class="chat">
+  Zalo
+</div>
+
+
+<script>
+
+let phuongThuc = "Chuyển khoản ngân hàng";
+let goiDaChon = "25 Kim Cương";
+let giaDaChon = 4700;
+
+
+/* KIỂM TRA ID */
+function kiemTraID() {
+
+  const id = document
+    .getElementById("playerId")
+    .value
+    .trim();
+
+  if (!id) {
+    alert("Vui lòng nhập ID nhân vật!");
+    return;
+  }
+
+  if (!/^[0-9]+$/.test(id)) {
+    alert("ID nhân vật chỉ được chứa số!");
+    return;
+  }
+
+  alert(
+    "Đã nhận ID: " + id
+  );
+}
+
+
+/* CHỌN PHƯƠNG THỨC */
+function chonThanhToan(element, value) {
+
+  document
+    .querySelectorAll(".payment")
+    .forEach(x => {
+      x.classList.remove("active");
+    });
+
+  element.classList.add("active");
+
+  phuongThuc = value;
+}
+
+
+/* CHỌN LOẠI GÓI */
+function chonLoai(element) {
+
+  document
+    .querySelectorAll(".package-tab")
+    .forEach(x => {
+      x.classList.remove("active");
+    });
+
+  element.classList.add("active");
+}
+
+
+/* CHỌN GÓI */
+function chonGoi(element, ten, gia) {
+
+  document
+    .querySelectorAll(".package")
+    .forEach(x => {
+      x.classList.remove("active");
+    });
+
+  element.classList.add("active");
+
+  goiDaChon = ten;
+  giaDaChon = gia;
+}
+
+
+/* NẠP NGAY */
+function napNgay() {
+
+  const id = document
+    .getElementById("playerId")
+    .value
+    .trim();
+
+  const agree = document
+    .getElementById("agree")
+    .checked;
+
+  if (!id) {
+    alert("Vui lòng nhập ID nhân vật!");
+    return;
+  }
+
+  if (!agree) {
+    alert("Bạn cần đồng ý với điều khoản sử dụng!");
+    return;
+  }
+
+  const message =
+    document.getElementById("message");
+
+  message.style.display = "block";
+
+  message.innerHTML =
+    "Đang tạo đơn...<br><br>" +
+    "ID: " + id + "<br>" +
+    "Gói: " + goiDaChon + "<br>" +
+    "Giá: " +
+    giaDaChon.toLocaleString("vi-VN") +
+    " VNĐ<br>" +
+    "Thanh toán: " + phuongThuc;
+
+  /*
+    ĐÂY LÀ PHẦN KẾT NỐI BACKEND.
+
+    Khi bạn có API thanh toán/nạp Free Fire
+    hợp lệ, gửi thông tin đơn hàng từ đây
+    về server của bạn.
+
+    Không đặt API KEY hoặc mật khẩu
+    trực tiếp trong file HTML.
+  */
+}
+
+</script>
+
 </body>
 </html>
