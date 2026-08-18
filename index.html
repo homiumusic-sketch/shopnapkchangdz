@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>1S SHOP - Nạp Free Fire</title>
 
 <style>
+
 * {
   box-sizing: border-box;
 }
@@ -22,6 +24,11 @@ body {
   margin: auto;
   padding: 20px;
 }
+
+
+/* =========================
+   HEADER
+========================= */
 
 .hero {
   text-align: center;
@@ -48,6 +55,11 @@ body {
   font-size: 19px;
 }
 
+
+/* =========================
+   CARD
+========================= */
+
 .card {
   background: white;
   border-radius: 22px;
@@ -60,6 +72,11 @@ body {
   margin-top: 0;
   font-size: 28px;
 }
+
+
+/* =========================
+   INPUT
+========================= */
 
 label {
   display: block;
@@ -82,31 +99,53 @@ input:focus {
   border-color: #2878e8;
 }
 
-.methods,
+
+/* =========================
+   PHƯƠNG THỨC
+========================= */
+
+.methods {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.method {
+  border: 2px solid #2878e8;
+  border-radius: 15px;
+  padding: 18px;
+  background: #eef5ff;
+}
+
+
+/* =========================
+   GÓI NẠP
+========================= */
+
 .packages {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
 }
 
-.method,
 .package {
   border: 2px solid #ddd;
   border-radius: 15px;
   padding: 18px;
   background: white;
-}
-
-.method.active,
-.package.active {
-  border-color: #2878e8;
-  background: #eef5ff;
-}
-
-.package {
   text-align: center;
   cursor: pointer;
   min-height: 115px;
+  transition: .2s;
+}
+
+.package:hover {
+  transform: translateY(-2px);
+}
+
+.package.active {
+  border-color: #2878e8;
+  background: #eef5ff;
 }
 
 .diamond {
@@ -126,6 +165,11 @@ input:focus {
   font-size: 19px;
 }
 
+
+/* =========================
+   NẠP NGAY
+========================= */
+
 .recharge-btn {
   width: 100%;
   height: 65px;
@@ -139,24 +183,13 @@ input:focus {
   cursor: pointer;
 }
 
-.contact {
-  text-align: center;
+.recharge-btn:hover {
+  background: #176be8;
 }
 
-.zalo-btn,
-.zalo-payment {
-  display: block;
-  padding: 16px;
-  border-radius: 14px;
-  background: #1688ff;
-  color: white;
-  text-decoration: none;
-  font-size: 19px;
-  font-weight: bold;
-}
 
 /* =========================
-   POPUP THANH TOÁN
+   POPUP
 ========================= */
 
 .payment-overlay {
@@ -227,6 +260,11 @@ input:focus {
   font-weight: bold;
 }
 
+
+/* =========================
+   QR
+========================= */
+
 .qr-box {
   width: 100%;
   max-width: 400px;
@@ -251,6 +289,11 @@ input:focus {
   color: #2878e8;
   font-weight: bold;
 }
+
+
+/* =========================
+   THÔNG TIN NGÂN HÀNG
+========================= */
 
 .bank-info {
   border: 1px solid #ddd;
@@ -288,15 +331,10 @@ input:focus {
   color: #d9363e;
 }
 
-.payment-note {
-  margin: 20px 8px;
-  color: #666;
-  line-height: 1.5;
-}
 
-.zalo-payment {
-  margin-bottom: 12px;
-}
+/* =========================
+   NÚT ĐÓNG
+========================= */
 
 .close-btn {
   width: 100%;
@@ -310,8 +348,52 @@ input:focus {
   cursor: pointer;
 }
 
-@media (max-width: 600px) {
-  .methods,
+
+/* =========================
+   ZALO NỔI
+========================= */
+
+.floating-zalo {
+  position: fixed;
+  left: 18px;
+  bottom: 20px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #1688ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 5px 18px rgba(0,0,0,.3);
+  z-index: 10000;
+  transition: .2s;
+}
+
+.floating-zalo:hover {
+  transform: scale(1.08);
+}
+
+.zalo-logo {
+  width: 40px;
+  height: 40px;
+  border: 3px solid white;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width:600px) {
+
   .packages {
     grid-template-columns: 1fr;
   }
@@ -327,13 +409,31 @@ input:focus {
   .bank-row {
     font-size: 15px;
   }
+
+  .floating-zalo {
+    left: 14px;
+    bottom: 15px;
+    width: 54px;
+    height: 54px;
+  }
+
+  .zalo-logo {
+    width: 37px;
+    height: 37px;
+    font-size: 23px;
+  }
+
 }
+
 </style>
 </head>
 
+
 <body>
 
+
 <div class="container">
+
 
   <!-- HEADER -->
 
@@ -352,6 +452,7 @@ input:focus {
     </p>
 
   </section>
+
 
 
   <!-- TẠO ĐƠN -->
@@ -386,16 +487,14 @@ input:focus {
 
     <div class="methods">
 
-      <div class="method active">
-
+      <div class="method">
         🏦 Chuyển khoản ngân hàng
-
       </div>
 
     </div>
 
 
-    <!-- GÓI NẠP -->
+    <!-- GÓI -->
 
     <label>
       Chọn gói nạp
@@ -435,9 +534,7 @@ input:focus {
         onclick="chonGoi(this)"
       >
 
-        <div class="diamond">
-          💎
-        </div>
+        <div class="diamond">💎</div>
 
         <div class="package-name">
           51 Kim Cương
@@ -458,9 +555,7 @@ input:focus {
         onclick="chonGoi(this)"
       >
 
-        <div class="diamond">
-          💎
-        </div>
+        <div class="diamond">💎</div>
 
         <div class="package-name">
           113 Kim Cương
@@ -481,9 +576,7 @@ input:focus {
         onclick="chonGoi(this)"
       >
 
-        <div class="diamond">
-          💎
-        </div>
+        <div class="diamond">💎</div>
 
         <div class="package-name">
           283 Kim Cương
@@ -504,9 +597,7 @@ input:focus {
         onclick="chonGoi(this)"
       >
 
-        <div class="diamond">
-          💎
-        </div>
+        <div class="diamond">💎</div>
 
         <div class="package-name">
           566 Kim Cương
@@ -527,9 +618,7 @@ input:focus {
         onclick="chonGoi(this)"
       >
 
-        <div class="diamond">
-          💎
-        </div>
+        <div class="diamond">💎</div>
 
         <div class="package-name">
           1.132 Kim Cương
@@ -550,9 +639,7 @@ input:focus {
         onclick="chonGoi(this)"
       >
 
-        <div class="diamond">
-          💎
-        </div>
+        <div class="diamond">💎</div>
 
         <div class="package-name">
           2.830 Kim Cương
@@ -573,9 +660,7 @@ input:focus {
         onclick="chonGoi(this)"
       >
 
-        <div class="diamond">
-          💎
-        </div>
+        <div class="diamond">💎</div>
 
         <div class="package-name">
           5.660 Kim Cương
@@ -596,9 +681,7 @@ input:focus {
         onclick="chonGoi(this)"
       >
 
-        <div class="diamond">
-          💎
-        </div>
+        <div class="diamond">💎</div>
 
         <div class="package-name">
           11.320 Kim Cương
@@ -619,9 +702,7 @@ input:focus {
         onclick="chonGoi(this)"
       >
 
-        <div class="diamond">
-          💎
-        </div>
+        <div class="diamond">💎</div>
 
         <div class="package-name">
           22.640 Kim Cương
@@ -642,39 +723,13 @@ input:focus {
       class="recharge-btn"
       onclick="moThanhToan()"
     >
-
       🛒 NẠP NGAY
-
     </button>
 
   </section>
 
-
-  <!-- ZALO -->
-
-  <section class="card contact">
-
-    <h2>
-      📞 Thông tin liên hệ
-    </h2>
-
-    <p>
-      Cần hỗ trợ hoặc xác nhận đơn?
-    </p>
-
-    <a
-      class="zalo-btn"
-      href="https://zalo.me/0378635625"
-      target="_blank"
-    >
-
-      💬 Liên hệ Zalo
-
-    </a>
-
-  </section>
-
 </div>
+
 
 
 <!-- ==================================
@@ -693,9 +748,7 @@ input:focus {
       class="close-payment"
       onclick="dongThanhToan()"
     >
-
       ×
-
     </button>
 
 
@@ -705,9 +758,7 @@ input:focus {
 
 
     <p class="payment-subtitle">
-
       Quét mã QR bên dưới để thanh toán
-
     </p>
 
 
@@ -715,9 +766,7 @@ input:focus {
 
     <div class="payment-info">
 
-      <b>
-        ID nhân vật:
-      </b>
+      <b>ID nhân vật:</b>
 
       <span id="payPlayerId">
         ---
@@ -725,10 +774,7 @@ input:focus {
 
       <br>
 
-
-      <b>
-        Gói:
-      </b>
+      <b>Gói:</b>
 
       <span id="payPackage">
         ---
@@ -736,10 +782,7 @@ input:focus {
 
       <br>
 
-
-      <b>
-        Số tiền:
-      </b>
+      <b>Số tiền:</b>
 
       <span id="payAmount">
         ---
@@ -748,7 +791,7 @@ input:focus {
     </div>
 
 
-    <!-- QR ĐỘNG -->
+    <!-- QR -->
 
     <div class="qr-box">
 
@@ -756,9 +799,7 @@ input:focus {
         class="qr-loading"
         id="qrLoading"
       >
-
         ⏳ Đang tạo mã QR...
-
       </div>
 
 
@@ -771,7 +812,7 @@ input:focus {
     </div>
 
 
-    <!-- NGÂN HÀNG -->
+    <!-- THÔNG TIN NGÂN HÀNG -->
 
     <div class="bank-info">
 
@@ -851,35 +892,17 @@ input:focus {
 
     <p class="payment-note">
 
-      Sau khi chuyển khoản đúng số tiền,
-      hãy liên hệ Zalo để xác nhận đơn.
-
-      <br><br>
-
-      ⚠️ Vui lòng kiểm tra kỹ UID,
-      số tiền và mã đơn trước khi thanh toán.
+      Vui lòng chuyển đúng số tiền và nội dung
+      chuyển khoản hiển thị trên màn hình.
 
     </p>
-
-
-    <a
-      class="zalo-payment"
-      href="https://zalo.me/0378635625"
-      target="_blank"
-    >
-
-      💬 Liên hệ Zalo xác nhận đơn
-
-    </a>
 
 
     <button
       class="close-btn"
       onclick="dongThanhToan()"
     >
-
       Đóng
-
     </button>
 
   </div>
@@ -887,7 +910,28 @@ input:focus {
 </div>
 
 
+
+<!-- ==================================
+     ZALO NỔI GÓC TRÁI
+================================== -->
+
+<a
+  href="https://zalo.me/0378635625"
+  target="_blank"
+  class="floating-zalo"
+  aria-label="Liên hệ Zalo"
+>
+
+  <span class="zalo-logo">
+    Z
+  </span>
+
+</a>
+
+
+
 <script>
+
 
 /* =========================
    CHỌN GÓI
@@ -909,6 +953,7 @@ function chonGoi(element) {
 }
 
 
+
 /* =========================
    TẠO MÃ ĐƠN
 ========================= */
@@ -926,8 +971,9 @@ function taoMaDon() {
 }
 
 
+
 /* =========================
-   MỞ POPUP THANH TOÁN
+   MỞ THANH TOÁN
 ========================= */
 
 function moThanhToan() {
@@ -992,7 +1038,8 @@ function moThanhToan() {
     taoMaDon();
 
 
-  /* HIỂN THỊ THÔNG TIN */
+
+  /* THÔNG TIN ĐƠN */
 
   document
     .getElementById(
@@ -1023,6 +1070,7 @@ function moThanhToan() {
       "payAmountBank"
     )
     .innerText =
+
     amount.toLocaleString(
       "vi-VN"
     ) + " VND";
@@ -1036,23 +1084,19 @@ function moThanhToan() {
     orderCode;
 
 
+
   /* =========================
-     VIETQR ĐỘNG
+     VIETQR
 
      TPBANK
-     STK: 2611207111
-
-     QR TỰ ĐIỀN:
-     - SỐ TIỀN
-     - NỘI DUNG CHUYỂN KHOẢN
+     STK: 26112071111
   ========================= */
-
 
   const qrUrl =
 
     "https://img.vietqr.io/image/" +
 
-    "TPBANK-2611207111-compact2.png" +
+    "TPBANK-26112071111-compact2.png" +
 
     "?amount=" +
 
@@ -1071,6 +1115,7 @@ function moThanhToan() {
     encodeURIComponent(
       "NGUYEN HOANG ANH"
     );
+
 
 
   const qr =
@@ -1114,7 +1159,6 @@ function moThanhToan() {
       qr.style.display =
         "none";
 
-
       alert(
         "Không tải được mã QR. " +
         "Hãy kiểm tra kết nối mạng."
@@ -1127,6 +1171,7 @@ function moThanhToan() {
     qrUrl;
 
 
+
   /* HIỆN POPUP */
 
   document
@@ -1137,6 +1182,7 @@ function moThanhToan() {
     .add("show");
 
 }
+
 
 
 /* =========================
@@ -1153,6 +1199,7 @@ function dongThanhToan() {
     .remove("show");
 
 }
+
 
 
 /* =========================
@@ -1179,6 +1226,7 @@ document
   );
 
 </script>
+
 
 </body>
 </html>
