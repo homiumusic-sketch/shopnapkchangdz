@@ -455,7 +455,142 @@ let<!DOCTYPE html>
       }
     );
 
-  </script>
+ <script>
+  let autoRefreshTimer = null;
+
+  function startAutoRefresh() {
+    if (autoRefreshTimer) {
+      clearInterval(autoRefreshTimer);
+    }
+
+    autoRefreshTimer = setInterval(async () => {
+      const pass = passwordInput.value.trim();
+
+      // Chưa nhập mật khẩu thì không gọi API
+      if (!pass) return;
+
+      try {
+        const auth =
+          "Basic " + btoa("admin:" + pass);
+
+        const res = await fetch("/api/admin/orders", {
+          method: "GET",
+          headers: {
+            "Authorization": auth,
+            "Accept": "application/json"
+          }
+        });
+
+        // Mật khẩu sai thì dừng tự động cập nhật
+        if (!res.ok) {
+          clearInterval(autoRefreshTimer);
+          autoRefreshTimer = null;
+          return;
+        }
+
+        const result = await res.json();
+
+        const orders =
+          Array.isArray(result.orders)
+            ? result.orders
+            : [];
+
+        if (orders.length === 0) {
+          ordersBox.innerHTML =
+            '<div class="empty">Chưa có đơn hàng.</div>';
+          return;
+        }
+
+        ordersBox.innerHTML = orders.map(order => {
+          const status = order.status || "";
+
+          return `
+            <div class="order">
+
+              <div class="order-code">
+                ${escapeHtml(order.order_code || "Không có mã đơn")}
+              </div>
+
+              <div>
+                👤 UID:
+                <strong>
+                  ${escapeHtml(order.player_id || "N/A")}
+                </strong>
+              </div>
+
+              <div>
+                🎁 Gói:
+                <strong>
+                  ${escapeHtml(order.package_name || "N/A")}
+                </strong>
+              </div>
+
+              <div>
+                💰 Số tiền:
+                <strong>
+                  ${formatMoney(order.amount)}
+                </strong>
+              </div>
+
+              <div>
+                📌 Trạng thái:
+                <span class="${statusClass(status)}">
+                  ${statusText(status)}
+                </span>
+              </div>
+
+              <div>
+                💳 Mã giao dịch:
+                ${escapeHtml(order.payment_id || "Chưa có")}
+              </div>
+
+              <div>
+                🕒 Tạo lúc:
+                ${escapeHtml(formatDate(order.created_at))}
+              </div>
+
+              <div>
+                ✅ Thanh toán lúc:
+                ${escapeHtml(formatDate(order.paid_at))}
+              </div>
+
+            </div>
+          `;
+        }).join("");
+
+        messageBox.className = "";
+        messageBox.textContent =
+          "Đã cập nhật " + orders.length + " đơn hàng.";
+
+      } catch (error) {
+        console.error("AUTO REFRESH ERROR:", error);
+      }
+
+    }, 3000);
+  }
+
+  // Khi bấm Xem đơn hàng thành công thì bắt đầu tự cập nhật
+  const oldLoadOrders = loadOrders;
+
+  loadButton.addEventListener("click", () => {
+    setTimeout(() => {
+      if (passwordInput.value.trim()) {
+        startAutoRefresh();
+      }
+    }, 500);
+  });
+
+  // Nhấn Enter cũng bắt đầu tự cập nhật
+  passwordInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      setTimeout(() => {
+        if (passwordInput.value.trim()) {
+          startAutoRefresh();
+        }
+      }, 500);
+    }
+  });
+</script>
 
 </body>
 </html>
