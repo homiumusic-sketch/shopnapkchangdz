@@ -31,9 +31,26 @@
           <option value="500000">500.000đ</option>
         </select>
 
-  <a href="https://doicard68.com">
-  <button type="button">TẠO ĐƠN</button>
-</a>
+  function napThe() {
+
+  const seri = document.getElementById("seri").value.trim();
+  const code = document.getElementById("code").value.trim();
+
+  if (!nhaMang) {
+    alert("Vui lòng chọn nhà mạng!");
+    return;
+  }
+
+  if (!seri || !code) {
+    alert("Vui lòng nhập đầy đủ số seri và mã thẻ!");
+    return;
+  }
+
+  alert(
+    "Đã nhận thông tin.\n" +
+    "Nhà mạng: " + nhaMang
+  );
+}
 
 
       </form>
