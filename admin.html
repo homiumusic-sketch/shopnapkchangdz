@@ -1,35 +1,55 @@
-<!doctype html>
-<html lang="vi">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Admin — FF Shop</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <main class="wrap">
-    <section class="hero"><span class="tag">ADMIN</span><h1>QUẢN LÝ ĐƠN</h1></section>
-    <section class="card">
-      <input id="password" type="password" placeholder="Mật khẩu admin">
-      <button id="load">XEM ĐƠN</button>
-      <div id="orders"></div>
-    </section>
-  </main>
-  <script>
-    document.getElementById("load").onclick = async () => {
-      const pass = document.getElementById("password").value;
-      const auth = "Basic " + btoa("admin:" + pass);
-      const res = await fetch("/api/admin/orders", {headers:{Authorization:auth}});
-      const box = document.getElementById("orders");
-      if (!res.ok) { box.textContent = "Sai mật khẩu hoặc không được phép."; return; }
-      const data = await res.json();
-      box.innerHTML = data.map(o => `
-        <div class="order">
-          <b>${o.order_code}</b><br>
-          UID: ${o.player_id} • ${Number(o.amount).toLocaleString("vi-VN")}đ<br>
-          Trạng thái: <strong>${o.status}</strong>
-        </div>`).join("") || "Chưa có đơn.";
-    };
-  </script>
-</body>
-</html>
+<script>
+document.getElementById("load").onclick = async () => {
+  const pass = document.getElementById("password").value.trim();
+  const box = document.getElementById("orders");
+
+  if (!pass) {
+    box.textContent = "Vui lòng nhập mật khẩu admin.";
+    return;
+  }
+
+  try {
+    const auth = "Basic " + btoa("admin:" + pass);
+
+    const res = await fetch("/api/admin/orders", {
+      method: "GET",
+      headers: {
+        "Authorization": auth,
+        "Accept": "application/json"
+      }
+    });
+
+    if (!res.ok) {
+      box.textContent = "Sai mật khẩu hoặc không được phép.";
+      return;
+    }
+
+    const result = await res.json();
+
+    // Server có thể trả { success: true, orders: [...] }
+    // hoặc trả trực tiếp [...]
+    const orders = Array.isArray(result)
+      ? result
+      : (Array.isArray(result.orders) ? result.orders : []);
+
+    if (orders.length === 0) {
+      box.textContent = "Chưa có đơn.";
+      return;
+    }
+
+    box.innerHTML = orders.map(o => `
+      <div class="order">
+        <b>${o.order_code || "Không có mã đơn"}</b><br>
+        UID: ${o.player_id || "N/A"} •
+        ${Number(o.amount || 0).toLocaleString("vi-VN")}đ<br>
+        Trạng thái:
+        <strong>${o.status || "unknown"}</strong>
+      </div>
+    `).join("");
+
+  } catch (error) {
+    console.error(error);
+    box.textContent = "Không thể kết nối máy chủ.";
+  }
+};
+</script>
