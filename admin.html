@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin — FF Shop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero"><span class="tag">ADMIN</span><h1>QUẢN LÝ ĐƠN</h1></section>
+    <section class="card">
+      <input id="password" type="password" placeholder="Mật khẩu admin">
+      <button id="load">XEM ĐƠN</button>
+      <div id="orders"></div>
+    </section>
+  </main>
+  <script>
+    document.getElementById("load").onclick = async () => {
+      const pass = document.getElementById("password").value;
+      const auth = "Basic " + btoa("admin:" + pass);
+      const res = await fetch("/api/admin/orders", {headers:{Authorization:auth}});
+      const box = document.getElementById("orders");
+      if (!res.ok) { box.textContent = "Sai mật khẩu hoặc không được phép."; return; }
+      const data = await res.json();
+      box.innerHTML = data.map(o => `
+        <div class="order">
+          <b>${o.order_code}</b><br>
+          UID: ${o.player_id} • ${Number(o.amount).toLocaleString("vi-VN")}đ<br>
+          Trạng thái: <strong>${o.status}</strong>
+        </div>`).join("") || "Chưa có đơn.";
+    };
+  </script>
+</body>
+</html>
