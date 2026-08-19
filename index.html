@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Nạp Kim Cương Free Fire</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#080910;color:#fff;font-family:Arial,sans-serif}
+.header{text-align:center;padding:25px 15px;background:linear-gradient(135deg,#11111b,#25113e)}
+.header h1{margin:0;color:#ffd21c;font-size:30px}.header p{color:#ddd}
+.container{max-width:900px;margin:auto;padding:20px 15px 100px}
+.card{background:#171821;padding:20px;border-radius:18px;margin-bottom:22px}
+label{display:block;margin-bottom:10px;font-size:18px;font-weight:bold}
+input{width:100%;padding:15px;border:1px solid #444;border-radius:12px;background:#0d0e15;color:#fff;font-size:18px}
+.title{color:#ffd21c;font-size:25px}.packages{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.package{padding:17px 10px;text-align:center;background:#11111a;border:2px solid #333;border-radius:16px;cursor:pointer}
+.package.active{border-color:#ffd21c;box-shadow:0 0 20px #ffd21c33}.diamond{font-size:28px}
+.name{font-size:18px;font-weight:bold;margin-top:7px}.price{color:#ffd21c;font-size:18px;font-weight:bold;margin-top:7px}
+.pay,.history{width:100%;padding:17px;border:0;border-radius:15px;font-size:20px;font-weight:bold;cursor:pointer;margin-top:20px}
+.pay{background:linear-gradient(90deg,#ffca05,#ff7b00)}.history{background:#2878e8;color:#fff;margin-top:10px}
+.result{display:none;margin-top:18px;padding:17px;background:#0d0e15;border:1px solid #333;border-radius:15px;line-height:1.8}
+.result.show{display:block}.green{color:#25d366}.yellow{color:#ffd21c}
+.overlay{display:none;position:fixed;inset:0;z-index:9999;background:#000b;align-items:center;justify-content:center;padding:12px}
+.overlay.show{display:flex}.paybox{position:relative;width:100%;max-width:520px;max-height:94vh;overflow:auto;padding:24px 16px;background:#fff;color:#303746;border-radius:28px;text-align:center}
+.close{position:absolute;right:14px;top:14px;width:45px;height:45px;border:0;border-radius:50%;font-size:30px}
+.paybox h2{font-size:32px}.info{background:#f1f4f8;border-radius:18px;padding:15px}.row{display:flex;justify-content:space-between;gap:10px;padding:8px;text-align:left}.row span{font-weight:bold;color:#555}.row b{color:#2878e8;text-align:right;word-break:break-word}
+.qr{width:100%;border:2px solid #ddd;border-radius:18px;padding:12px;margin:18px 0}.qr img{width:100%;max-width:480px}.bank{border:1px solid #ddd;border-radius:16px;text-align:left;overflow:hidden}.bank div{padding:13px;border-bottom:1px solid #ddd}.bank div:last-child{border:0}.copy{background:#d94b52;color:#fff;border:0;border-radius:8px;padding:8px 12px}
+.bottom-close{width:100%;padding:14px;border:0;border-radius:12px;margin-top:15px;color:#2878e8;font-weight:bold}
+@media(max-width:480px){.packages{grid-template-columns:repeat(2,1fr)}.name,.price{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="header"><h1>💎 NẠP KIM CƯƠNG FREE FIRE</h1><p>Nạp nhanh chóng • Không cần đăng nhập tài khoản</p></div>
+<div class="container">
+<div class="card">
+<label>🎮 ID nhân vật Free Fire</label>
+<input id="playerId" inputmode="numeric" placeholder="Nhập ID nhân vật">
+</div>
+
+<h2 class="title">💎 Chọn gói kim cương</h2>
+<div class="packages">
+<div class="package" data-name="25 Kim Cương" data-price="4800" onclick="selectPackage(this)">💎<div class="name">25 KC</div><div class="price">4.800 VNĐ</div></div>
+<div class="package" data-name="51 Kim Cương" data-price="9600" onclick="selectPackage(this)">💎<div class="name">51 KC</div><div class="price">9.600 VNĐ</div></div>
+<div class="package" data-name="113 Kim Cương" data-price="19000" onclick="selectPackage(this)">💎<div class="name">113 KC</div><div class="price">19.000 VNĐ</div></div>
+<div class="package" data-name="283 Kim Cương" data-price="47500" onclick="selectPackage(this)">💎<div class="name">283 KC</div><div class="price">47.500 VNĐ</div></div>
+<div class="package" data-name="566 Kim Cương" data-price="95900" onclick="selectPackage(this)">💎<div class="name">566 KC</div><div class="price">95.900 VNĐ</div></div>
+<div class="package" data-name="1.132 Kim Cương" data-price="195000" onclick="selectPackage(this)">💎<div class="name">1.132 KC</div><div class="price">195.000 VNĐ</div></div>
+<div class="package" data-name="2.830 Kim Cương" data-price="480000" onclick="selectPackage(this)">💎<div class="name">2.830 KC</div><div class="price">480.000 VNĐ</div></div>
+<div class="package" data-name="5.660 Kim Cương" data-price="950000" onclick="selectPackage(this)">💎<div class="name">5.660 KC</div><div class="price">950.000 VNĐ</div></div>
+<div class="package" data-name="11.320 Kim Cương" data-price="1900000" onclick="selectPackage(this)">💎<div class="name">11.320 KC</div><div class="price">1.900.000 VNĐ</div></div>
+<div class="package" data-name="22.640 Kim Cương" data-price="4800000" onclick="selectPackage(this)">💎<div class="name">22.640 KC</div><div class="price">4.800.000 VNĐ</div></div>
+</div>
+
+<button class="pay" onclick="createOrder()">💳 Thanh toán ngay</button>
+
+<div class="card">
+<h2 class="title">📜 Lịch sử nạp</h2>
+<p style="color:#aaa">Nhập mã đơn hàng để kiểm tra trạng thái.</p>
+<input id="historyCode" placeholder="Nhập mã đơn hàng">
+<button class="history" onclick="checkOrder()">🔎 Kiểm tra đơn hàng</button>
+<div id="result" class="result"></div>
+</div>
+</div>
+
+<div id="popup" class="overlay">
+<div class="paybox">
+<button class="close" onclick="closePopup()">×</button>
+<h2>💳 Thanh toán</h2>
+<p>Quét mã QR bên dưới để chuyển khoản</p>
+<div class="info">
+<div class="row"><span>ID</span><b id="pId">---</b></div>
+<div class="row"><span>Gói</span><b id="pPackage">---</b></div>
+<div class="row"><span>Số tiền</span><b id="pAmount">---</b></div>
+<div class="row"><span>Mã đơn</span><b id="pCode">---</b></div>
+</div>
+<div class="qr"><img id="qr" alt="QR thanh toán"></div>
+<div class="bank">
+<div>🏦 Ngân hàng: <b>TPBank</b></div>
+<div>👤 Chủ TK: <b>NGUYEN HOANG ANH</b></div>
+<div>💳 STK: <b>26112071111</b> <button class="copy" onclick="copyAccount()">Copy</button></div>
+<div>📝 Nội dung: <b id="pContent">---</b></div>
+</div>
+<p style="color:#666">⚠️ Sau khi chuyển khoản, đơn sẽ <b>không tự động thành công</b>. Admin sẽ tự kiểm tra và bấm trạng thái.</p>
+<button class="bottom-close" onclick="closePopup()">Đóng</button>
+</div>
+</div>
+
+<script>
+let timer=null;
+function selectPackage(el){document.querySelectorAll(".package").forEach(x=>x.classList.remove("active"));el.classList.add("active")}
+async function createOrder(){
+ const playerId=document.getElementById("playerId").value.replace(/\D/g,"");
+ const pkg=document.querySelector(".package.active");
+ if(!playerId)return alert("Vui lòng nhập ID nhân vật.");
+ if(!pkg)return alert("Vui lòng chọn gói.");
+ try{
+  const r=await fetch("/api/orders",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({player_id:playerId,package_name:pkg.dataset.name,amount:Number(pkg.dataset.price)})});
+  const d=await r.json();
+  if(!r.ok||!d.success)throw new Error(d.message||"Không tạo được đơn.");
+  const o=d.order;
+  document.getElementById("pId").textContent=o.player_id;
+  document.getElementById("pPackage").textContent=o.package_name;
+  document.getElementById("pAmount").textContent=Number(o.amount).toLocaleString("vi-VN")+" VNĐ";
+  document.getElementById("pCode").textContent=o.order_code;
+  document.getElementById("pContent").textContent=o.transfer_content;
+  document.getElementById("qr").src="https://img.vietqr.io/image/TPB-26112071111-qr_only.png?amount="+encodeURIComponent(o.amount)+"&addInfo="+encodeURIComponent(o.transfer_content)+"&accountName="+encodeURIComponent("NGUYEN HOANG ANH");
+  document.getElementById("popup").classList.add("show");
+  startWatch(o.order_code);
+ }catch(e){alert("❌ "+e.message)}
+}
+function startWatch(code){
+ if(timer)clearInterval(timer);
+ timer=setInterval(async()=>{try{
+  const r=await fetch("/api/orders/"+encodeURIComponent(code)+"?t="+Date.now(),{cache:"no-store"});
+  const d=await r.json();if(d.success)renderResult(d.order);
+ }catch{}},3000);
+}
+async function checkOrder(){
+ const code=document.getElementById("historyCode").value.trim().toUpperCase();
+ const box=document.getElementById("result");
+ if(!code){box.className="result show";box.innerHTML="❌ Nhập mã đơn hàng.";return}
+ try{
+  const r=await fetch("/api/orders/"+encodeURIComponent(code)+"?t="+Date.now(),{cache:"no-store"});
+  const d=await r.json();if(!r.ok||!d.success)throw new Error("Không tìm thấy đơn.");
+  renderResult(d.order);
+ }catch(e){box.className="result show";box.innerHTML="❌ "+e.message}
+}
+function renderResult(o){
+ const box=document.getElementById("result");
+ let status=o.status;
+ let html="";
+ if(status==="RECHARGED")html='<b class="green">🟢 Thành Công</b><br>Admin đã xác nhận đã nạp kim cương.';
+ else if(status==="PROCESSING")html='<b class="yellow">🟡 Đang Nạp</b><br>Admin đang xử lý đơn.';
+ else if(status==="PAID")html='<b class="yellow">🟡 Đang Nạp</b><br>Đơn đã được xác nhận thanh toán.';
+ else html='<b style="color:#aaa">⚪ Chờ thanh toán</b><br>Đơn đang chờ xử lý.';
+ box.className="result show";
+ box.innerHTML=html+"<br>📦 Mã đơn: <b>"+escapeHtml(o.order_code)+"</b><br>🎮 UID: <b>"+escapeHtml(o.player_id)+"</b><br>💎 Gói: <b>"+escapeHtml(o.package_name)+"</b>";
+}
+function escapeHtml(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
+function closePopup(){document.getElementById("popup").classList.remove("show");if(timer){clearInterval(timer);timer=null}}
+function copyAccount(){navigator.clipboard?.writeText("26112071111").then(()=>alert("Đã copy số tài khoản."))}
+document.getElementById("historyCode").addEventListener("keydown",e=>{if(e.key==="Enter")checkOrder()});
+</script>
+</body>
+</html>

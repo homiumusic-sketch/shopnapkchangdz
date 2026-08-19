@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ADMIN - Quản lý đơn</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#080910;color:#fff;font-family:Arial,sans-serif}
+.container{max-width:1000px;margin:auto;padding:25px 15px 100px}.card{background:#171821;border:1px solid #30313a;border-radius:22px;padding:22px;margin-bottom:20px}
+.login{max-width:600px;margin:70px auto}h1{text-align:center;color:#ffd21c}
+label{display:block;font-weight:bold;margin:17px 0 8px}input{width:100%;padding:15px;border-radius:12px;border:1px solid #444;background:#0d0e15;color:#fff;font-size:18px}
+button{border:0;border-radius:12px;padding:14px 18px;font-size:17px;font-weight:bold;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}
+.login-btn{width:100%;margin-top:20px;background:linear-gradient(90deg,#ffca05,#ff7b00)}.hidden{display:none!important}
+.error{margin-top:15px;padding:14px;background:#401d20;color:#ff7777;border-radius:12px;text-align:center}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.top h2{color:#ffd21c}
+.refresh{background:#2878e8;color:#fff}.logout{background:#333;color:#fff}.order{background:#0d0e15;border:1px solid #333;border-radius:18px;padding:18px;margin-top:15px}
+.header{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid #333;padding-bottom:14px}.code{color:#4d8dff;font-size:20px;font-weight:bold}
+.status{padding:9px 13px;border-radius:10px;font-weight:bold}.waiting{background:#292929;color:#aaa}.paid{background:#3b3210;color:#ffd21c}.processing{background:#102d50;color:#55a3ff}.recharged{background:#063d23;color:#25d366}
+.info{line-height:1.9;margin-top:15px;color:#ddd}.info b{color:#fff}.actions{display:flex;gap:10px;margin-top:17px;flex-wrap:wrap}.process{background:#2878e8;color:#fff}.success-btn{background:#19bd61;color:#fff}
+.loading{text-align:center;padding:30px;color:#aaa}.note{color:#aaa;font-size:14px;margin-top:8px}
+@media(max-width:600px){.actions button{width:100%}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div id="loginPage" class="card login">
+<h1>🔐 ADMIN</h1>
+<p style="text-align:center;color:#aaa">Đăng nhập để quản lý đơn nạp</p>
+<label>👤 Tài khoản</label><input id="username" autocomplete="username" placeholder="admin">
+<label>🔑 Mật khẩu</label><input id="password" type="password" autocomplete="current-password" placeholder="123456">
+<button class="login-btn" id="loginButton" onclick="login()">🔐 Đăng nhập</button>
+<div id="message"></div>
+<p class="note">Mặc định: tài khoản <b>admin</b>, mật khẩu <b>123456</b>. Nên đổi bằng biến môi trường khi đưa lên hosting.</p>
+</div>
+
+<div id="adminPage" class="hidden">
+<div class="top"><h2>📦 QUẢN LÝ ĐƠN NẠP</h2><div>
+<button class="refresh" onclick="loadOrders()">🔄 Tải lại</button>
+<button class="logout" onclick="logout()">🚪 Đăng xuất</button>
+</div></div>
+<div class="card"><div id="orders"><div class="loading">⏳ Đang tải...</div></div></div>
+</div>
+</div>
+
+<script>
+const LOGIN_API="/api/admin/login", ORDERS_API="/api/orders";
+let token=localStorage.getItem("admin_token")||"";
+function escapeHtml(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
+function escapeJs(v){return String(v??"").replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/\n/g,"\\n").replace(/\r/g,"\\r")}
+function headers(){const h={"Accept":"application/json"};if(token)h.Authorization="Bearer "+token;return h}
+function showError(t){document.getElementById("message").innerHTML='<div class="error">❌ '+escapeHtml(t)+'</div>'}
+async function login(){
+ const username=document.getElementById("username").value.trim(),password=document.getElementById("password").value,btn=document.getElementById("loginButton");
+ if(!username||!password)return showError("Vui lòng nhập tài khoản và mật khẩu.");
+ btn.disabled=true;btn.innerText="⏳ Đang đăng nhập...";
+ try{
+  const r=await fetch(LOGIN_API,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify({username,password})});
+  const d=await r.json().catch(()=>({}));if(!r.ok||!d.success)throw new Error(d.message||"Sai tài khoản hoặc mật khẩu.");
+  token=d.token||d.access_token||d.admin_token;if(!token)throw new Error("Server không trả về token.");
+  localStorage.setItem("admin_token",token);openAdmin();
+ }catch(e){token="";localStorage.removeItem("admin_token");showError(e.message||"Không thể đăng nhập.")}
+ finally{btn.disabled=false;btn.innerText="🔐 Đăng nhập"}
+}
+function openAdmin(){document.getElementById("loginPage").classList.add("hidden");document.getElementById("adminPage").classList.remove("hidden");loadOrders()}
+async function loadOrders(){
+ const box=document.getElementById("orders");box.innerHTML='<div class="loading">⏳ Đang tải đơn...</div>';
+ try{
+  const r=await fetch(ORDERS_API,{headers:headers(),cache:"no-store"});
+  if(r.status===401||r.status===403){logout();return}
+  const d=await r.json().catch(()=>({}));if(!r.ok||!d.success)throw new Error(d.message||"Không tải được đơn.");
+  const orders=Array.isArray(d.orders)?d.orders:[];if(!orders.length){box.innerHTML='<div class="loading">📭 Chưa có đơn hàng.</div>';return}
+  box.innerHTML=orders.map(renderOrder).join("");
+ }catch(e){box.innerHTML='<div class="error">❌ '+escapeHtml(e.message||"Lỗi tải đơn.")+'</div>'}
+}
+function renderOrder(o){
+ const s=String(o.status||"PENDING").toUpperCase();
+ let text="⚪ CHỜ THANH TOÁN",cls="waiting";
+ if(s==="PAID"){text="🟡 ĐÃ THANH TOÁN - CHỜ ADMIN";cls="paid"}
+ if(s==="PROCESSING"){text="🔵 ĐANG NẠP";cls="processing"}
+ if(s==="RECHARGED"){text="🟢 THÀNH CÔNG";cls="recharged"}
+ const processDisabled=!(s==="PENDING"||s==="PAID")||s==="RECHARGED";
+ const successDisabled=s==="RECHARGED";
+ return `<div class="order">
+ <div class="header"><div>📦 Mã đơn: <span class="code">${escapeHtml(o.order_code)}</span></div><div class="status ${cls}">${text}</div></div>
+ <div class="info">
+ 🎮 ID Free Fire: <b>${escapeHtml(o.player_id)}</b><br>
+ 💎 Gói: <b>${escapeHtml(o.package_name)}</b><br>
+ 💰 Số tiền: <b>${Number(o.amount||0).toLocaleString("vi-VN")} VNĐ</b><br>
+ 📝 Nội dung: <b>${escapeHtml(o.transfer_content||o.order_code)}</b><br>
+ 🕒 Tạo đơn: <b>${escapeHtml(new Date(o.created_at).toLocaleString("vi-VN"))}</b>
+ ${o.paid_at?'<br>💳 Admin xác nhận thanh toán: <b>'+escapeHtml(new Date(o.paid_at).toLocaleString("vi-VN"))+'</b>':''}
+ ${o.recharged_at?'<br>💎 Thành công lúc: <b>'+escapeHtml(new Date(o.recharged_at).toLocaleString("vi-VN"))+'</b>':''}
+ </div>
+ <div class="actions">
+ <button class="process" ${processDisabled?"disabled":""} onclick="setStatus('${escapeJs(o.order_code)}','PROCESSING')">🔵 Đang Nạp</button>
+ <button class="success-btn" ${successDisabled?"disabled":""} onclick="setStatus('${escapeJs(o.order_code)}','RECHARGED')">💎 Thành Công</button>
+ </div>
+ </div>`;
+}
+async function setStatus(code,status){
+ const question=status==="PROCESSING"?"Xác nhận đơn này đã được thanh toán và chuyển sang Đang Nạp?":"Bạn đã tự nạp kim cương cho khách và muốn xác nhận Thành Công?";
+ if(!confirm(question))return;
+ try{
+  const r=await fetch(ORDERS_API+"/"+encodeURIComponent(code)+"/status",{method:"PATCH",headers:{...headers(),"Content-Type":"application/json"},body:JSON.stringify({status})});
+  if(r.status===401||r.status===403){logout();return}
+  const d=await r.json().catch(()=>({}));if(!r.ok||!d.success)throw new Error(d.message||"Không cập nhật được trạng thái.");
+  alert(status==="RECHARGED"?"🟢 Đã xác nhận THÀNH CÔNG.":"🔵 Đã chuyển sang ĐANG NẠP.");
+  loadOrders();
+ }catch(e){alert("❌ "+(e.message||"Lỗi cập nhật."))}
+}
+function logout(){token="";localStorage.removeItem("admin_token");document.getElementById("adminPage").classList.add("hidden");document.getElementById("loginPage").classList.remove("hidden");document.getElementById("password").value=""}
+document.addEventListener("DOMContentLoaded",()=>{if(token)openAdmin()});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&!document.getElementById("loginPage").classList.contains("hidden"))login()});
+setInterval(()=>{if(!document.getElementById("adminPage").classList.contains("hidden"))loadOrders()},5000);
+</script>
+</body>
+</html>
