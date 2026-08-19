@@ -1,1021 +1,805 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Quản lý đơn hàng</title>
+<title>Quản lý đơn hàng</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    padding:20px;
+    font-family:Arial,sans-serif;
+    background:#f4f6f9;
+    color:#222;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    font-size:38px;
+    margin:20px 0 30px;
+}
+
+.admin-box{
+    background:white;
+    border-radius:22px;
+    padding:22px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    margin-bottom:25px;
+}
+
+.admin-login{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.admin-login input{
+    flex:1;
+    min-width:200px;
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:16px;
+}
+
+button{
+    border:0;
+    border-radius:12px;
+    padding:13px 18px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.login-btn{
+    background:#287bea;
+    color:white;
+}
+
+.refresh-btn{
+    background:#444;
+    color:white;
+}
+
+#message{
+    margin-top:15px;
+    font-weight:bold;
+}
+
+.orders{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.order{
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 4px 18px rgba(0,0,0,.08);
+}
+
+.order-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
+}
+
+.order-code{
+    font-size:22px;
+    font-weight:bold;
+    color:#287bea;
+    word-break:break-all;
+}
+
+.status{
+    padding:9px 15px;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.status.pending{
+    background:#fff1cf;
+    color:#d58b00;
+}
+
+.status.paid{
+    background:#d9f7df;
+    color:#16883c;
+}
+
+.info{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.info-row{
+    background:#f7f8fa;
+    border-radius:12px;
+    padding:12px;
+}
+
+.label{
+    display:block;
+    color:#777;
+    font-size:14px;
+    margin-bottom:5px;
+}
+
+.value{
+    font-size:17px;
+    font-weight:bold;
+    word-break:break-word;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.pay-btn{
+    background:#16883c;
+    color:white;
+}
+
+.pay-btn.done{
+    background:#999;
+    cursor:default;
+}
+
+.recharge-btn{
+    background:linear-gradient(90deg,#ffbd00,#ff7900);
+    color:#111;
+}
+
+.recharge-btn.done{
+    background:#16883c;
+    color:white;
+    cursor:default;
+}
+
+.empty{
+    text-align:center;
+    padding:40px;
+    color:#777;
+    background:white;
+    border-radius:20px;
+}
+
+.loading{
+    text-align:center;
+    padding:30px;
+    color:#777;
+}
+
+@media(max-width:650px){
+
+    body{
+        padding:12px;
     }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f9;
-      color: #222;
+    h1{
+        font-size:30px;
     }
 
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 25px 15px;
+    .info{
+        grid-template-columns:1fr;
     }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 25px;
+    .actions button{
+        width:100%;
     }
-
-    .box {
-      background: #fff;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,.08);
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    input {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 16px;
-      margin-bottom: 12px;
-    }
-
-    button {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 10px;
-      background: #2878e8;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:active {
-      opacity: .8;
-    }
-
-    button:disabled {
-      opacity: .6;
-      cursor: not-allowed;
-    }
-
-    #message {
-      margin-top: 12px;
-      font-weight: bold;
-      text-align: center;
-      line-height: 1.5;
-      white-space: pre-wrap;
-    }
-
-    .error {
-      color: #d93025;
-    }
-
-    .success {
-      color: #159447;
-    }
-
-    .order {
-      background: #f8f9fb;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 12px;
-      line-height: 1.7;
-    }
-
-    .order-code {
-      font-size: 18px;
-      font-weight: bold;
-      color: #2878e8;
-      margin-bottom: 8px;
-    }
-
-    .content-value {
-      color: #2878e8;
-      font-weight: bold;
-      word-break: break-word;
-    }
-
-    .paid {
-      color: #159447;
-      font-weight: bold;
-    }
-
-    .pending {
-      color: #e09b00;
-      font-weight: bold;
-    }
-
-    .empty {
-      text-align: center;
-      color: #777;
-      padding: 20px;
-    }
-
-    .debug {
-      margin-top: 12px;
-      padding: 10px;
-      background: #fff3f3;
-      border: 1px solid #ffd0d0;
-      border-radius: 8px;
-      color: #b00020;
-      font-size: 13px;
-      white-space: pre-wrap;
-      word-break: break-word;
-      display: none;
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-  <h1>🛠️ Quản lý đơn hàng</h1>
+<h1>🛠️ Quản lý đơn hàng</h1>
 
-  <div class="box">
+<div class="admin-box">
 
-    <label for="password">
-      Mật khẩu Admin
-    </label>
+    <h2>🔐 Đăng nhập Admin</h2>
 
-    <input
-      type="password"
-      id="password"
-      placeholder="Nhập mật khẩu admin"
-      autocomplete="current-password"
-    >
+    <div class="admin-login">
 
-    <button type="button" id="load">
-      🔄 Xem lịch sử nạp
-    </button>
+        <input
+            id="adminPassword"
+            type="password"
+            placeholder="Nhập mật khẩu Admin"
+        >
 
-    <div id="message"></div>
+        <button
+            class="login-btn"
+            onclick="loginAdmin()">
+            🔑 Đăng nhập
+        </button>
 
-    <div id="debug" class="debug"></div>
-
-  </div>
-
-
-  <div class="box">
-
-    <h2>📦 Lịch sử nạp</h2>
-
-    <div id="orders">
-
-      <div class="empty">
-        Nhập mật khẩu rồi bấm "Xem lịch sử nạp".
-      </div>
+        <button
+            class="refresh-btn"
+            onclick="loadOrders()">
+            🔄 Làm mới
+        </button>
 
     </div>
 
-  </div>
+    <div id="message"></div>
+
+</div>
+
+
+<div id="orders" class="orders">
+    <div class="loading">
+        🔄 Đang tải đơn hàng...
+    </div>
+</div>
+
 
 </div>
 
 
 <script>
 
-const loadButton =
-  document.getElementById("load");
+let adminAuth = sessionStorage.getItem("adminAuth") || "";
 
-const passwordInput =
-  document.getElementById("password");
-
-const ordersBox =
-  document.getElementById("orders");
-
-const messageBox =
-  document.getElementById("message");
-
-const debugBox =
-  document.getElementById("debug");
-
-let autoRefreshTimer = null;
-
-let isLoading = false;
+const ordersBox = document.getElementById("orders");
+const message = document.getElementById("message");
 
 
-/* ================================
-   ESCAPE HTML
-================================ */
+/* =========================
+   ĐĂNG NHẬP ADMIN
+========================= */
 
-function escapeHtml(value) {
+async function loginAdmin(){
 
-  return String(value ?? "")
+    const password =
+        document.getElementById("adminPassword").value.trim();
 
-    .replace(/&/g, "&amp;")
+    if(!password){
 
-    .replace(/</g, "&lt;")
+        alert("Vui lòng nhập mật khẩu Admin.");
 
-    .replace(/>/g, "&gt;")
+        return;
+    }
 
-    .replace(/"/g, "&quot;")
+    adminAuth =
+        "Basic " + btoa("admin:" + password);
 
-    .replace(/'/g, "&#039;");
+    sessionStorage.setItem("adminAuth",adminAuth);
 
+    await loadOrders();
 }
 
 
-/* ================================
-   TIỀN
-================================ */
+/* =========================
+   GỌI API ADMIN
+========================= */
 
-function formatMoney(amount) {
+async function adminFetch(url, options = {}){
 
-  const number =
-    Number(amount);
+    options.headers = {
+        ...(options.headers || {}),
+        "Authorization": adminAuth
+    };
 
-  if (!Number.isFinite(number)) {
+    const response = await fetch(url, options);
 
-    return "0 VNĐ";
+    if(response.status === 401){
 
-  }
+        sessionStorage.removeItem("adminAuth");
+        adminAuth = "";
 
-  return number.toLocaleString("vi-VN")
-    + " VNĐ";
+        throw new Error(
+            "Phiên Admin hết hạn hoặc chưa đăng nhập."
+        );
+    }
 
+    if(response.status === 403){
+
+        throw new Error(
+            "Sai mật khẩu Admin."
+        );
+    }
+
+    return response;
 }
 
 
-/* ================================
-   NGÀY
-================================ */
+/* =========================
+   TẢI DANH SÁCH ĐƠN
+========================= */
 
-function formatDate(date) {
+async function loadOrders(){
 
-  if (!date) {
+    if(!adminAuth){
 
-    return "Chưa có";
+        ordersBox.innerHTML = `
+            <div class="empty">
+                🔐 Vui lòng đăng nhập Admin.
+            </div>
+        `;
 
-  }
-
-  const d =
-    new Date(date);
-
-  if (Number.isNaN(d.getTime())) {
-
-    return escapeHtml(date);
-
-  }
-
-  return d.toLocaleString("vi-VN");
-
-}
-
-
-/* ================================
-   TRẠNG THÁI
-================================ */
-
-function statusText(status) {
-
-  const value =
-    String(status || "")
-      .toUpperCase();
-
-  if (value === "PAID") {
-
-    return "ĐÃ THANH TOÁN";
-
-  }
-
-  if (value === "PENDING") {
-
-    return "CHỜ THANH TOÁN";
-
-  }
-
-  return value || "KHÔNG RÕ";
-
-}
-
-
-function statusClass(status) {
-
-  const value =
-    String(status || "")
-      .toUpperCase();
-
-  if (value === "PAID") {
-
-    return "paid";
-
-  }
-
-  if (value === "PENDING") {
-
-    return "pending";
-
-  }
-
-  return "";
-
-}
-
-
-/* ================================
-   HIỂN THỊ LỖI
-================================ */
-
-function showDebug(text) {
-
-  debugBox.style.display =
-    "block";
-
-  debugBox.textContent =
-    text;
-
-}
-
-
-function hideDebug() {
-
-  debugBox.style.display =
-    "none";
-
-  debugBox.textContent =
-    "";
-
-}
-
-
-/* ================================
-   HIỂN THỊ LỊCH SỬ NẠP
-================================ */
-
-function renderOrders(orders) {
-
-  if (
-    !Array.isArray(orders) ||
-    orders.length === 0
-  ) {
+        return;
+    }
 
     ordersBox.innerHTML = `
-      <div class="empty">
-        Chưa có lịch sử nạp.
-      </div>
+        <div class="loading">
+            🔄 Đang tải đơn hàng...
+        </div>
     `;
 
-    return;
+    try{
 
-  }
+        const response =
+            await adminFetch("/api/admin/orders");
 
+        const data =
+            await response.json();
 
-  ordersBox.innerHTML =
-    orders.map(order => {
+        if(!response.ok){
 
-      const status =
-        String(order.status || "");
+            throw new Error(
+                data.error ||
+                data.message ||
+                "Không thể tải đơn hàng."
+            );
+        }
 
+        const orders =
+            data.orders || [];
 
-      /*
-        Nội dung chuyển khoản.
-        Server hiện đang dùng:
-        transfer_content
-      */
+        if(!orders.length){
 
-      const paymentContent =
-        order.transfer_content ||
-        order.payment_content ||
-        order.content ||
-        "Chưa có";
+            ordersBox.innerHTML = `
+                <div class="empty">
+                    📦 Chưa có đơn hàng nào.
+                </div>
+            `;
 
+            return;
+        }
 
-      return `
+        ordersBox.innerHTML =
+            orders.map(renderOrder).join("");
 
-        <div class="order">
+        message.innerHTML =
+            `✅ Đã tải ${orders.length} đơn hàng.`;
 
-          <div class="order-code">
-            ${escapeHtml(
-              order.order_code ||
-              "Không có mã đơn"
-            )}
-          </div>
+        message.style.color = "#16883c";
 
+    }catch(error){
 
-          <div>
-            👤 UID:
-            <strong>
-              ${escapeHtml(
-                order.player_id ||
-                order.uid ||
-                "N/A"
-              )}
-            </strong>
-          </div>
+        console.error(error);
 
+        ordersBox.innerHTML = `
+            <div class="empty">
+                ❌ ${escapeHtml(error.message)}
+            </div>
+        `;
 
-          <div>
-            🎁 Gói:
-            <strong>
-              ${escapeHtml(
-                order.package_name ||
-                order.package ||
-                "N/A"
-              )}
-            </strong>
-          </div>
+        message.innerHTML =
+            "❌ Không thể tải đơn hàng.";
+
+        message.style.color = "#d33";
+    }
+}
 
 
-          <div>
-            💰 Số tiền:
-            <strong>
-              ${formatMoney(
-                order.amount
-              )}
-            </strong>
-          </div>
+/* =========================
+   HIỂN THỊ 1 ĐƠN
+========================= */
+
+function renderOrder(order){
+
+    const orderCode =
+        order.order_code || "";
+
+    const playerId =
+        order.player_id || "";
+
+    const packageName =
+        order.package_name || "";
+
+    const amount =
+        Number(order.amount || 0)
+        .toLocaleString("vi-VN");
+
+    const paymentContent =
+        order.payment_content || "Chưa có";
+
+    const paymentId =
+        order.payment_id || "Chưa có";
+
+    const createdAt =
+        formatDate(order.created_at);
+
+    const paidAt =
+        order.paid_at
+            ? formatDate(order.paid_at)
+            : "Chưa có";
+
+    const isPaid =
+        String(order.status).toUpperCase() === "PAID";
 
 
-          <div>
-            📝 Nội dung nạp:
-            <span class="content-value">
-              ${escapeHtml(
-                paymentContent
-              )}
-            </span>
-          </div>
+    return `
 
+    <div
+        class="order"
+        id="order-${escapeHtml(orderCode)}"
+    >
 
-          <div>
-            📌 Trạng thái:
-            <span class="${statusClass(status)}">
-              ${escapeHtml(
-                statusText(status)
-              )}
-            </span>
-          </div>
+        <div class="order-header">
 
+            <div class="order-code">
+                ${escapeHtml(orderCode)}
+            </div>
 
-          <div>
-            💳 Mã giao dịch:
-            ${escapeHtml(
-              order.payment_id ||
-              "Chưa có"
-            )}
-          </div>
+            <div class="
+                status
+                ${isPaid ? "paid" : "pending"}
+            ">
 
+                ${
+                    isPaid
+                    ? "🟢 THÀNH CÔNG"
+                    : "🟡 CHỜ THANH TOÁN"
+                }
 
-          <div>
-            🕒 Tạo lúc:
-            ${escapeHtml(
-              formatDate(
-                order.created_at
-              )
-            )}
-          </div>
-
-
-          <div>
-            ✅ Thanh toán lúc:
-            ${escapeHtml(
-              formatDate(
-                order.paid_at
-              )
-            )}
-          </div>
+            </div>
 
         </div>
 
-      `;
 
-    }).join("");
+        <div class="info">
 
+            <div class="info-row">
+
+                <span class="label">
+                    👤 ID Free Fire
+                </span>
+
+                <span class="value">
+                    ${escapeHtml(playerId)}
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="label">
+                    💎 Gói nạp
+                </span>
+
+                <span class="value">
+                    ${escapeHtml(packageName)}
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="label">
+                    💰 Số tiền
+                </span>
+
+                <span class="value">
+                    ${amount} VNĐ
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="label">
+                    📝 Nội dung chuyển khoản
+                </span>
+
+                <span class="value">
+                    ${escapeHtml(paymentContent)}
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="label">
+                    💳 Mã giao dịch
+                </span>
+
+                <span class="value">
+                    ${escapeHtml(paymentId)}
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="label">
+                    🕐 Tạo lúc
+                </span>
+
+                <span class="value">
+                    ${escapeHtml(createdAt)}
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="label">
+                    💳 Thanh toán lúc
+                </span>
+
+                <span class="value">
+                    ${escapeHtml(paidAt)}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+            ${
+                isPaid
+
+                ?
+
+                `
+                <button
+                    class="pay-btn done"
+                    disabled
+                >
+                    ✅ Đã thanh toán
+                </button>
+
+                <button
+                    class="recharge-btn done"
+                    disabled
+                >
+                    💎 Đã nạp thành công
+                </button>
+                `
+
+                :
+
+                `
+                <button
+                    class="pay-btn"
+                    onclick="xacNhanThanhToanUI('${escapeJs(orderCode)}')"
+                >
+                    💳 Xác nhận đã thanh toán
+                </button>
+
+                <button
+                    class="recharge-btn"
+                    onclick="xacNhanDaNap('${escapeJs(orderCode)}')"
+                >
+                    💎 Xác nhận đã nạp thành công
+                </button>
+                `
+            }
+
+        </div>
+
+    </div>
+
+    `;
 }
 
 
-/* ================================
-   LẤY ĐƠN HÀNG
-================================ */
+/* =========================
+   XÁC NHẬN ĐÃ THANH TOÁN
+========================= */
 
-async function loadOrders(
-  showMessage = true
-) {
+/*
+   Server hiện tại của bạn chỉ có 2 trạng thái:
 
-  const pass =
-    passwordInput.value.trim();
+   PENDING
+   PAID
 
+   Vì vậy nút này dùng để admin xác nhận
+   tiền đã được nhận ở giao diện.
 
-  if (!pass) {
+   Muốn lưu riêng trạng thái này vào database
+   thì cần thêm một cột/backend riêng.
+*/
 
-    messageBox.className =
-      "error";
+function xacNhanThanhToanUI(orderCode){
 
-    messageBox.textContent =
-      "Vui lòng nhập mật khẩu Admin.";
-
-    ordersBox.innerHTML = `
-      <div class="empty">
-        Chưa nhập mật khẩu.
-      </div>
-    `;
-
-    return false;
-
-  }
-
-
-  if (isLoading) {
-
-    return false;
-
-  }
-
-
-  isLoading = true;
-
-  loadButton.disabled = true;
-
-
-  if (showMessage) {
-
-    messageBox.className =
-      "";
-
-    messageBox.textContent =
-      "Đang tải lịch sử nạp...";
-
-    ordersBox.innerHTML = `
-      <div class="empty">
-        Đang tải...
-      </div>
-    `;
-
-  }
-
-
-  hideDebug();
-
-
-  try {
-
-    /*
-      Basic Auth:
-      admin + mật khẩu
-    */
-
-    const auth =
-      "Basic " +
-      btoa(
-        "admin:" + pass
-      );
-
-
-    /*
-      Thêm timestamp
-      để tránh cache
-    */
-
-    const url =
-      "/api/admin/orders?t=" +
-      Date.now();
-
-
-    const res =
-      await fetch(
-        url,
-        {
-          method: "GET",
-
-          headers: {
-
-            "Authorization": auth,
-
-            "Accept":
-              "application/json",
-
-            "Cache-Control":
-              "no-cache"
-
-          },
-
-          cache: "no-store"
-
-        }
-      );
-
-
-    /*
-      Đọc text trước
-    */
-
-    const rawText =
-      await res.text();
-
-
-    let result = null;
-
-
-    try {
-
-      result =
-        rawText
-          ? JSON.parse(rawText)
-          : null;
-
-    }
-
-    catch {
-
-      result = null;
-
-    }
-
-
-    /*
-      HTTP ERROR
-    */
-
-    if (!res.ok) {
-
-      if (autoRefreshTimer) {
-
-        clearInterval(
-          autoRefreshTimer
+    const ok =
+        confirm(
+            "Xác nhận khách đã chuyển khoản cho đơn " +
+            orderCode +
+            "?"
         );
 
-        autoRefreshTimer = null;
+    if(!ok) return;
 
-      }
+    const order =
+        document.getElementById(
+            "order-" + orderCode
+        );
 
+    if(!order) return;
 
-      let serverMessage = "";
+    const button =
+        order.querySelector(".pay-btn");
 
+    button.textContent =
+        "✅ Đã thanh toán";
 
-      if (
-        result &&
-        typeof result === "object"
-      ) {
+    button.classList.add("done");
 
-        serverMessage =
-          result.error ||
-          result.message ||
-          result.details ||
-          "";
+    button.disabled = true;
 
-      }
-
-
-      if (res.status === 401) {
-
-        messageBox.className =
-          "error";
-
-        messageBox.textContent =
-          "❌ HTTP 401: Chưa được xác thực.";
-
-      }
-
-      else if (
-        res.status === 403
-      ) {
-
-        messageBox.className =
-          "error";
-
-        messageBox.textContent =
-          "❌ HTTP 403: Sai mật khẩu Admin.";
-
-      }
-
-      else if (
-        res.status === 404
-      ) {
-
-        messageBox.className =
-          "error";
-
-        messageBox.textContent =
-          "❌ HTTP 404: Không tìm thấy /api/admin/orders.";
-
-      }
-
-      else if (
-        res.status >= 500
-      ) {
-
-        messageBox.className =
-          "error";
-
-        messageBox.textContent =
-          "❌ HTTP " +
-          res.status +
-          ": Server đang báo lỗi.";
-
-      }
-
-      else {
-
-        messageBox.className =
-          "error";
-
-        messageBox.textContent =
-          "❌ API lỗi HTTP " +
-          res.status;
-
-      }
-
-
-      showDebug(
-
-        "URL: " +
-        url +
-        "\n\n" +
-
-        (
-          serverMessage
-
-            ? "Server: " +
-              serverMessage
-
-            : "Response: " +
-              (rawText || "(trống)")
-        )
-
-      );
-
-
-      ordersBox.innerHTML = `
-        <div class="empty">
-          Không thể tải lịch sử nạp.
-        </div>
-      `;
-
-      return false;
-
-    }
-
-
-    /*
-      SERVER trả 200
-      nhưng JSON lỗi
-    */
-
-    if (!result) {
-
-      messageBox.className =
-        "error";
-
-      messageBox.textContent =
-        "❌ Server trả dữ liệu không hợp lệ.";
-
-      showDebug(
-        "Response không phải JSON:\n\n" +
-        (rawText || "(trống)")
-      );
-
-      ordersBox.innerHTML = `
-        <div class="empty">
-          API trả dữ liệu không hợp lệ.
-        </div>
-      `;
-
-      return false;
-
-    }
-
-
-    /*
-      Lấy mảng orders
-    */
-
-    let orders = [];
-
-
-    if (Array.isArray(result)) {
-
-      orders = result;
-
-    }
-
-    else if (
-      Array.isArray(
-        result.orders
-      )
-    ) {
-
-      orders =
-        result.orders;
-
-    }
-
-    else if (
-      Array.isArray(
-        result.data
-      )
-    ) {
-
-      orders =
-        result.data;
-
-    }
-
-
-    /*
-      Hiển thị lịch sử
-    */
-
-    renderOrders(orders);
-
-
-    messageBox.className =
-      "success";
-
-    messageBox.textContent =
-      "✅ Đã tải " +
-      orders.length +
-      " đơn hàng.";
-
-
-    if (orders.length > 0) {
-
-      console.log(
-        "ADMIN ORDERS:",
-        orders
-      );
-
-    }
-
-
-    return true;
-
-
-  }
-
-  catch (error) {
-
-    console.error(
-      "LOAD ORDERS ERROR:",
-      error
+    alert(
+        "✅ Đã đánh dấu giao diện là đã thanh toán."
     );
-
-
-    messageBox.className =
-      "error";
-
-    messageBox.textContent =
-      "❌ Không thể kết nối API.";
-
-
-    showDebug(
-      "Lỗi JavaScript / Network:\n\n" +
-      String(error)
-    );
-
-
-    ordersBox.innerHTML = `
-      <div class="empty">
-        Không thể kết nối máy chủ.
-      </div>
-    `;
-
-
-    return false;
-
-  }
-
-  finally {
-
-    isLoading = false;
-
-    loadButton.disabled = false;
-
-  }
-
 }
 
 
-/* ================================
-   TỰ ĐỘNG CẬP NHẬT
-================================ */
+/* =========================
+   XÁC NHẬN ĐÃ NẠP THÀNH CÔNG
+========================= */
 
-function startAutoRefresh() {
+async function xacNhanDaNap(orderCode){
 
-  if (autoRefreshTimer) {
+    const ok =
+        confirm(
+            "Bạn chắc chắn đã nạp kim cương thành công cho ID của đơn " +
+            orderCode +
+            "?"
+        );
 
-    clearInterval(
-      autoRefreshTimer
-    );
-
-  }
-
-
-  autoRefreshTimer =
-    setInterval(
-      async () => {
-
-        const pass =
-          passwordInput.value.trim();
+    if(!ok) return;
 
 
-        if (!pass) {
+    try{
 
-          return;
+        const response =
+            await adminFetch(
+                "/api/admin/orders/" +
+                encodeURIComponent(orderCode) +
+                "/confirm",
+                {
+                    method:"POST"
+                }
+            );
 
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.error ||
+                data.message ||
+                "Không thể xác nhận đơn."
+            );
         }
 
 
-        await loadOrders(false);
+        alert(
+            "💎 Đã xác nhận nạp thành công!"
+        );
 
-      },
 
-      3000
+        await loadOrders();
 
-    );
 
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "❌ " + error.message
+        );
+    }
 }
 
 
-/* ================================
-   NÚT XEM LỊCH SỬ
-================================ */
+/* =========================
+   FORMAT NGÀY
+========================= */
 
-loadButton.addEventListener(
-  "click",
-  async () => {
+function formatDate(value){
 
-    const success =
-      await loadOrders(true);
-
-
-    if (success) {
-
-      startAutoRefresh();
-
+    if(!value){
+        return "Chưa có";
     }
 
-  }
-);
+    const date =
+        new Date(value);
 
-
-/* ================================
-   ENTER
-================================ */
-
-passwordInput.addEventListener(
-  "keydown",
-  async event => {
-
-    if (
-      event.key !== "Enter"
-    ) {
-
-      return;
-
+    if(Number.isNaN(date.getTime())){
+        return String(value);
     }
 
+    return date.toLocaleString(
+        "vi-VN",
+        {
+            hour:"2-digit",
+            minute:"2-digit",
+            second:"2-digit",
+            day:"2-digit",
+            month:"2-digit",
+            year:"numeric"
+        }
+    );
+}
 
-    event.preventDefault();
+
+/* =========================
+   CHỐNG HTML INJECTION
+========================= */
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
 
 
-    const success =
-      await loadOrders(true);
+function escapeJs(value){
+
+    return String(value ?? "")
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'")
+        .replace(/\n/g,"\\n")
+        .replace(/\r/g,"\\r");
+}
 
 
-    if (success) {
+/* =========================
+   TỰ ĐỘNG TẢI
+========================= */
 
-      startAutoRefresh();
+loadOrders();
 
+
+/* Tự làm mới mỗi 10 giây */
+
+setInterval(() => {
+
+    if(adminAuth){
+        loadOrders();
     }
 
-  }
-);
-
-
-/* ================================
-   DỌN TIMER
-================================ */
-
-window.addEventListener(
-  "beforeunload",
-  () => {
-
-    if (autoRefreshTimer) {
-
-      clearInterval(
-        autoRefreshTimer
-      );
-
-    }
-
-  }
-);
+},10000);
 
 </script>
 
