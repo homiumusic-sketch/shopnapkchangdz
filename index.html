@@ -525,28 +525,250 @@ body {
   </button>
 
 
-/* =====================================================
-   HIỂN THỊ LỊCH SỬ NẠP - BẢN THU GỌN
-===================================================== */
+<!-- ================================
+     LỊCH SỬ NẠP
+================================ -->
+
+<div class="history-box">
+
+  <h2 class="history-title">
+    📜 Lịch sử nạp
+  </h2>
+
+  <p style="
+    color:#aaa;
+    font-size:16px;
+    margin-top:-5px;
+    margin-bottom:15px;
+  ">
+    Nhập mã đơn hàng để kiểm tra trạng thái nạp.
+  </p>
+
+  <input
+    id="historyCode"
+    type="text"
+    placeholder="Nhập mã đơn hàng"
+    autocomplete="off"
+  >
+
+  <button
+    class="history-button"
+    type="button"
+    onclick="kiemTraLichSu()"
+  >
+    🔎 Kiểm tra đơn hàng
+  </button>
+
+  <div
+    id="historyResult"
+    class="history-result"
+  ></div>
+
+</div>
+
+
+<script>
+
+/* =================================
+   ESCAPE HTML
+================================= */
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =================================
+   FORMAT NGÀY
+================================= */
+
+function formatDate(value) {
+
+  if (!value) {
+    return "Chưa có";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return String(value);
+  }
+
+  return date.toLocaleString("vi-VN");
+
+}
+
+
+/* =================================
+   KIỂM TRA LỊCH SỬ BẰNG MÃ ĐƠN
+================================= */
+
+async function kiemTraLichSu() {
+
+  const input =
+    document.getElementById("historyCode");
+
+  const resultBox =
+    document.getElementById("historyResult");
+
+  const orderCode =
+    input.value.trim().toUpperCase();
+
+
+  if (!orderCode) {
+
+    resultBox.className =
+      "history-result show";
+
+    resultBox.innerHTML = `
+      <div style="
+        padding:15px;
+        border-radius:13px;
+        background:#3b3210;
+        color:#ffd21c;
+        text-align:center;
+        font-weight:bold;
+      ">
+        ⚠️ Vui lòng nhập mã đơn hàng.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  resultBox.className =
+    "history-result show";
+
+  resultBox.innerHTML = `
+    <div style="
+      padding:18px;
+      text-align:center;
+      color:#ccc;
+    ">
+      ⏳ Đang kiểm tra đơn hàng...
+    </div>
+  `;
+
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/orders/" +
+        encodeURIComponent(orderCode) +
+        "?t=" +
+        Date.now(),
+        {
+          method:"GET",
+          cache:"no-store",
+          headers:{
+            "Accept":"application/json"
+          }
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !response.ok ||
+      !data.success ||
+      !data.order
+    ) {
+
+      resultBox.innerHTML = `
+        <div style="
+          padding:16px;
+          border-radius:13px;
+          background:#3b1d1d;
+          color:#ff7070;
+          text-align:center;
+          font-weight:bold;
+        ">
+          ❌ Không tìm thấy mã đơn hàng.
+        </div>
+      `;
+
+      return;
+    }
+
+
+    hienThiLichSu(data.order);
+
+  }
+
+  catch(error) {
+
+    console.error(
+      "HISTORY ERROR:",
+      error
+    );
+
+
+    resultBox.innerHTML = `
+      <div style="
+        padding:16px;
+        border-radius:13px;
+        background:#3b1d1d;
+        color:#ff7070;
+        text-align:center;
+        font-weight:bold;
+      ">
+        ❌ Không thể kết nối máy chủ.
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* =================================
+   HIỂN THỊ LỊCH SỬ
+================================= */
 
 function hienThiLichSu(order) {
 
   const resultBox =
     document.getElementById("historyResult");
 
-  const isPaid =
-    String(order.status || "").toUpperCase() === "PAID";
 
-  let statusHtml = "";
+  const status =
+    String(order.status || "")
+      .toUpperCase();
 
-  if (isPaid) {
+
+  /*
+    RECHARGED =
+    Admin đã xác nhận nạp kim cương
+  */
+
+  const daNap =
+    status === "RECHARGED";
+
+
+  let statusHtml;
+
+
+  if (daNap) {
 
     statusHtml = `
       <span style="
         display:inline-block;
-        padding:8px 14px;
-        border-radius:10px;
-        background:#073b20;
+        margin-top:8px;
+        padding:10px 15px;
+        border-radius:12px;
+        background:#063d23;
         color:#25d366;
         font-weight:bold;
       ">
@@ -554,13 +776,34 @@ function hienThiLichSu(order) {
       </span>
     `;
 
-  } else {
+  }
+
+  else if (status === "PAID") {
 
     statusHtml = `
       <span style="
         display:inline-block;
-        padding:8px 14px;
-        border-radius:10px;
+        margin-top:8px;
+        padding:10px 15px;
+        border-radius:12px;
+        background:#063d23;
+        color:#25d366;
+        font-weight:bold;
+      ">
+        💳 ĐÃ THANH TOÁN
+      </span>
+    `;
+
+  }
+
+  else {
+
+    statusHtml = `
+      <span style="
+        display:inline-block;
+        margin-top:8px;
+        padding:10px 15px;
+        border-radius:12px;
         background:#3b3210;
         color:#ffd21c;
         font-weight:bold;
@@ -571,8 +814,28 @@ function hienThiLichSu(order) {
 
   }
 
+
+  const orderCode =
+    escapeHtml(
+      order.order_code || "Không có"
+    );
+
+
+  const packageName =
+    escapeHtml(
+      order.package_name || "Không có"
+    );
+
+
+  const createdAt =
+    escapeHtml(
+      formatDate(order.created_at)
+    );
+
+
   resultBox.className =
     "history-result show";
+
 
   resultBox.innerHTML = `
 
@@ -581,18 +844,22 @@ function hienThiLichSu(order) {
       border:1px solid #333;
       border-radius:16px;
       padding:18px;
-      line-height:1.8;
     ">
+
 
       <!-- TRẠNG THÁI -->
 
       <div style="
-        margin-bottom:14px;
-        font-size:17px;
+        padding-bottom:15px;
+        border-bottom:1px solid #333;
       ">
 
-        📌 Trạng thái:
-        <br>
+        <div style="
+          color:#aaa;
+          font-size:16px;
+        ">
+          📌 Trạng thái
+        </div>
 
         ${statusHtml}
 
@@ -602,104 +869,129 @@ function hienThiLichSu(order) {
       <!-- MÃ ĐƠN -->
 
       <div style="
-        border-top:1px solid #292a32;
-        padding-top:14px;
-        margin-top:10px;
+        padding:15px 0;
+        border-bottom:1px solid #333;
       ">
-
-        📦 Mã đơn hàng:
 
         <div style="
-          margin-top:5px;
-          color:#4d8cff;
-          font-size:20px;
-          font-weight:bold;
-          word-break:break-all;
+          color:#aaa;
+          font-size:16px;
+          margin-bottom:5px;
         ">
-
-          ${escapeHtml(
-            order.order_code || "Không có"
-          )}
-
+          📦 Mã đơn hàng
         </div>
 
+        <b style="
+          color:#4d8dff;
+          font-size:21px;
+          word-break:break-all;
+        ">
+          ${orderCode}
+        </b>
+
       </div>
 
 
-      <!-- GÓI KIM CƯƠNG -->
+      <!-- GÓI -->
 
       <div style="
-        border-top:1px solid #292a32;
-        padding-top:14px;
-        margin-top:14px;
+        padding:15px 0;
+        border-bottom:1px solid #333;
       ">
 
-        💎 Gói:
+        <div style="
+          color:#aaa;
+          font-size:16px;
+          margin-bottom:5px;
+        ">
+          💎 Gói
+        </div>
 
         <b style="
-          color:#fff;
-          font-size:18px;
+          color:white;
+          font-size:19px;
         ">
-
-          ${escapeHtml(
-            order.package_name || "Không có"
-          )}
-
+          ${packageName}
         </b>
 
       </div>
 
 
-      <!-- THỜI GIAN TẠO -->
+      <!-- THỜI GIAN -->
 
       <div style="
-        border-top:1px solid #292a32;
-        padding-top:14px;
-        margin-top:14px;
-        color:#aaa;
+        padding-top:15px;
       ">
 
-        🕒 Tạo đơn:
+        <div style="
+          color:#aaa;
+          font-size:16px;
+          margin-bottom:5px;
+        ">
+          🕒 Tạo đơn
+        </div>
 
-        <b style="color:#ddd;">
-
-          ${escapeHtml(
-            formatDate(order.created_at)
-          )}
-
+        <b style="
+          color:white;
+          font-size:17px;
+        ">
+          ${createdAt}
         </b>
 
       </div>
 
 
-      <!-- ĐÃ NẠP THÀNH CÔNG -->
+      <!-- THÔNG BÁO ĐÃ NẠP -->
 
       ${
-        isPaid
-          ? `
-            <div style="
-              margin-top:18px;
-              padding:13px;
-              border-radius:12px;
-              background:#064d29;
-              color:#25d366;
-              text-align:center;
-              font-size:18px;
-              font-weight:bold;
-            ">
-
-              💎 Đã nạp kim cương thành công
-
-            </div>
-          `
-          : ""
+        daNap
+        ? `
+          <div style="
+            margin-top:18px;
+            padding:15px;
+            border-radius:13px;
+            background:#063d23;
+            color:#25d366;
+            text-align:center;
+            font-size:18px;
+            font-weight:bold;
+          ">
+            💎 Đã nạp kim cương thành công
+          </div>
+        `
+        : ""
       }
+
 
     </div>
 
   `;
 
 }
+
+
+/* =================================
+   NHẤN ENTER ĐỂ KIỂM TRA
+================================= */
+
+document
+  .getElementById("historyCode")
+  .addEventListener(
+    "keydown",
+    function(event) {
+
+      if (event.key === "Enter") {
+
+        event.preventDefault();
+
+        kiemTraLichSu();
+
+      }
+
+    }
+  );
+
+</script>
 
 
 <!-- =========================
