@@ -3,429 +3,402 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Nạp Kim Cương Free Fire</title>
 
 <style>
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#080910;
-  color:white;
+* {
+  box-sizing: border-box;
 }
 
-.header{
-  text-align:center;
-  padding:25px 15px;
-  background:linear-gradient(135deg,#11111b,#25113e);
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #080910;
+  color: white;
 }
 
-.header h1{
-  margin:0;
-  color:#ffd21c;
-  font-size:30px;
+.header {
+  text-align: center;
+  padding: 25px 15px;
+  background: linear-gradient(135deg, #11111b, #25113e);
 }
 
-.header p{
-  margin:10px 0 0;
-  color:#ddd;
-  font-size:16px;
+.header h1 {
+  margin: 0;
+  color: #ffd21c;
+  font-size: 30px;
 }
 
-.container{
-  width:100%;
-  max-width:900px;
-  margin:auto;
-  padding:20px 15px 100px;
+.header p {
+  margin: 10px 0 0;
+  color: #ddd;
+  font-size: 16px;
+}
+
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px 15px 100px;
 }
 
 .id-box,
-.history-box{
-  background:#171821;
-  padding:20px;
-  border-radius:18px;
-  margin-bottom:22px;
+.history-box {
+  background: #171821;
+  padding: 20px;
+  border-radius: 18px;
+  margin-bottom: 22px;
 }
 
-.id-box label{
-  display:block;
-  margin-bottom:10px;
-  font-size:18px;
-  font-weight:bold;
+.id-box label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 #playerId,
-#historyCode{
-  width:100%;
-  padding:15px;
-  border:1px solid #444;
-  border-radius:12px;
-  outline:none;
-  background:#0d0e15;
-  color:white;
-  font-size:18px;
+#historyCode {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  outline: none;
+  background: #0d0e15;
+  color: white;
+  font-size: 18px;
 }
 
 .package-title,
-.history-title{
-  color:#ffd21c;
-  font-size:25px;
-  margin-bottom:15px;
+.history-title {
+  color: #ffd21c;
+  font-size: 25px;
+  margin-bottom: 15px;
 }
 
-.package-list{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
+.package-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
 }
 
-.package{
-  padding:17px 10px;
-  text-align:center;
-  background:linear-gradient(145deg,#1a1a26,#101018);
-  border:2px solid #333;
-  border-radius:16px;
-  cursor:pointer;
-  transition:.2s;
+.package {
+  padding: 17px 10px;
+  text-align: center;
+  background: linear-gradient(145deg, #1a1a26, #101018);
+  border: 2px solid #333;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: .2s;
 }
 
-.package:hover{
-  border-color:#ffd21c;
-  transform:translateY(-2px);
+.package:hover {
+  border-color: #ffd21c;
+  transform: translateY(-2px);
 }
 
-.package.active{
-  border-color:#ffd21c;
-  box-shadow:0 0 20px rgba(255,210,28,.25);
+.package.active {
+  border-color: #ffd21c;
+  box-shadow: 0 0 20px rgba(255,210,28,.25);
 }
 
-.diamond{
-  font-size:28px;
+.diamond {
+  font-size: 28px;
 }
 
-.package-name{
-  margin-top:7px;
-  font-size:18px;
-  font-weight:bold;
+.package-name {
+  margin-top: 7px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.package-price{
-  margin-top:7px;
-  color:#ffd21c;
-  font-size:18px;
-  font-weight:bold;
+.package-price {
+  margin-top: 7px;
+  color: #ffd21c;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .pay-button,
-.history-button{
-  width:100%;
-  margin-top:22px;
-  padding:17px;
-  border:none;
-  border-radius:15px;
-  background:linear-gradient(90deg,#ffca05,#ff7b00);
-  color:#111;
-  font-size:21px;
-  font-weight:bold;
-  cursor:pointer;
+.history-button {
+  width: 100%;
+  margin-top: 22px;
+  padding: 17px;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(90deg, #ffca05, #ff7b00);
+  color: #111;
+  font-size: 21px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.history-button{
-  margin-top:10px;
-  background:#2878e8;
-  color:white;
+.history-button {
+  margin-top: 10px;
+  background: #2878e8;
+  color: white;
 }
 
-.history-result{
-  display:none;
-  margin-top:18px;
-  padding:17px;
-  background:#0d0e15;
-  border:1px solid #333;
-  border-radius:15px;
-  line-height:1.8;
+.history-result {
+  display: none;
+  margin-top: 18px;
+  padding: 17px;
+  background: #0d0e15;
+  border: 1px solid #333;
+  border-radius: 15px;
+  line-height: 1.8;
 }
 
-.history-result.show{
-  display:block;
+.history-result.show {
+  display: block;
 }
 
-.history-status{
-  display:block;
-  width:100%;
-  padding:15px;
-  border-radius:13px;
-  text-align:center;
-  font-size:20px;
-  font-weight:bold;
+.status-success {
+  color: #25d366;
 }
 
-.status-processing{
-  background:#102d50;
-  color:#55a3ff;
+.status-pending {
+  color: #ffd21c;
 }
 
-.status-paid{
-  background:#063d23;
-  color:#25d366;
+.status-error {
+  color: #ff5c5c;
 }
 
-.status-error{
-  color:#ff5c5c;
+.status-paid {
+  color: #4d8dff;
 }
 
-.zalo-floating{
-  position:fixed;
-  left:15px;
-  bottom:20px;
-  width:62px;
-  height:62px;
-  border-radius:50%;
-  background:#1688ff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9998;
-  text-decoration:none;
-  box-shadow:0 5px 20px rgba(0,0,0,.4);
+.payment-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0,0,0,.72);
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
 }
 
-.zalo-floating img{
-  width:42px;
-  height:42px;
+.payment-overlay.show {
+  display: flex;
 }
 
-.payment-overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  background:rgba(0,0,0,.72);
-  align-items:center;
-  justify-content:center;
-  padding:12px;
+.payment-box {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: 94vh;
+  overflow-y: auto;
+  padding: 24px 16px;
+  background: white;
+  color: #303746;
+  border-radius: 28px;
+  text-align: center;
+  box-shadow: 0 25px 70px rgba(0,0,0,.5);
 }
 
-.payment-overlay.show{
-  display:flex;
+.close-payment {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: #eeeeee;
+  color: #555;
+  font-size: 32px;
+  cursor: pointer;
 }
 
-.payment-box{
-  position:relative;
-  width:100%;
-  max-width:520px;
-  max-height:94vh;
-  overflow-y:auto;
-  padding:24px 16px;
-  background:white;
-  color:#303746;
-  border-radius:28px;
-  text-align:center;
-  box-shadow:0 25px 70px rgba(0,0,0,.5);
+.payment-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-.close-payment{
-  position:absolute;
-  right:14px;
-  top:14px;
-  width:48px;
-  height:48px;
-  border:none;
-  border-radius:50%;
-  background:#eeeeee;
-  color:#555;
-  font-size:32px;
-  cursor:pointer;
+.payment-title span {
+  font-size: 30px;
 }
 
-.payment-title{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  margin-bottom:10px;
+.payment-title h2 {
+  margin: 0;
+  color: #303030;
+  font-size: 34px;
 }
 
-.payment-title span{
-  font-size:30px;
+.payment-subtitle {
+  color: #666;
+  font-size: 19px;
+  margin: 15px 0 20px;
 }
 
-.payment-title h2{
-  margin:0;
-  color:#303030;
-  font-size:34px;
+.payment-info {
+  background: #f1f4f8;
+  border-radius: 20px;
+  padding: 17px;
+  margin-bottom: 20px;
 }
 
-.payment-subtitle{
-  color:#666;
-  font-size:19px;
-  margin:15px 0 20px;
+.info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 18px;
+  text-align: left;
 }
 
-.payment-info{
-  background:#f1f4f8;
-  border-radius:20px;
-  padding:17px;
-  margin-bottom:20px;
+.info-row span {
+  color: #515a69;
+  font-weight: bold;
 }
 
-.info-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  padding:8px 0;
-  font-size:18px;
-  text-align:left;
+.info-row b {
+  color: #2878e8;
+  text-align: right;
+  font-size: 19px;
+  word-break: break-word;
 }
 
-.info-row span{
-  color:#515a69;
-  font-weight:bold;
+.qr-container {
+  width: 100%;
+  padding: 15px;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  margin-bottom: 20px;
 }
 
-.info-row b{
-  color:#2878e8;
-  text-align:right;
-  font-size:19px;
-  word-break:break-word;
+.payment-qr {
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  margin: auto;
+  object-fit: contain;
 }
 
-.qr-container{
-  width:100%;
-  padding:15px;
-  background:#fff;
-  border:2px solid #ddd;
-  border-radius:20px;
-  margin-bottom:20px;
+.qr-hint {
+  margin: 12px 0 0;
+  color: #666;
+  font-size: 16px;
 }
 
-.payment-qr{
-  display:block;
-  width:100%;
-  max-width:480px;
-  height:auto;
-  margin:auto;
-  object-fit:contain;
+.bank-info {
+  overflow: hidden;
+  border: 1px solid #ddd;
+  border-radius: 18px;
+  text-align: left;
+  margin-bottom: 18px;
 }
 
-.qr-hint{
-  margin:12px 0 0;
-  color:#666;
-  font-size:16px;
+.bank-row {
+  min-height: 62px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 17px;
 }
 
-.bank-info{
-  overflow:hidden;
-  border:1px solid #ddd;
-  border-radius:18px;
-  text-align:left;
-  margin-bottom:18px;
+.bank-row:last-child {
+  border-bottom: none;
 }
 
-.bank-row{
-  min-height:62px;
-  padding:14px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  border-bottom:1px solid #e5e5e5;
-  font-size:17px;
+.bank-label {
+  color: #555f70;
+  font-weight: bold;
 }
 
-.bank-row:last-child{
-  border-bottom:none;
+.bank-value {
+  color: #303746;
+  font-weight: bold;
+  text-align: right;
+  word-break: break-word;
 }
 
-.bank-label{
-  color:#555f70;
-  font-weight:bold;
+.copy-area {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.bank-value{
-  color:#303746;
-  font-weight:bold;
-  text-align:right;
-  word-break:break-word;
+.copy-area b {
+  color: #2878e8;
 }
 
-.copy-area{
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap:8px;
-  flex-wrap:wrap;
+.copy-btn {
+  padding: 9px 14px;
+  border: none;
+  border-radius: 9px;
+  background: #d94b52;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.copy-area b{
-  color:#2878e8;
+.payment-note {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 18px 8px;
 }
 
-.copy-btn{
-  padding:9px 14px;
-  border:none;
-  border-radius:9px;
-  background:#d94b52;
-  color:white;
-  font-size:15px;
-  font-weight:bold;
-  cursor:pointer;
+.close-btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 14px;
+  background: #eeeeee;
+  color: #2878e8;
+  font-size: 19px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.payment-note{
-  color:#666;
-  font-size:16px;
-  line-height:1.5;
-  margin:18px 8px;
-}
-
-.close-btn{
-  width:100%;
-  padding:15px;
-  border:none;
-  border-radius:14px;
-  background:#eeeeee;
-  color:#2878e8;
-  font-size:19px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-@media(max-width:480px){
-
-  .header h1{
-    font-size:27px;
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 27px;
   }
 
-  .package-list{
-    grid-template-columns:repeat(2,1fr);
+  .package-list {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .package-name,
-  .package-price{
-    font-size:16px;
+  .package-price {
+    font-size: 16px;
   }
 
-  .payment-title h2{
-    font-size:30px;
+  .payment-title h2 {
+    font-size: 30px;
   }
 
-  .payment-subtitle{
-    font-size:18px;
+  .payment-subtitle {
+    font-size: 18px;
   }
 
-  .info-row{
-    font-size:16px;
+  .info-row {
+    font-size: 16px;
   }
 
-  .info-row b{
-    font-size:17px;
+  .info-row b {
+    font-size: 17px;
   }
 
-  .bank-row{
-    font-size:15px;
+  .bank-row {
+    font-size: 15px;
   }
 }
 </style>
@@ -441,7 +414,6 @@ body{
 <div class="container">
 
   <div class="id-box">
-
     <label for="playerId">
       🎮 ID nhân vật Free Fire
     </label>
@@ -452,7 +424,6 @@ body{
       inputmode="numeric"
       placeholder="Nhập ID nhân vật"
     >
-
   </div>
 
   <h2 class="package-title">
@@ -533,7 +504,12 @@ body{
       📜 Lịch sử nạp
     </h2>
 
-    <p style="color:#aaa;font-size:16px;margin-top:-5px;margin-bottom:15px;">
+    <p style="
+      color:#aaa;
+      font-size:16px;
+      margin-top:-5px;
+      margin-bottom:15px;
+    ">
       Nhập mã đơn hàng để kiểm tra trạng thái nạp.
     </p>
 
@@ -552,19 +528,33 @@ body{
       🔎 Kiểm tra đơn hàng
     </button>
 
-    <div id="historyResult" class="history-result"></div>
+    <div
+      id="historyResult"
+      class="history-result"
+    ></div>
 
   </div>
 
 </div>
 
-<!-- POPUP THANH TOÁN -->
 
-<div id="paymentPopup" class="payment-overlay">
+<!-- =========================
+     POPUP THANH TOÁN
+========================= -->
+
+<div
+  id="paymentPopup"
+  class="payment-overlay"
+>
 
   <div class="payment-box">
 
-    <button class="close-payment" onclick="dongThanhToan()">×</button>
+    <button
+      class="close-payment"
+      onclick="dongThanhToan()"
+    >
+      ×
+    </button>
 
     <div class="payment-title">
       <span>💳</span>
@@ -617,18 +607,30 @@ body{
     <div class="bank-info">
 
       <div class="bank-row">
-        <span class="bank-label">🏦 Ngân hàng</span>
-        <b class="bank-value">TPBank</b>
+        <span class="bank-label">
+          🏦 Ngân hàng
+        </span>
+
+        <b class="bank-value">
+          TPBank
+        </b>
       </div>
 
       <div class="bank-row">
-        <span class="bank-label">👤 Chủ tài khoản</span>
-        <b class="bank-value">NGUYEN HOANG ANH</b>
+        <span class="bank-label">
+          👤 Chủ tài khoản
+        </span>
+
+        <b class="bank-value">
+          NGUYEN HOANG ANH
+        </b>
       </div>
 
       <div class="bank-row">
 
-        <span class="bank-label">💳 Số tài khoản</span>
+        <span class="bank-label">
+          💳 Số tài khoản
+        </span>
 
         <div class="copy-area">
 
@@ -648,9 +650,16 @@ body{
 
       <div class="bank-row">
 
-        <span class="bank-label">📝 Nội dung</span>
+        <span class="bank-label">
+          📝 Nội dung
+        </span>
 
-        <b id="paymentContent" class="bank-value">---</b>
+        <b
+          id="paymentContent"
+          class="bank-value"
+        >
+          ---
+        </b>
 
       </div>
 
@@ -662,7 +671,10 @@ body{
       <b>nội dung</b> hiển thị bên trên.
     </p>
 
-    <button class="close-btn" onclick="dongThanhToan()">
+    <button
+      class="close-btn"
+      onclick="dongThanhToan()"
+    >
       Đóng
     </button>
 
@@ -670,37 +682,55 @@ body{
 
 </div>
 
+
 <script>
+
+/* ================================
+   NGÂN HÀNG
+================================ */
 
 const BANK_CODE = "TPB";
 const BANK_ACCOUNT = "26112071111";
 const ACCOUNT_NAME = "NGUYEN HOANG ANH";
 
+
+/* ================================
+   ĐƠN HIỆN TẠI
+================================ */
+
 let currentOrderCode = "";
 let orderCheckTimer = null;
 
 
-function escapeHtml(value){
+/* ================================
+   ESCAPE HTML
+================================ */
+
+function escapeHtml(value) {
 
   return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 }
 
 
-function formatDate(value){
+/* ================================
+   FORMAT NGÀY
+================================ */
 
-  if(!value){
+function formatDate(value) {
+
+  if (!value) {
     return "Chưa có";
   }
 
   const date = new Date(value);
 
-  if(Number.isNaN(date.getTime())){
+  if (Number.isNaN(date.getTime())) {
     return String(value);
   }
 
@@ -709,53 +739,55 @@ function formatDate(value){
 }
 
 
-function chonGoi(element){
+/* ================================
+   CHỌN GÓI
+================================ */
+
+function chonGoi(element) {
 
   document
     .querySelectorAll(".package")
-    .forEach(function(pkg){
+    .forEach(function(pkg) {
       pkg.classList.remove("active");
     });
 
   element.classList.add("active");
-
 }
 
+
+/* ================================
+   TẠO ĐƠN
+================================ */
 
 async function taoDonHang(
   playerId,
   packageName,
   amount
-){
+) {
 
-  const response =
-    await fetch(
-      "/api/orders",
-      {
-        method:"POST",
+  const response = await fetch(
+    "/api/orders",
+    {
+      method: "POST",
 
-        headers:{
-          "Content-Type":
-            "application/json",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
 
-          "Accept":
-            "application/json"
-        },
-
-        body:JSON.stringify({
-          player_id:playerId,
-          package_name:packageName,
-          amount:amount
-        })
-      }
-    );
+      body: JSON.stringify({
+        player_id: playerId,
+        package_name: packageName,
+        amount: amount
+      })
+    }
+  );
 
 
-  const result =
-    await response.json();
+  const result = await response.json();
 
 
-  if(!response.ok){
+  if (!response.ok) {
     throw new Error(
       result.message ||
       "Không thể tạo đơn."
@@ -763,25 +795,26 @@ async function taoDonHang(
   }
 
 
-  if(
+  if (
     !result.success ||
     !result.order ||
     !result.order.order_code
-  ){
-
+  ) {
     throw new Error(
       "Server không trả về mã đơn."
     );
-
   }
 
 
   return result.order;
-
 }
 
 
-async function moThanhToan(){
+/* ================================
+   MỞ THANH TOÁN
+================================ */
+
+async function moThanhToan() {
 
   const playerId =
     document
@@ -790,7 +823,7 @@ async function moThanhToan(){
       .trim();
 
 
-  if(!playerId){
+  if (!playerId) {
 
     alert(
       "Vui lòng nhập ID nhân vật Free Fire!"
@@ -801,10 +834,10 @@ async function moThanhToan(){
 
 
   const cleanPlayerId =
-    playerId.replace(/[^\d]/g,"");
+    playerId.replace(/[^\d]/g, "");
 
 
-  if(!cleanPlayerId){
+  if (!cleanPlayerId) {
 
     alert(
       "ID Free Fire không hợp lệ!"
@@ -815,12 +848,10 @@ async function moThanhToan(){
 
 
   const selectedPackage =
-    document.querySelector(
-      ".package.active"
-    );
+    document.querySelector(".package.active");
 
 
-  if(!selectedPackage){
+  if (!selectedPackage) {
 
     alert(
       "Vui lòng chọn gói kim cương!"
@@ -840,7 +871,7 @@ async function moThanhToan(){
     );
 
 
-  try{
+  try {
 
     const order =
       await taoDonHang(
@@ -859,36 +890,36 @@ async function moThanhToan(){
       order.order_code;
 
 
-    document.getElementById(
-      "payPlayerId"
-    ).innerText =
-      order.player_id;
+    document
+      .getElementById("payPlayerId")
+      .innerText =
+        order.player_id;
 
 
-    document.getElementById(
-      "payPackage"
-    ).innerText =
-      order.package_name;
+    document
+      .getElementById("payPackage")
+      .innerText =
+        order.package_name;
 
 
-    document.getElementById(
-      "payAmount"
-    ).innerText =
-      Number(order.amount)
-        .toLocaleString("vi-VN") +
-      " VND";
+    document
+      .getElementById("payAmount")
+      .innerText =
+        Number(order.amount)
+          .toLocaleString("vi-VN") +
+        " VND";
 
 
-    document.getElementById(
-      "payOrderCode"
-    ).innerText =
-      order.order_code;
+    document
+      .getElementById("payOrderCode")
+      .innerText =
+        order.order_code;
 
 
-    document.getElementById(
-      "paymentContent"
-    ).innerText =
-      paymentContent;
+    document
+      .getElementById("paymentContent")
+      .innerText =
+        paymentContent;
 
 
     const qrUrl =
@@ -905,23 +936,34 @@ async function moThanhToan(){
       encodeURIComponent(ACCOUNT_NAME);
 
 
-    document.getElementById(
-      "paymentQR"
-    ).src =
-      qrUrl;
+    document
+      .getElementById("paymentQR")
+      .src =
+        qrUrl;
 
 
-    document.getElementById(
-      "paymentPopup"
-    ).classList.add("show");
+    document
+      .getElementById("paymentPopup")
+      .classList.add("show");
 
+
+    /*
+      Chỉ theo dõi THANH TOÁN.
+
+      PAID = khách đã chuyển tiền.
+      RECHARGED = admin đã tự tay nạp.
+
+      Không có đoạn nào ở đây
+      tự đổi PAID thành RECHARGED.
+    */
 
     batDauKiemTraDon(
       order.order_code
     );
 
   }
-  catch(error){
+
+  catch (error) {
 
     console.error(
       "CREATE ORDER ERROR:",
@@ -932,24 +974,30 @@ async function moThanhToan(){
       error.message ||
       "Không thể tạo đơn hàng."
     );
-
   }
-
 }
 
 
-function batDauKiemTraDon(orderCode){
+/* ================================
+   KIỂM TRA ĐƠN
+================================ */
 
-  if(orderCheckTimer){
-    clearInterval(orderCheckTimer);
+function batDauKiemTraDon(orderCode) {
+
+  if (orderCheckTimer) {
+
+    clearInterval(
+      orderCheckTimer
+    );
+
   }
 
 
   orderCheckTimer =
     setInterval(
-      async function(){
+      async function() {
 
-        try{
+        try {
 
           const response =
             await fetch(
@@ -958,12 +1006,17 @@ function batDauKiemTraDon(orderCode){
               "?t=" +
               Date.now(),
               {
-                cache:"no-store"
+                method: "GET",
+                cache: "no-store",
+                headers: {
+                  "Accept":
+                    "application/json"
+                }
               }
             );
 
 
-          if(!response.ok){
+          if (!response.ok) {
             return;
           }
 
@@ -972,53 +1025,64 @@ function batDauKiemTraDon(orderCode){
             await response.json();
 
 
-          if(
-            result.success &&
-            result.order
-          ){
-
-            const order =
-              result.order;
-
-
-            if(
-              order.status === "PAID"
-            ){
-
-              clearInterval(
-                orderCheckTimer
-              );
-
-              orderCheckTimer =
-                null;
+          if (
+            !result.success ||
+            !result.order
+          ) {
+            return;
+          }
 
 
-              alert(
-                "✅ Thanh toán thành công!\n\n" +
-                "Mã đơn: " +
-                order.order_code
-              );
+          const order =
+            result.order;
 
 
-              dongThanhToan();
+          /*
+            PAID:
+            khách đã chuyển khoản.
+            KHÔNG đóng popup.
+            KHÔNG báo đã nạp.
+          */
+
+          if (
+            String(order.status)
+              .toUpperCase() === "PAID"
+          ) {
+
+            hienThiTrangThaiDangNap(
+              order
+            );
+
+            return;
+          }
 
 
-              document.getElementById(
-                "historyCode"
-              ).value =
-                order.order_code;
+          /*
+            RECHARGED:
+            chỉ khi ADMIN đã nạp.
+          */
+
+          if (
+            String(order.status)
+              .toUpperCase() === "RECHARGED"
+          ) {
+
+            clearInterval(
+              orderCheckTimer
+            );
+
+            orderCheckTimer = null;
 
 
-              hienThiLichSu(
-                order
-              );
-
-            }
+            hienThiTrangThaiThanhCong(
+              order
+            );
 
           }
 
         }
-        catch(error){
+
+        catch (error) {
 
           console.error(
             "ORDER STATUS ERROR:",
@@ -1030,16 +1094,132 @@ function batDauKiemTraDon(orderCode){
       },
       3000
     );
-
 }
 
 
 /* ================================
-   LỊCH SỬ NẠP
-   CHỈ HIỆN TRẠNG THÁI
+   ĐANG NẠP
 ================================ */
 
-async function kiemTraLichSu(){
+function hienThiTrangThaiDangNap(order) {
+
+  const resultBox =
+    document.getElementById(
+      "historyResult"
+    );
+
+
+  if (!resultBox) {
+    return;
+  }
+
+
+  resultBox.className =
+    "history-result show";
+
+
+  resultBox.innerHTML = `
+
+    <div style="
+      padding:18px;
+      background:#3b3210;
+      border:1px solid #665a18;
+      border-radius:15px;
+      text-align:center;
+    ">
+
+      <div style="
+        color:#ffd21c;
+        font-size:22px;
+        font-weight:bold;
+      ">
+        🟡 Đang Nạp
+      </div>
+
+      <div style="
+        color:#ccc;
+        margin-top:10px;
+      ">
+        Khách đã chuyển khoản.
+        Vui lòng chờ admin nạp kim cương.
+      </div>
+
+      <div style="
+        margin-top:10px;
+        color:#fff;
+      ">
+        Mã đơn:
+        <b>
+          ${escapeHtml(order.order_code)}
+        </b>
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* ================================
+   THÀNH CÔNG
+================================ */
+
+function hienThiTrangThaiThanhCong(order) {
+
+  const resultBox =
+    document.getElementById(
+      "historyResult"
+    );
+
+
+  resultBox.className =
+    "history-result show";
+
+
+  resultBox.innerHTML = `
+
+    <div style="
+      padding:18px;
+      background:#063d23;
+      border:1px solid #0b7040;
+      border-radius:15px;
+      text-align:center;
+    ">
+
+      <div style="
+        color:#25d366;
+        font-size:22px;
+        font-weight:bold;
+      ">
+        🟢 Thành Công
+      </div>
+
+      <div style="
+        color:#ddd;
+        margin-top:10px;
+      ">
+        Admin đã nạp kim cương thành công.
+      </div>
+
+      <div style="
+        margin-top:10px;
+        color:white;
+      ">
+        Mã đơn:
+        <b>
+          ${escapeHtml(order.order_code)}
+        </b>
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* ================================
+   LỊCH SỬ
+================================ */
+
+async function kiemTraLichSu() {
 
   const input =
     document.getElementById(
@@ -1059,7 +1239,7 @@ async function kiemTraLichSu(){
       .toUpperCase();
 
 
-  if(!orderCode){
+  if (!orderCode) {
 
     resultBox.className =
       "history-result show status-error";
@@ -1068,7 +1248,6 @@ async function kiemTraLichSu(){
       "❌ Vui lòng nhập mã đơn hàng.";
 
     return;
-
   }
 
 
@@ -1076,11 +1255,17 @@ async function kiemTraLichSu(){
     "history-result show";
 
 
-  resultBox.innerHTML =
-    "🔄 Đang kiểm tra đơn hàng...";
+  resultBox.innerHTML = `
+    <div style="
+      text-align:center;
+      color:#ccc;
+    ">
+      🔄 Đang kiểm tra đơn hàng...
+    </div>
+  `;
 
 
-  try{
+  try {
 
     const response =
       await fetch(
@@ -1089,9 +1274,9 @@ async function kiemTraLichSu(){
         "?t=" +
         Date.now(),
         {
-          method:"GET",
-          cache:"no-store",
-          headers:{
+          method: "GET",
+          cache: "no-store",
+          headers: {
             "Accept":
               "application/json"
           }
@@ -1103,11 +1288,11 @@ async function kiemTraLichSu(){
       await response.json();
 
 
-    if(
+    if (
       !response.ok ||
       !result.success ||
       !result.order
-    ){
+    ) {
 
       resultBox.className =
         "history-result show status-error";
@@ -1116,7 +1301,6 @@ async function kiemTraLichSu(){
         "❌ Không tìm thấy mã đơn này.";
 
       return;
-
     }
 
 
@@ -1125,7 +1309,8 @@ async function kiemTraLichSu(){
     );
 
   }
-  catch(error){
+
+  catch (error) {
 
     console.error(
       "HISTORY ERROR:",
@@ -1138,13 +1323,15 @@ async function kiemTraLichSu(){
 
     resultBox.innerHTML =
       "❌ Không thể kết nối máy chủ.";
-
   }
-
 }
 
 
-function hienThiLichSu(order){
+/* ================================
+   HIỂN THỊ LỊCH SỬ
+================================ */
+
+function hienThiLichSu(order) {
 
   const resultBox =
     document.getElementById(
@@ -1161,35 +1348,54 @@ function hienThiLichSu(order){
   let statusHtml;
 
 
-  if(status === "PROCESSING"){
+  if (status === "RECHARGED") {
 
     statusHtml = `
-      <div class="history-status status-processing">
-        🔵 ĐANG NẠP
-      </div>
+      <span style="
+        display:inline-block;
+        padding:10px 15px;
+        border-radius:12px;
+        background:#063d23;
+        color:#25d366;
+        font-weight:bold;
+      ">
+        🟢 Thành Công
+      </span>
     `;
 
   }
-  else if(
-    status === "PAID" ||
-    status === "RECHARGED"
-  ){
+
+  else if (status === "PAID") {
 
     statusHtml = `
-      <div class="history-status status-paid">
-        🟢 THÀNH CÔNG
-      </div>
+      <span style="
+        display:inline-block;
+        padding:10px 15px;
+        border-radius:12px;
+        background:#3b3210;
+        color:#ffd21c;
+        font-weight:bold;
+      ">
+        🟡 Đang Nạp
+      </span>
     `;
 
   }
-  else{
+
+  else {
 
     statusHtml = `
-      <div class="history-status status-processing">
-        🟡 ĐANG XỬ LÝ
-      </div>
+      <span style="
+        display:inline-block;
+        padding:10px 15px;
+        border-radius:12px;
+        background:#292929;
+        color:#aaa;
+        font-weight:bold;
+      ">
+        ⚪ Chờ thanh toán
+      </span>
     `;
-
   }
 
 
@@ -1198,52 +1404,215 @@ function hienThiLichSu(order){
 
 
   resultBox.innerHTML = `
-    ${statusHtml}
-  `;
 
+    <div style="
+      background:#0d0e15;
+      border:1px solid #333;
+      border-radius:16px;
+      padding:18px;
+    ">
+
+      <div style="
+        padding-bottom:15px;
+        border-bottom:1px solid #333;
+      ">
+
+        <div style="
+          color:#aaa;
+          margin-bottom:7px;
+        ">
+          📌 Trạng thái
+        </div>
+
+        ${statusHtml}
+
+      </div>
+
+
+      <div style="
+        padding:15px 0;
+        border-bottom:1px solid #333;
+      ">
+
+        📦 Mã đơn:
+        <b style="
+          color:#4d8dff;
+          word-break:break-all;
+        ">
+          ${escapeHtml(
+            order.order_code
+          )}
+        </b>
+
+      </div>
+
+
+      <div style="
+        padding:15px 0;
+        border-bottom:1px solid #333;
+      ">
+
+        🎮 UID:
+        <b>
+          ${escapeHtml(
+            order.player_id
+          )}
+        </b>
+
+      </div>
+
+
+      <div style="
+        padding:15px 0;
+        border-bottom:1px solid #333;
+      ">
+
+        💎 Gói:
+        <b>
+          ${escapeHtml(
+            order.package_name
+          )}
+        </b>
+
+      </div>
+
+
+      <div style="
+        padding:15px 0;
+        border-bottom:1px solid #333;
+      ">
+
+        💰 Số tiền:
+        <b>
+          ${Number(
+            order.amount || 0
+          ).toLocaleString("vi-VN")}
+          VNĐ
+        </b>
+
+      </div>
+
+
+      <div style="
+        padding:15px 0;
+        border-bottom:1px solid #333;
+      ">
+
+        📝 Nội dung chuyển khoản:
+        <b>
+          ${escapeHtml(
+            order.transfer_content ||
+            order.payment_content ||
+            order.order_code ||
+            "Chưa có"
+          )}
+        </b>
+
+      </div>
+
+
+      <div style="
+        padding:15px 0;
+        border-bottom:1px solid #333;
+      ">
+
+        🕒 Tạo đơn:
+        <b>
+          ${escapeHtml(
+            formatDate(
+              order.created_at
+            )
+          )}
+        </b>
+
+      </div>
+
+
+      ${
+        status === "RECHARGED"
+        ? `
+          <div style="
+            margin-top:18px;
+            padding:15px;
+            border-radius:13px;
+            background:#063d23;
+            color:#25d366;
+            text-align:center;
+            font-size:18px;
+            font-weight:bold;
+          ">
+            💎 Đã nạp kim cương
+          </div>
+        `
+        : `
+          <div style="
+            margin-top:18px;
+            padding:15px;
+            border-radius:13px;
+            background:#3b3210;
+            color:#ffd21c;
+            text-align:center;
+            font-size:18px;
+            font-weight:bold;
+          ">
+            💎 Đang nạp kim cương
+          </div>
+        `
+      }
+
+    </div>
+
+  `;
 }
 
 
-function dongThanhToan(){
+/* ================================
+   ĐÓNG THANH TOÁN
+================================ */
+
+function dongThanhToan() {
 
   document
     .getElementById(
       "paymentPopup"
     )
-    .classList.remove("show");
+    .classList.remove(
+      "show"
+    );
 
 
-  if(orderCheckTimer){
+  if (orderCheckTimer) {
 
     clearInterval(
       orderCheckTimer
     );
 
-    orderCheckTimer =
-      null;
-
+    orderCheckTimer = null;
   }
-
 }
 
 
-function copyText(text){
+/* ================================
+   COPY
+================================ */
 
-  if(
+function copyText(text) {
+
+  if (
     navigator.clipboard &&
     navigator.clipboard.writeText
-  ){
+  ) {
 
     navigator.clipboard
       .writeText(text)
-      .then(function(){
+      .then(function() {
 
         alert(
           "Đã copy: " + text
         );
 
       })
-      .catch(function(){
+      .catch(function() {
 
         alert(
           "Số tài khoản: " + text
@@ -1252,69 +1621,73 @@ function copyText(text){
       });
 
   }
-  else{
+
+  else {
 
     alert(
       "Số tài khoản: " + text
     );
-
   }
-
 }
 
 
+/* ================================
+   CLICK NGOÀI POPUP
+================================ */
+
 document
-  .getElementById(
-    "paymentPopup"
-  )
+  .getElementById("paymentPopup")
   .addEventListener(
     "click",
-    function(event){
+    function(event) {
 
-      if(
+      if (
         event.target === this
-      ){
+      ) {
 
         dongThanhToan();
-
       }
 
     }
   );
 
 
+/* ================================
+   ESC
+================================ */
+
 document.addEventListener(
   "keydown",
-  function(event){
+  function(event) {
 
-    if(
+    if (
       event.key === "Escape"
-    ){
+    ) {
 
       dongThanhToan();
-
     }
 
   }
 );
 
 
+/* ================================
+   ENTER
+================================ */
+
 document
-  .getElementById(
-    "historyCode"
-  )
+  .getElementById("historyCode")
   .addEventListener(
     "keydown",
-    function(event){
+    function(event) {
 
-      if(
+      if (
         event.key === "Enter"
-      ){
+      ) {
 
         event.preventDefault();
 
         kiemTraLichSu();
-
       }
 
     }
