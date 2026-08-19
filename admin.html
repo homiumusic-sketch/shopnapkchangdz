@@ -16,6 +16,7 @@ h1{text-align:center;color:#ffd21c;font-size:34px;margin:0 0 10px}
 label{display:block;margin:18px 0 9px;font-size:18px;font-weight:bold}
 input{width:100%;padding:16px;border-radius:13px;border:1px solid #444;outline:none;background:#0d0e15;color:#fff;font-size:18px}
 button{border:0;border-radius:13px;padding:15px 20px;font-size:17px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
 .login-button{width:100%;margin-top:25px;background:linear-gradient(90deg,#ffca05,#ff7b00);color:#111;font-size:20px}
 .logout-button{background:#33343d;color:#fff}
 .refresh-button{background:#2878e8;color:#fff}
@@ -53,6 +54,7 @@ h1{font-size:29px}
 
 <div class="container">
 
+<!-- LOGIN -->
 <div id="loginPage" class="card login-card">
 
 <h1>🔐 ADMIN</h1>
@@ -80,7 +82,9 @@ placeholder="Nhập mật khẩu"
 >
 
 <button
+id="loginButton"
 class="login-button"
+type="button"
 onclick="loginAdmin()"
 >
 🔐 Đăng nhập
@@ -91,6 +95,7 @@ onclick="loginAdmin()"
 </div>
 
 
+<!-- ADMIN PAGE -->
 <div id="adminPage" class="hidden">
 
 <div class="topbar">
@@ -101,6 +106,7 @@ onclick="loginAdmin()"
 
 <button
 class="refresh-button"
+type="button"
 onclick="loadOrders()"
 >
 🔄 Tải lại
@@ -108,6 +114,7 @@ onclick="loadOrders()"
 
 <button
 class="logout-button"
+type="button"
 onclick="logoutAdmin()"
 >
 🚪 Đăng xuất
@@ -116,7 +123,6 @@ onclick="logoutAdmin()"
 </div>
 
 </div>
-
 
 <div class="card">
 
@@ -137,17 +143,20 @@ onclick="logoutAdmin()"
 
 <script>
 
-const LOGIN_API="/api/admin/login";
+const LOGIN_API = "/api/admin/login";
+const ORDERS_API = "/api/orders";
 
-const ORDERS_API="/api/orders";
+let adminToken =
+localStorage.getItem("admin_token") || "";
 
-let adminToken=
-localStorage.getItem("admin_token")||"";
 
+/* =========================
+   HỖ TRỢ HIỂN THỊ
+========================= */
 
 function escapeHtml(value){
 
-return String(value??"")
+return String(value ?? "")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -159,7 +168,7 @@ return String(value??"")
 
 function escapeJs(value){
 
-return String(value??"")
+return String(value ?? "")
 .replace(/\\/g,"\\\\")
 .replace(/'/g,"\\'")
 .replace(/\n/g,"\\n")
@@ -170,21 +179,20 @@ return String(value??"")
 
 function formatDate(value){
 
-if(!value)return"Chưa có";
+if(!value) return "Chưa có";
 
-const d=new Date(value);
+const d = new Date(value);
 
 return Number.isNaN(d.getTime())
-?String(value)
-:d.toLocaleString("vi-VN");
+? String(value)
+: d.toLocaleString("vi-VN");
 
 }
 
 
 function showLoginError(message){
 
-document.getElementById("loginMessage").innerHTML=
-
+document.getElementById("loginMessage").innerHTML =
 `<div class="error">
 ❌ ${escapeHtml(message)}
 </div>`;
@@ -194,8 +202,7 @@ document.getElementById("loginMessage").innerHTML=
 
 function showLoginSuccess(message){
 
-document.getElementById("loginMessage").innerHTML=
-
+document.getElementById("loginMessage").innerHTML =
 `<div class="success">
 ✅ ${escapeHtml(message)}
 </div>`;
@@ -203,25 +210,28 @@ document.getElementById("loginMessage").innerHTML=
 }
 
 
+/* =========================
+   ĐĂNG NHẬP ADMIN
+========================= */
+
 async function loginAdmin(){
 
-const username=
+const username =
 document.getElementById("username")
-.value.trim();
+.value
+.trim();
 
-const password=
+const password =
 document.getElementById("password")
 .value;
 
-const button=
-document.querySelector(".login-button");
+const button =
+document.getElementById("loginButton");
 
 
 if(!username){
 
-showLoginError(
-"Vui lòng nhập tài khoản."
-);
+showLoginError("Vui lòng nhập tài khoản.");
 
 return;
 
@@ -230,83 +240,85 @@ return;
 
 if(!password){
 
-showLoginError(
-"Vui lòng nhập mật khẩu."
-);
+showLoginError("Vui lòng nhập mật khẩu.");
 
 return;
 
 }
 
 
-button.disabled=true;
-
-button.innerText=
-"⏳ Đang đăng nhập...";
+button.disabled = true;
+button.innerText = "⏳ Đang đăng nhập...";
 
 
 try{
 
-const response=
-await fetch(
+const response = await fetch(
 LOGIN_API,
 {
 method:"POST",
 
 headers:{
-"Content-Type":
-"application/json",
-
-"Accept":
-"application/json"
+"Content-Type":"application/json",
+"Accept":"application/json"
 },
 
-body:
-JSON.stringify({
-username,
-password
+credentials:"same-origin",
+
+body:JSON.stringify({
+username:username,
+password:password
 })
 }
 );
 
 
-const data=
+const data =
 await response
 .json()
-.catch(()=>({}));
+.catch(() => ({}));
 
 
-if(
-!response.ok||
-!data.success
-){
+if(!response.ok){
 
 throw new Error(
-data.message||
+data.message ||
 "Tài khoản hoặc mật khẩu không đúng."
 );
 
 }
 
 
-adminToken=
-data.token||
-data.access_token||
-data.admin_token;
-
-
-if(!adminToken){
+if(!data.success){
 
 throw new Error(
-"Server đăng nhập không trả về token."
+data.message ||
+"Tài khoản hoặc mật khẩu không đúng."
 );
 
 }
 
 
+const token =
+data.token ||
+data.access_token ||
+data.admin_token;
+
+
+if(!token){
+
+throw new Error(
+"Server không trả về token đăng nhập."
+);
+
+}
+
+
+adminToken = token;
+
 localStorage.setItem(
 "admin_token",
-adminToken
+token
 );
 
 
@@ -315,7 +327,7 @@ showLoginSuccess(
 );
 
 
-setTimeout(()=>{
+setTimeout(() => {
 
 document
 .getElementById("loginPage")
@@ -330,76 +342,81 @@ loadOrders();
 },300);
 
 
-}
+}catch(error){
 
-catch(error){
+adminToken = "";
 
-adminToken="";
+localStorage.removeItem(
+"admin_token"
+);
 
 showLoginError(
-error.message||
+error.message ||
 "Không thể đăng nhập."
 );
 
-}
 
-finally{
+}finally{
 
-button.disabled=false;
-
-button.innerText=
-"🔐 Đăng nhập";
+button.disabled = false;
+button.innerText = "🔐 Đăng nhập";
 
 }
 
 }
 
+
+/* =========================
+   HEADER XÁC THỰC
+========================= */
 
 function authHeaders(){
 
-return{
-
-"Accept":
-"application/json",
-
-"Authorization":
-"Bearer "+adminToken
-
+const headers = {
+"Accept":"application/json"
 };
+
+if(adminToken){
+
+headers["Authorization"] =
+"Bearer " + adminToken;
+
+}
+
+return headers;
 
 }
 
 
+/* =========================
+   TẢI ĐƠN HÀNG
+========================= */
+
 async function loadOrders(){
 
-const box=
+const box =
 document.getElementById("orders");
 
-
-box.innerHTML=
+box.innerHTML =
 '<div class="loading">⏳ Đang tải đơn hàng...</div>';
 
 
 try{
 
-const response=
+const response =
 await fetch(
 ORDERS_API,
 {
 method:"GET",
-
-headers:
-authHeaders(),
-
-cache:
-"no-store"
+headers:authHeaders(),
+cache:"no-store"
 }
 );
 
 
 if(
-response.status===401||
-response.status===403
+response.status === 401 ||
+response.status === 403
 ){
 
 logoutAdmin();
@@ -409,32 +426,34 @@ return;
 }
 
 
-const data=
-await response.json();
+const data =
+await response
+.json()
+.catch(() => ({}));
 
 
 if(
-!response.ok||
+!response.ok ||
 !data.success
 ){
 
 throw new Error(
-data.message||
+data.message ||
 "Không thể tải đơn."
 );
 
 }
 
 
-const orders=
+const orders =
 Array.isArray(data.orders)
-?data.orders
-:[];
+? data.orders
+: [];
 
 
 if(!orders.length){
 
-box.innerHTML=
+box.innerHTML =
 '<div class="loading">📭 Chưa có đơn hàng.</div>';
 
 return;
@@ -442,21 +461,18 @@ return;
 }
 
 
-box.innerHTML=
+box.innerHTML =
 orders
 .map(renderOrder)
 .join("");
 
 
-}
+}catch(error){
 
-catch(error){
-
-box.innerHTML=
-
+box.innerHTML =
 `<div class="error">
 ❌ ${escapeHtml(
-error.message||
+error.message ||
 "Không thể kết nối máy chủ."
 )}
 </div>`;
@@ -466,72 +482,69 @@ error.message||
 }
 
 
+/* =========================
+   HIỂN THỊ ĐƠN
+========================= */
+
 function renderOrder(order){
 
-const status=
-String(
-order.status||""
-).toUpperCase();
+const status =
+String(order.status || "")
+.toUpperCase();
 
 
-let statusText=
+let statusText =
 "🟡 CHỜ THANH TOÁN";
 
-let statusClass=
+let statusClass =
 "status-pending";
 
 
-if(status==="PROCESSING"){
+if(status === "PROCESSING"){
 
-statusText=
+statusText =
 "🔵 ĐANG NẠP KIM CƯƠNG";
 
-statusClass=
+statusClass =
 "status-processing";
 
 }
 
 
-if(status==="PAID"){
+if(status === "PAID"){
 
-statusText=
+statusText =
 "🟢 ĐÃ NẠP KIM CƯƠNG";
 
-statusClass=
+statusClass =
 "status-paid";
 
 }
 
 
-const disabled=
-status==="PAID";
+const disabled =
+status === "PAID";
 
 
-return`
+return `
 
 <div class="order">
 
 <div class="order-header">
 
 <div>
-
 📦 Mã đơn:
 
 <span class="order-code">
-
 ${escapeHtml(
-order.order_code||
+order.order_code ||
 "Không có"
 )}
-
 </span>
-
 </div>
 
 <span class="status ${statusClass}">
-
 ${statusText}
-
 </span>
 
 </div>
@@ -543,7 +556,7 @@ ${statusText}
 
 <b>
 ${escapeHtml(
-order.player_id||
+order.player_id ||
 "Không có"
 )}
 </b>
@@ -554,7 +567,7 @@ order.player_id||
 
 <b>
 ${escapeHtml(
-order.package_name||
+order.package_name ||
 "Không có"
 )}
 </b>
@@ -565,7 +578,7 @@ order.package_name||
 
 <b>
 ${Number(
-order.amount||0
+order.amount || 0
 ).toLocaleString("vi-VN")}
 VNĐ
 </b>
@@ -576,8 +589,8 @@ VNĐ
 
 <b>
 ${escapeHtml(
-order.transfer_content||
-order.payment_content||
+order.transfer_content ||
+order.payment_content ||
 "Không có"
 )}
 </b>
@@ -613,58 +626,40 @@ order.paid_at
 
 <div class="actions">
 
-
 <button
-
 class="processing-button
-${status==="PROCESSING"||
-disabled
+${status === "PROCESSING" || disabled
 ?"disabled-button":""
 }"
-
-${status==="PROCESSING"||
-disabled
+${status === "PROCESSING" || disabled
 ?"disabled":""
 }
-
+type="button"
 onclick="updateStatus(
-'${escapeJs(
-order.order_code
-)}',
+'${escapeJs(order.order_code)}',
 'PROCESSING'
 )"
-
 >
-
 🔵 Đang nạp kim cương
-
 </button>
 
 
 <button
-
 class="paid-button
 ${disabled
 ?"disabled-button":""
 }"
-
 ${disabled
 ?"disabled":""
 }
-
+type="button"
 onclick="updateStatus(
-'${escapeJs(
-order.order_code
-)}',
+'${escapeJs(order.order_code)}',
 'PAID'
 )"
-
 >
-
 💎 Đã nạp kim cương
-
 </button>
-
 
 </div>
 
@@ -675,6 +670,10 @@ order.order_code
 }
 
 
+/* =========================
+   CẬP NHẬT TRẠNG THÁI
+========================= */
+
 async function updateStatus(
 orderCode,
 newStatus
@@ -682,69 +681,51 @@ newStatus
 
 if(!orderCode){
 
-alert(
-"Không có mã đơn hàng."
-);
+alert("Không có mã đơn hàng.");
 
 return;
 
 }
 
 
-const text=
-newStatus==="PROCESSING"
-
+const text =
+newStatus === "PROCESSING"
 ?
-
 "Xác nhận bắt đầu nạp kim cương cho đơn này?"
-
 :
-
 "Xác nhận đã nạp kim cương cho khách?";
 
 
-if(!confirm(text))
-return;
+if(!confirm(text)) return;
 
 
 try{
 
-const response=
+const response =
 await fetch(
-
-ORDERS_API+
-"/"+
-encodeURIComponent(
-orderCode
-)+
+ORDERS_API +
+"/" +
+encodeURIComponent(orderCode) +
 "/status",
-
 {
-
 method:"PATCH",
 
 headers:{
-
 ...authHeaders(),
-
 "Content-Type":
 "application/json"
-
 },
 
-body:
-JSON.stringify({
+body:JSON.stringify({
 status:newStatus
 })
-
 }
-
 );
 
 
 if(
-response.status===401||
-response.status===403
+response.status === 401 ||
+response.status === 403
 ){
 
 logoutAdmin();
@@ -754,19 +735,19 @@ return;
 }
 
 
-const data=
+const data =
 await response
 .json()
-.catch(()=>({}));
+.catch(() => ({}));
 
 
 if(
-!response.ok||
+!response.ok ||
 !data.success
 ){
 
 throw new Error(
-data.message||
+data.message ||
 "Không thể cập nhật trạng thái."
 );
 
@@ -774,31 +755,23 @@ data.message||
 
 
 alert(
-
-newStatus==="PROCESSING"
-
+newStatus === "PROCESSING"
 ?
-
 "🔵 Đã chuyển sang ĐANG NẠP KIM CƯƠNG."
-
 :
-
 "💎 Đã xác nhận ĐÃ NẠP KIM CƯƠNG."
-
 );
 
 
 loadOrders();
 
 
-}
-
-catch(error){
+}catch(error){
 
 alert(
-"❌ "+
+"❌ " +
 (
-error.message||
+error.message ||
 "Không thể cập nhật đơn."
 )
 );
@@ -808,9 +781,13 @@ error.message||
 }
 
 
+/* =========================
+   ĐĂNG XUẤT
+========================= */
+
 function logoutAdmin(){
 
-adminToken="";
+adminToken = "";
 
 localStorage.removeItem(
 "admin_token"
@@ -821,27 +798,28 @@ document
 .getElementById("adminPage")
 .classList.add("hidden");
 
-
 document
 .getElementById("loginPage")
 .classList.remove("hidden");
 
-
 document
 .getElementById("password")
-.value="";
-
+.value = "";
 
 document
 .getElementById("loginMessage")
-.innerHTML="";
+.innerHTML = "";
 
 }
 
 
+/* =========================
+   KIỂM TRA PHIÊN ĐĂNG NHẬP
+========================= */
+
 document.addEventListener(
 "DOMContentLoaded",
-()=>{
+() => {
 
 if(adminToken){
 
@@ -857,15 +835,20 @@ loadOrders();
 
 }
 
-});
+}
+);
 
+
+/* =========================
+   ENTER ĐỂ ĐĂNG NHẬP
+========================= */
 
 document.addEventListener(
 "keydown",
-e=>{
+e => {
 
 if(
-e.key==="Enter"&&
+e.key === "Enter" &&
 !document
 .getElementById("loginPage")
 .classList
@@ -876,10 +859,16 @@ loginAdmin();
 
 }
 
-});
+}
+);
 
 
-setInterval(()=>{
+/* =========================
+   TỰ ĐỘNG TẢI ĐƠN
+========================= */
+
+setInterval(
+() => {
 
 if(
 !document
@@ -892,7 +881,9 @@ loadOrders();
 
 }
 
-},5000);
+},
+5000
+);
 
 </script>
 
