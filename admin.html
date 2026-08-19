@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin - Quản lý nạp</title>
+<title>Admin - Quản lý nạp Free Fire</title>
 
 <style>
 * {
@@ -19,7 +19,7 @@ body {
 }
 
 .header {
-  padding: 25px 15px;
+  padding: 22px 15px;
   text-align: center;
   background: linear-gradient(135deg, #11111b, #25113e);
 }
@@ -27,163 +27,237 @@ body {
 .header h1 {
   margin: 0;
   color: #ffd21c;
+  font-size: 27px;
 }
 
 .header p {
-  color: #ccc;
+  margin: 8px 0 0;
+  color: #aaa;
 }
 
 .container {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1000px;
   margin: auto;
   padding: 20px 15px 80px;
 }
 
-.login-box,
-.admin-box {
+/* LOGIN */
+
+.login-box {
+  max-width: 450px;
+  margin: 50px auto;
+  padding: 25px;
   background: #171821;
-  padding: 20px;
-  border-radius: 18px;
-  margin-bottom: 20px;
+  border-radius: 22px;
 }
 
-.login-box h2,
-.admin-box h2 {
+.login-box h2 {
   margin-top: 0;
+  text-align: center;
   color: #ffd21c;
 }
 
-input {
+.login-box input {
   width: 100%;
-  padding: 14px;
-  margin: 7px 0;
+  padding: 15px;
+  margin-top: 12px;
   border: 1px solid #444;
-  border-radius: 10px;
+  border-radius: 12px;
+  outline: none;
   background: #0d0e15;
   color: white;
-  font-size: 16px;
-}
-
-button {
-  border: none;
-  border-radius: 10px;
-  padding: 12px 16px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
+  font-size: 17px;
 }
 
 .login-btn {
   width: 100%;
-  margin-top: 10px;
+  margin-top: 15px;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
   background: linear-gradient(90deg,#ffca05,#ff7b00);
   color: #111;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* ADMIN */
+
+#adminPanel {
+  display: none;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.search {
+  flex: 1;
+  min-width: 220px;
+  padding: 14px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  background: #171821;
+  color: white;
+  font-size: 16px;
 }
 
 .reload-btn {
+  padding: 14px 18px;
+  border: none;
+  border-radius: 12px;
   background: #2878e8;
   color: white;
+  font-weight: bold;
 }
 
-.logout-btn {
-  background: #555;
-  color: white;
-  margin-left: 8px;
-}
+/* ORDER */
 
-.search-box {
-  margin: 20px 0;
-}
-
-.order {
-  background: #101119;
+.order-card {
+  background: #171821;
   border: 1px solid #333;
-  border-radius: 16px;
-  padding: 18px;
+  border-radius: 20px;
+  padding: 20px;
   margin-bottom: 15px;
 }
 
-.order-row {
+.order-head {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   gap: 15px;
-  padding: 7px 0;
-  border-bottom: 1px solid #24252d;
+  flex-wrap: wrap;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #333;
 }
 
-.order-row:last-child {
-  border-bottom: none;
-}
-
-.label {
-  color: #aaa;
-}
-
-.value {
-  text-align: right;
+.order-code {
+  color: #4d8dff;
+  font-size: 21px;
   font-weight: bold;
   word-break: break-word;
 }
 
-.pending {
+.status {
+  padding: 9px 13px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.status-pending {
+  background: #514016;
   color: #ffd21c;
 }
 
-.paid {
-  color: #38e878;
+.status-paid {
+  background: #173d2a;
+  color: #45e681;
 }
 
-.success {
-  color: #38e878;
+.status-topup {
+  background: #143f2c;
+  color: #42ef91;
 }
 
-.waiting {
-  color: #ffd21c;
-}
-
-.confirm-btn {
-  width: 100%;
+.info {
   margin-top: 15px;
-  background: #20b95b;
-  color: white;
 }
 
-.confirm-btn:disabled {
-  background: #555;
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 11px 0;
+  border-bottom: 1px solid #292a33;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  color: #aaa;
+}
+
+.info-value {
+  color: white;
+  font-weight: bold;
+  text-align: right;
+  word-break: break-word;
+}
+
+.transfer-content {
+  color: #ffd21c;
+}
+
+.actions {
+  margin-top: 18px;
+}
+
+.topup-btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg,#20c96b,#0ca956);
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.topup-btn:disabled {
+  opacity: .55;
   cursor: not-allowed;
 }
 
-.message {
-  padding: 12px;
-  border-radius: 10px;
-  margin: 10px 0;
-  display: none;
+.logout-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 12px;
+  background: #292a33;
+  color: white;
+  font-weight: bold;
 }
 
-.message.show {
-  display: block;
+.message {
+  margin: 15px 0;
+  padding: 14px;
+  border-radius: 12px;
+  display: none;
+  background: #292a33;
 }
 
 .empty {
+  padding: 35px;
   text-align: center;
+  background: #171821;
+  border-radius: 18px;
   color: #aaa;
-  padding: 30px;
 }
 
 @media(max-width:600px) {
-  .order-row {
-    flex-direction: column;
-    gap: 3px;
+
+  .header h1 {
+    font-size: 23px;
   }
 
-  .value {
+  .info-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .info-value {
     text-align: left;
   }
 
-  .logout-btn {
-    margin-left: 0;
-    margin-top: 8px;
+  .order-head {
+    flex-direction: column;
   }
 }
 </style>
@@ -192,13 +266,13 @@ button {
 <body>
 
 <div class="header">
-  <h1>🔐 QUẢN LÝ NẠP</h1>
-  <p>Quản lý đơn nạp kim cương Free Fire</p>
+  <h1>🛠️ QUẢN LÝ NẠP FREE FIRE</h1>
+  <p>Trang quản trị đơn hàng</p>
 </div>
 
 <div class="container">
 
-  <!-- ================= LOGIN ================= -->
+  <!-- LOGIN -->
 
   <div id="loginBox" class="login-box">
 
@@ -220,59 +294,49 @@ button {
 
     <button
       class="login-btn"
-      onclick="login()"
+      onclick="loginAdmin()"
     >
       Đăng nhập
     </button>
 
-    <div
-      id="loginMessage"
-      class="message"
-    ></div>
+    <div id="loginMessage" class="message"></div>
 
   </div>
 
 
-  <!-- ================= ADMIN ================= -->
+  <!-- ADMIN PANEL -->
 
-  <div
-    id="adminBox"
-    class="admin-box"
-    style="display:none;"
-  >
+  <div id="adminPanel">
 
-    <h2>📋 Danh sách đơn nạp</h2>
-
-    <button
-      class="reload-btn"
-      onclick="loadOrders()"
-    >
-      🔄 Tải lại
-    </button>
-
-    <button
-      class="logout-btn"
-      onclick="logout()"
-    >
-      Đăng xuất
-    </button>
-
-    <div class="search-box">
+    <div class="toolbar">
 
       <input
-        id="search"
+        id="searchInput"
+        class="search"
         type="text"
-        placeholder="🔎 Nhập ID Free Fire để tìm..."
+        placeholder="🔎 Tìm ID Free Fire hoặc mã đơn..."
         oninput="renderOrders()"
       >
 
+      <button
+        class="reload-btn"
+        onclick="loadOrders()"
+      >
+        🔄 Tải lại
+      </button>
+
     </div>
 
-    <div id="orders">
-      <div class="empty">
-        Chưa có dữ liệu.
-      </div>
-    </div>
+    <div id="message" class="message"></div>
+
+    <div id="ordersList"></div>
+
+    <button
+      class="logout-btn"
+      onclick="logoutAdmin()"
+    >
+      🚪 Đăng xuất
+    </button>
 
   </div>
 
@@ -282,225 +346,183 @@ button {
 <script>
 
 /* =====================================================
-   ADMIN
+   ADMIN AUTH
    ===================================================== */
-
-let orders = [];
 
 let authHeader = "";
 
-
-/* =====================================================
-   HIỂN THỊ THÔNG BÁO
-   ===================================================== */
-
-function showMessage(
-  elementId,
-  text,
-  success = false
-) {
-
-  const element =
-    document.getElementById(elementId);
-
-  element.innerText = text;
-
-  element.className =
-    "message show";
-
-  element.style.background =
-    success ? "#123d25" : "#4a2020";
-
-  element.style.color =
-    success ? "#58f58c" : "#ff7777";
-}
+let allOrders = [];
 
 
 /* =====================================================
-   ĐĂNG NHẬP
+   LOGIN
    ===================================================== */
 
-function login() {
+function loginAdmin() {
 
   const username =
-    document
-      .getElementById("username")
-      .value
-      .trim();
+    document.getElementById("username").value.trim();
 
   const password =
-    document
-      .getElementById("password")
-      .value;
+    document.getElementById("password").value;
 
   if (!username || !password) {
 
-    showMessage(
-      "loginMessage",
+    showLoginMessage(
       "Vui lòng nhập tài khoản và mật khẩu."
     );
 
     return;
   }
 
+  /*
+    Server hiện tại của bạn đang yêu cầu:
+
+    username = admin
+
+    password = ADMIN_PASSWORD
+  */
 
   authHeader =
     "Basic " +
-    btoa(
-      username + ":" + password
-    );
+    btoa(username + ":" + password);
 
-
-  fetch(
-    "/api/admin/orders",
-    {
-      headers: {
-        Authorization: authHeader
-      }
-    }
-  )
-  .then(async response => {
-
-    const data =
-      await response.json()
-        .catch(() => ({}));
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        data.error ||
-        data.message ||
-        "Đăng nhập thất bại."
-      );
-
-    }
-
-    return data;
-
-  })
-  .then(data => {
-
-    if (!data.success) {
-
-      throw new Error(
-        "Đăng nhập thất bại."
-      );
-
-    }
-
-
-    sessionStorage.setItem(
-      "adminAuth",
-      authHeader
-    );
-
-
-    document
-      .getElementById("loginBox")
-      .style.display = "none";
-
-
-    document
-      .getElementById("adminBox")
-      .style.display = "block";
-
-
-    orders =
-      data.orders || [];
-
-
-    renderOrders();
-
-  })
-  .catch(error => {
-
-    authHeader = "";
-
-    showMessage(
-      "loginMessage",
-      error.message
-    );
-
-  });
+  checkLogin();
 
 }
 
 
 /* =====================================================
-   TẢI ĐƠN
+   KIỂM TRA ĐĂNG NHẬP
    ===================================================== */
 
-function loadOrders() {
+async function checkLogin() {
 
-  const savedAuth =
-    sessionStorage.getItem(
-      "adminAuth"
-    );
+  try {
 
+    const response =
+      await fetch(
+        "/api/admin/orders",
+        {
+          headers: {
+            "Authorization": authHeader
+          }
+        }
+      );
 
-  if (!savedAuth) {
+    if (response.status === 401) {
 
-    logout();
+      showLoginMessage(
+        "Sai tài khoản hoặc mật khẩu."
+      );
 
-    return;
-  }
+      authHeader = "";
 
-
-  authHeader =
-    savedAuth;
-
-
-  fetch(
-    "/api/admin/orders",
-    {
-      headers: {
-        Authorization: authHeader
-      }
+      return;
     }
-  )
-  .then(async response => {
 
-    const data =
-      await response.json()
-        .catch(() => ({}));
+    if (response.status === 403) {
 
+      showLoginMessage(
+        "Sai mật khẩu hoặc không được phép."
+      );
+
+      authHeader = "";
+
+      return;
+    }
 
     if (!response.ok) {
 
-      throw new Error(
-        data.error ||
-        "Không thể tải đơn."
+      showLoginMessage(
+        "Không thể kết nối máy chủ."
       );
 
+      return;
     }
 
-    return data;
+    const data =
+      await response.json();
 
-  })
-  .then(data => {
+    allOrders =
+      data.orders || [];
 
-    orders =
+    document
+      .getElementById("loginBox")
+      .style.display = "none";
+
+    document
+      .getElementById("adminPanel")
+      .style.display = "block";
+
+    renderOrders();
+
+  } catch (error) {
+
+    console.error(error);
+
+    showLoginMessage(
+      "Không thể kết nối máy chủ."
+    );
+  }
+
+}
+
+
+/* =====================================================
+   LOAD ORDERS
+   ===================================================== */
+
+async function loadOrders() {
+
+  if (!authHeader) return;
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/admin/orders",
+        {
+          headers: {
+            "Authorization": authHeader
+          }
+        }
+      );
+
+    if (response.status === 401 ||
+        response.status === 403) {
+
+      logoutAdmin();
+
+      return;
+    }
+
+    const data =
+      await response.json();
+
+    if (!data.success) {
+
+      showMessage(
+        data.message ||
+        "Không thể tải đơn hàng."
+      );
+
+      return;
+    }
+
+    allOrders =
       data.orders || [];
 
     renderOrders();
 
-  })
-  .catch(error => {
+  } catch (error) {
 
-    alert(error.message);
+    console.error(error);
 
-    if (
-      error.message
-        .toLowerCase()
-        .includes("unauthorized")
-    ) {
-
-      logout();
-
-    }
-
-  });
+    showMessage(
+      "Không thể tải danh sách đơn."
+    );
+  }
 
 }
 
@@ -512,41 +534,47 @@ function loadOrders() {
 function renderOrders() {
 
   const container =
-    document.getElementById(
-      "orders"
-    );
-
+    document.getElementById("ordersList");
 
   const keyword =
     document
-      .getElementById("search")
+      .getElementById("searchInput")
       .value
       .trim()
       .toLowerCase();
 
+  const filtered =
+    allOrders.filter(order => {
 
-  let filtered =
-    orders.filter(order => {
+      const playerId =
+        String(
+          order.player_id ||
+          order.ff_id ||
+          ""
+        ).toLowerCase();
 
-      if (!keyword) {
-        return true;
-      }
+      const orderCode =
+        String(
+          order.order_code ||
+          ""
+        ).toLowerCase();
 
-      return String(
-        order.player_id || ""
-      )
-      .toLowerCase()
-      .includes(keyword);
+      return (
+        !keyword ||
+        playerId.includes(keyword) ||
+        orderCode.includes(keyword)
+      );
 
     });
 
 
   if (!filtered.length) {
 
-    container.innerHTML =
-      `<div class="empty">
-        Không tìm thấy đơn nào.
-      </div>`;
+    container.innerHTML = `
+      <div class="empty">
+        📭 Không có đơn hàng.
+      </div>
+    `;
 
     return;
   }
@@ -555,185 +583,7 @@ function renderOrders() {
   container.innerHTML =
     filtered.map(order => {
 
-      const isPaid =
-        order.status === "PAID";
-
-
-      const isSuccess =
-        order.status === "SUCCESS";
-
-
-      let statusText =
-        "Đang chờ thanh toán";
-
-      let statusClass =
-        "pending";
-
-
-      if (isPaid) {
-
-        statusText =
-          "Đã thanh toán";
-
-        statusClass =
-          "paid";
-
-      }
-
-
-      if (isSuccess) {
-
-        statusText =
-          "Đã nạp thành công";
-
-        statusClass =
-          "success";
-
-      }
-
-
-      const amount =
-        Number(order.amount || 0)
-          .toLocaleString("vi-VN");
-
-
-      const paidAmount =
-        order.paid_amount
-          ? Number(
-              order.paid_amount
-            ).toLocaleString("vi-VN")
-          : "---";
-
-
-      return `
-
-        <div class="order">
-
-          <div class="order-row">
-            <span class="label">
-              🎮 ID Free Fire
-            </span>
-
-            <span class="value">
-              ${escapeHtml(
-                order.player_id
-              )}
-            </span>
-          </div>
-
-
-          <div class="order-row">
-            <span class="label">
-              💎 Gói
-            </span>
-
-            <span class="value">
-              ${escapeHtml(
-                order.package_name
-              )}
-            </span>
-          </div>
-
-
-          <div class="order-row">
-            <span class="label">
-              💰 Số tiền
-            </span>
-
-            <span class="value">
-              ${amount} VND
-            </span>
-          </div>
-
-
-          <div class="order-row">
-            <span class="label">
-              📝 Nội dung
-            </span>
-
-            <span class="value">
-              ${escapeHtml(
-                order.payment_content ||
-                order.order_code ||
-                "---"
-              )}
-            </span>
-          </div>
-
-
-          <div class="order-row">
-            <span class="label">
-              💳 Tiền nhận
-            </span>
-
-            <span class="value">
-              ${paidAmount} VND
-            </span>
-          </div>
-
-
-          <div class="order-row">
-            <span class="label">
-              📦 Mã đơn
-            </span>
-
-            <span class="value">
-              ${escapeHtml(
-                order.order_code
-              )}
-            </span>
-          </div>
-
-
-          <div class="order-row">
-
-            <span class="label">
-              📊 Trạng thái
-            </span>
-
-            <span
-              class="value ${statusClass}"
-            >
-              ${statusText}
-            </span>
-
-          </div>
-
-
-          ${
-            isPaid && !isSuccess
-              ? `
-                <button
-                  class="confirm-btn"
-                  onclick="confirmSuccess(
-                    '${escapeJs(
-                      order.order_code
-                    )}'
-                  )"
-                >
-                  💎 Xác nhận đã nạp thành công
-                </button>
-              `
-              : ""
-          }
-
-
-          ${
-            isSuccess
-              ? `
-                <button
-                  class="confirm-btn"
-                  disabled
-                >
-                  ✅ Đã nạp thành công
-                </button>
-              `
-              : ""
-          }
-
-        </div>
-
-      `;
+      return createOrderCard(order);
 
     }).join("");
 
@@ -741,120 +591,374 @@ function renderOrders() {
 
 
 /* =====================================================
-   XÁC NHẬN ĐÃ NẠP THÀNH CÔNG
+   TẠO CARD
    ===================================================== */
 
-function confirmSuccess(
-  orderCode
-) {
+function createOrderCard(order) {
+
+  const orderCode =
+    escapeHtml(
+      order.order_code || "---"
+    );
+
+  const playerId =
+    escapeHtml(
+      order.player_id ||
+      order.ff_id ||
+      "---"
+    );
+
+  const packageName =
+    escapeHtml(
+      order.package_name ||
+      "---"
+    );
+
+  const amount =
+    Number(order.amount || 0)
+      .toLocaleString("vi-VN") +
+    " VNĐ";
+
+
+  const transferContent =
+    escapeHtml(
+      order.payment_content ||
+      order.transfer_content ||
+      "---"
+    );
+
+
+  /*
+    Trạng thái thanh toán
+  */
+
+  const paymentStatus =
+    String(
+      order.status ||
+      order.payment_status ||
+      "PENDING"
+    );
+
+
+  /*
+    Trạng thái nạp kim cương.
+
+    Hệ thống có thể dùng:
+    TOPPED_UP
+    TOPUP_SUCCESS
+    SUCCESS
+    TOPUP_COMPLETED
+  */
+
+  const topupStatus =
+    String(
+      order.topup_status ||
+      ""
+    ).toUpperCase();
+
+
+  let statusText =
+    "⏳ Chờ thanh toán";
+
+  let statusClass =
+    "status-pending";
+
 
   if (
-    !confirm(
-      "Bạn đã nạp kim cương vào nick này chưa?"
-    )
+    paymentStatus === "PAID" ||
+    paymentStatus === "SUCCESS"
   ) {
 
-    return;
+    statusText =
+      "💳 Đã thanh toán";
+
+    statusClass =
+      "status-paid";
   }
 
 
-  fetch(
-    "/api/admin/orders/" +
-    encodeURIComponent(
-      orderCode
-    ) +
-    "/success",
-    {
-      method: "POST",
+  if (
+    topupStatus === "TOPPED_UP" ||
+    topupStatus === "TOPUP_SUCCESS" ||
+    topupStatus === "SUCCESS" ||
+    topupStatus === "TOPUP_COMPLETED"
+  ) {
 
-      headers: {
-        Authorization: authHeader,
-        "Content-Type":
-          "application/json"
-      }
-    }
-  )
-  .then(async response => {
+    statusText =
+      "💎 Đã nạp kim cương";
 
-    const data =
-      await response.json()
-        .catch(() => ({}));
+    statusClass =
+      "status-topup";
+  }
 
 
-    if (!response.ok) {
+  const alreadyTopup =
+    topupStatus === "TOPPED_UP" ||
+    topupStatus === "TOPUP_SUCCESS" ||
+    topupStatus === "SUCCESS" ||
+    topupStatus === "TOPUP_COMPLETED";
 
-      throw new Error(
-        data.message ||
-        data.error ||
-        "Không thể xác nhận."
+
+  return `
+    <div class="order-card">
+
+      <div class="order-head">
+
+        <div>
+          <div style="color:#aaa;font-size:14px">
+            📦 Mã đơn hàng
+          </div>
+
+          <div class="order-code">
+            ${orderCode}
+          </div>
+        </div>
+
+        <div class="status ${statusClass}">
+          ${statusText}
+        </div>
+
+      </div>
+
+
+      <div class="info">
+
+        <div class="info-row">
+
+          <span class="info-label">
+            🎮 ID Free Fire
+          </span>
+
+          <b class="info-value">
+            ${playerId}
+          </b>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span class="info-label">
+            💎 Gói
+          </span>
+
+          <b class="info-value">
+            ${packageName}
+          </b>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span class="info-label">
+            💰 Số tiền
+          </span>
+
+          <b class="info-value">
+            ${amount}
+          </b>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span class="info-label">
+            📝 Nội dung chuyển khoản
+          </span>
+
+          <b class="info-value transfer-content">
+            ${transferContent}
+          </b>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span class="info-label">
+            🕐 Tạo đơn
+          </span>
+
+          <b class="info-value">
+            ${escapeHtml(
+              order.created_at || "---"
+            )}
+          </b>
+
+        </div>
+
+
+        ${
+          order.paid_at
+          ? `
+            <div class="info-row">
+
+              <span class="info-label">
+                💳 Thanh toán lúc
+              </span>
+
+              <b class="info-value">
+                ${escapeHtml(order.paid_at)}
+              </b>
+
+            </div>
+          `
+          : ""
+        }
+
+
+        ${
+          order.topped_up_at
+          ? `
+            <div class="info-row">
+
+              <span class="info-label">
+                💎 Nạp kim cương lúc
+              </span>
+
+              <b class="info-value">
+                ${escapeHtml(order.topped_up_at)}
+              </b>
+
+            </div>
+          `
+          : ""
+        }
+
+      </div>
+
+
+      <div class="actions">
+
+        ${
+          alreadyTopup
+
+          ? `
+            <button
+              class="topup-btn"
+              disabled
+            >
+              💎 Đã nạp kim cương
+            </button>
+          `
+
+          : `
+            <button
+              class="topup-btn"
+              onclick="confirmTopup(
+                '${escapeJs(orderCode)}'
+              )"
+            >
+              💎 Xác nhận đã nạp kim cương
+            </button>
+          `
+        }
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* =====================================================
+   XÁC NHẬN ĐÃ NẠP KIM CƯƠNG
+   ===================================================== */
+
+async function confirmTopup(orderCode) {
+
+  const ok =
+    confirm(
+      "Bạn đã thực sự nạp kim cương vào nick khách chưa?"
+    );
+
+  if (!ok) return;
+
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/admin/orders/" +
+        encodeURIComponent(orderCode) +
+        "/topup",
+        {
+          method: "POST",
+
+          headers: {
+            "Authorization": authHeader,
+            "Content-Type": "application/json"
+          }
+        }
       );
 
+
+    if (response.status === 401 ||
+        response.status === 403) {
+
+      alert(
+        "Phiên đăng nhập đã hết."
+      );
+
+      logoutAdmin();
+
+      return;
     }
 
-    return data;
 
-  })
-  .then(data => {
+    const data =
+      await response.json();
+
 
     if (!data.success) {
 
-      throw new Error(
+      alert(
         data.message ||
         "Không thể xác nhận."
       );
 
+      return;
     }
 
 
     alert(
-      "✅ Đã xác nhận nạp thành công!"
+      "💎 Đã xác nhận nạp kim cương thành công!"
     );
 
 
-    loadOrders();
+    await loadOrders();
 
-  })
-  .catch(error => {
+  } catch (error) {
+
+    console.error(error);
 
     alert(
-      "❌ " +
-      error.message
+      "Không thể kết nối máy chủ."
     );
-
-  });
+  }
 
 }
 
 
 /* =====================================================
-   ĐĂNG XUẤT
+   LOGOUT
    ===================================================== */
 
-function logout() {
-
-  sessionStorage.removeItem(
-    "adminAuth"
-  );
+function logoutAdmin() {
 
   authHeader = "";
 
-  orders = [];
-
+  allOrders = [];
 
   document
-    .getElementById("adminBox")
+    .getElementById("adminPanel")
     .style.display = "none";
-
 
   document
     .getElementById("loginBox")
     .style.display = "block";
-
-
-  document
-    .getElementById("username")
-    .value = "";
-
 
   document
     .getElementById("password")
@@ -864,7 +968,43 @@ function logout() {
 
 
 /* =====================================================
-   CHỐNG HTML INJECTION
+   MESSAGE
+   ===================================================== */
+
+function showLoginMessage(text) {
+
+  const el =
+    document.getElementById(
+      "loginMessage"
+    );
+
+  el.innerText = text;
+  el.style.display = "block";
+
+}
+
+
+function showMessage(text) {
+
+  const el =
+    document.getElementById(
+      "message"
+    );
+
+  el.innerText = text;
+  el.style.display = "block";
+
+  setTimeout(() => {
+
+    el.style.display = "none";
+
+  }, 4000);
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
    ===================================================== */
 
 function escapeHtml(value) {
@@ -875,7 +1015,6 @@ function escapeHtml(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
-
 }
 
 
@@ -884,47 +1023,25 @@ function escapeJs(value) {
   return String(value ?? "")
     .replace(/\\/g, "\\\\")
     .replace(/'/g, "\\'");
-
 }
 
 
 /* =====================================================
-   TỰ ĐĂNG NHẬP LẠI KHI MỞ TRANG
+   ENTER ĐỂ ĐĂNG NHẬP
    ===================================================== */
 
-window.addEventListener(
-  "DOMContentLoaded",
-  function() {
+document
+  .getElementById("password")
+  .addEventListener(
+    "keydown",
+    function(event) {
 
-    const savedAuth =
-      sessionStorage.getItem(
-        "adminAuth"
-      );
+      if (event.key === "Enter") {
+        loginAdmin();
+      }
 
-
-    if (!savedAuth) {
-      return;
     }
-
-
-    authHeader =
-      savedAuth;
-
-
-    document
-      .getElementById("loginBox")
-      .style.display = "none";
-
-
-    document
-      .getElementById("adminBox")
-      .style.display = "block";
-
-
-    loadOrders();
-
-  }
-);
+  );
 
 </script>
 
