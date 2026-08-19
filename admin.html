@@ -3,205 +3,402 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - Quản lý đơn nạp</title>
+
+<title>Nạp Kim Cương Free Fire</title>
 
 <style>
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#080910;
-  color:#fff;
+* {
+  box-sizing: border-box;
 }
 
-.wrap{
-  max-width:1050px;
-  margin:auto;
-  padding:18px;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #080910;
+  color: white;
 }
 
-.card{
-  background:#171821;
-  border:1px solid #30313b;
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:18px;
+.header {
+  text-align: center;
+  padding: 25px 15px;
+  background: linear-gradient(135deg, #11111b, #25113e);
 }
 
-h1,h2{
-  margin-top:0;
-  color:#ffd21c;
+.header h1 {
+  margin: 0;
+  color: #ffd21c;
+  font-size: 30px;
 }
 
-input{
-  width:100%;
-  padding:15px;
-  border-radius:12px;
-  border:1px solid #444;
-  background:#0d0e15;
-  color:#fff;
-  font-size:17px;
-  outline:none;
-  margin:7px 0 12px;
+.header p {
+  margin: 10px 0 0;
+  color: #ddd;
+  font-size: 16px;
 }
 
-button{
-  border:0;
-  border-radius:11px;
-  padding:12px 15px;
-  font-weight:bold;
-  cursor:pointer;
-  font-size:15px;
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px 15px 100px;
 }
 
-.login{
-  max-width:480px;
-  margin:60px auto;
+.id-box,
+.history-box {
+  background: #171821;
+  padding: 20px;
+  border-radius: 18px;
+  margin-bottom: 22px;
 }
 
-.login button{
-  width:100%;
-  background:linear-gradient(90deg,#ffca05,#ff7b00);
-  font-size:18px;
+.id-box label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
+#playerId,
+#historyCode {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  outline: none;
+  background: #0d0e15;
+  color: white;
+  font-size: 18px;
 }
 
-.refresh{
-  background:#2878e8;
-  color:#fff;
+.package-title,
+.history-title {
+  color: #ffd21c;
+  font-size: 25px;
+  margin-bottom: 15px;
 }
 
-.logout{
-  background:#333;
-  color:#fff;
+.package-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
 }
 
-.order{
-  background:#0e0f16;
-  border:1px solid #333;
-  border-radius:16px;
-  padding:17px;
-  margin-top:12px;
+.package {
+  padding: 17px 10px;
+  text-align: center;
+  background: linear-gradient(145deg, #1a1a26, #101018);
+  border: 2px solid #333;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: .2s;
 }
 
-.order-head{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:center;
-  flex-wrap:wrap;
+.package:hover {
+  border-color: #ffd21c;
+  transform: translateY(-2px);
 }
 
-.code{
-  font-size:18px;
-  font-weight:bold;
-  color:#55a3ff;
+.package.active {
+  border-color: #ffd21c;
+  box-shadow: 0 0 20px rgba(255,210,28,.25);
 }
 
-.badge{
-  padding:9px 12px;
-  border-radius:10px;
-  font-weight:bold;
+.diamond {
+  font-size: 28px;
 }
 
-.pending{
-  background:#403713;
-  color:#ffd21c;
+.package-name {
+  margin-top: 7px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.payment-received{
-  background:#3b2f08;
-  color:#ffc107;
+.package-price {
+  margin-top: 7px;
+  color: #ffd21c;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.processing{
-  background:#102d50;
-  color:#55a3ff;
+.pay-button,
+.history-button {
+  width: 100%;
+  margin-top: 22px;
+  padding: 17px;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(90deg, #ffca05, #ff7b00);
+  color: #111;
+  font-size: 21px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.paid{
-  background:#063d23;
-  color:#25d366;
+.history-button {
+  margin-top: 10px;
+  background: #2878e8;
+  color: white;
 }
 
-.info{
-  line-height:1.9;
-  color:#ddd;
-  margin-top:10px;
+.history-result {
+  display: none;
+  margin-top: 18px;
+  padding: 17px;
+  background: #0d0e15;
+  border: 1px solid #333;
+  border-radius: 15px;
+  line-height: 1.8;
 }
 
-.actions{
-  margin-top:15px;
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
+.history-result.show {
+  display: block;
 }
 
-.processing-btn{
-  background:#2878e8;
-  color:#fff;
+.status-success {
+  color: #25d366;
 }
 
-.paid-btn{
-  background:#19bd61;
-  color:#fff;
+.status-pending {
+  color: #ffd21c;
 }
 
-button:disabled{
-  opacity:.45;
-  cursor:not-allowed;
+.status-error {
+  color: #ff5c5c;
 }
 
-.empty{
-  text-align:center;
-  color:#aaa;
-  padding:30px;
+.status-paid {
+  color: #4d8dff;
 }
 
-.error{
-  background:#401d20;
-  color:#ff7777;
-  padding:13px;
-  border-radius:10px;
-  margin-top:10px;
+.payment-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0,0,0,.72);
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
 }
 
-.hidden{
-  display:none;
+.payment-overlay.show {
+  display: flex;
 }
 
-.small{
-  color:#aaa;
+.payment-box {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: 94vh;
+  overflow-y: auto;
+  padding: 24px 16px;
+  background: white;
+  color: #303746;
+  border-radius: 28px;
+  text-align: center;
+  box-shadow: 0 25px 70px rgba(0,0,0,.5);
 }
 
-.notice{
-  margin-top:15px;
-  padding:14px;
-  border-radius:12px;
-  background:#30270b;
-  color:#ffd21c;
-  line-height:1.5;
+.close-payment {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: #eeeeee;
+  color: #555;
+  font-size: 32px;
+  cursor: pointer;
 }
 
-@media(max-width:600px){
-  .wrap{
-    padding:12px;
+.payment-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.payment-title span {
+  font-size: 30px;
+}
+
+.payment-title h2 {
+  margin: 0;
+  color: #303030;
+  font-size: 34px;
+}
+
+.payment-subtitle {
+  color: #666;
+  font-size: 19px;
+  margin: 15px 0 20px;
+}
+
+.payment-info {
+  background: #f1f4f8;
+  border-radius: 20px;
+  padding: 17px;
+  margin-bottom: 20px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 18px;
+  text-align: left;
+}
+
+.info-row span {
+  color: #515a69;
+  font-weight: bold;
+}
+
+.info-row b {
+  color: #2878e8;
+  text-align: right;
+  font-size: 19px;
+  word-break: break-word;
+}
+
+.qr-container {
+  width: 100%;
+  padding: 15px;
+  background: #fff;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.payment-qr {
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  margin: auto;
+  object-fit: contain;
+}
+
+.qr-hint {
+  margin: 12px 0 0;
+  color: #666;
+  font-size: 16px;
+}
+
+.bank-info {
+  overflow: hidden;
+  border: 1px solid #ddd;
+  border-radius: 18px;
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+.bank-row {
+  min-height: 62px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 17px;
+}
+
+.bank-row:last-child {
+  border-bottom: none;
+}
+
+.bank-label {
+  color: #555f70;
+  font-weight: bold;
+}
+
+.bank-value {
+  color: #303746;
+  font-weight: bold;
+  text-align: right;
+  word-break: break-word;
+}
+
+.copy-area {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.copy-area b {
+  color: #2878e8;
+}
+
+.copy-btn {
+  padding: 9px 14px;
+  border: none;
+  border-radius: 9px;
+  background: #d94b52;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.payment-note {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 18px 8px;
+}
+
+.close-btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 14px;
+  background: #eeeeee;
+  color: #2878e8;
+  font-size: 19px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 27px;
   }
 
-  .card{
-    padding:16px;
+  .package-list {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .actions button{
-    width:100%;
+  .package-name,
+  .package-price {
+    font-size: 16px;
+  }
+
+  .payment-title h2 {
+    font-size: 30px;
+  }
+
+  .payment-subtitle {
+    font-size: 18px;
+  }
+
+  .info-row {
+    font-size: 16px;
+  }
+
+  .info-row b {
+    font-size: 17px;
+  }
+
+  .bank-row {
+    font-size: 15px;
   }
 }
 </style>
@@ -209,105 +406,277 @@ button:disabled{
 
 <body>
 
-<div class="wrap">
+<div class="header">
+  <h1>💎 NẠP KIM CƯƠNG FREE FIRE</h1>
+  <p>Nạp nhanh chóng • Không cần đăng nhập tài khoản</p>
+</div>
 
-  <!-- LOGIN -->
+<div class="container">
 
-  <div id="loginBox" class="card login">
-
-    <h1>🔐 ADMIN LOGIN</h1>
-
-    <p class="small">
-      Đăng nhập để quản lý đơn nạp Free Fire
-    </p>
+  <div class="id-box">
+    <label for="playerId">
+      🎮 ID nhân vật Free Fire
+    </label>
 
     <input
-      id="username"
+      id="playerId"
       type="text"
-      placeholder="Tài khoản admin"
-      autocomplete="username"
+      inputmode="numeric"
+      placeholder="Nhập ID nhân vật"
     >
+  </div>
 
-    <input
-      id="password"
-      type="password"
-      placeholder="Mật khẩu admin"
-      autocomplete="current-password"
-    >
+  <h2 class="package-title">
+    💎 Chọn gói kim cương
+  </h2>
 
-    <button onclick="login()">
-      🔐 ĐĂNG NHẬP ADMIN
-    </button>
+  <div class="package-list">
 
-    <div id="loginError"></div>
+    <div class="package" data-name="25 Kim Cương" data-price="4800" onclick="chonGoi(this)">
+      <div class="diamond">💎</div>
+      <div class="package-name">25 KC</div>
+      <div class="package-price">4.800 VNĐ</div>
+    </div>
+
+    <div class="package" data-name="51 Kim Cương" data-price="9600" onclick="chonGoi(this)">
+      <div class="diamond">💎</div>
+      <div class="package-name">51 KC</div>
+      <div class="package-price">9.600 VNĐ</div>
+    </div>
+
+    <div class="package" data-name="113 Kim Cương" data-price="19000" onclick="chonGoi(this)">
+      <div class="diamond">💎</div>
+      <div class="package-name">113 KC</div>
+      <div class="package-price">19.000 VNĐ</div>
+    </div>
+
+    <div class="package" data-name="283 Kim Cương" data-price="47500" onclick="chonGoi(this)">
+      <div class="diamond">💎</div>
+      <div class="package-name">283 KC</div>
+      <div class="package-price">47.500 VNĐ</div>
+    </div>
+
+    <div class="package" data-name="566 Kim Cương" data-price="95900" onclick="chonGoi(this)">
+      <div class="diamond">💎</div>
+      <div class="package-name">566 KC</div>
+      <div class="package-price">95.900 VNĐ</div>
+    </div>
+
+    <div class="package" data-name="1.132 Kim Cương" data-price="195000" onclick="chonGoi(this)">
+      <div class="diamond">💎</div>
+      <div class="package-name">1.132 KC</div>
+      <div class="package-price">195.000 VNĐ</div>
+    </div>
+
+    <div class="package" data-name="2.830 Kim Cương" data-price="480000" onclick="chonGoi(this)">
+      <div class="diamond">💎</div>
+      <div class="package-name">2.830 KC</div>
+      <div class="package-price">480.000 VNĐ</div>
+    </div>
+
+    <div class="package" data-name="5.660 Kim Cương" data-price="950000" onclick="chonGoi(this)">
+      <div class="diamond">💎</div>
+      <div class="package-name">5.660 KC</div>
+      <div class="package-price">950.000 VNĐ</div>
+    </div>
+
+    <div class="package" data-name="11.320 Kim Cương" data-price="1900000" onclick="chonGoi(this)">
+      <div class="diamond">💎</div>
+      <div class="package-name">11.320 KC</div>
+      <div class="package-price">1.900.000 VNĐ</div>
+    </div>
+
+    <div class="package" data-name="22.640 Kim Cương" data-price="4800000" onclick="chonGoi(this)">
+      <div class="diamond">💎</div>
+      <div class="package-name">22.640 KC</div>
+      <div class="package-price">4.800.000 VNĐ</div>
+    </div>
 
   </div>
 
+  <button class="pay-button" onclick="moThanhToan()">
+    💳 Thanh toán ngay
+  </button>
 
-  <!-- ADMIN -->
+  <div class="history-box">
 
-  <div id="adminPanel" class="hidden">
+    <h2 class="history-title">
+      📜 Lịch sử nạp
+    </h2>
 
-    <div class="card">
+    <p style="
+      color:#aaa;
+      font-size:16px;
+      margin-top:-5px;
+      margin-bottom:15px;
+    ">
+      Nhập mã đơn hàng để kiểm tra trạng thái nạp.
+    </p>
 
-      <div class="top">
+    <input
+      id="historyCode"
+      type="text"
+      placeholder="Nhập mã đơn hàng"
+      autocomplete="off"
+    >
 
-        <div>
+    <button
+      class="history-button"
+      type="button"
+      onclick="kiemTraLichSu()"
+    >
+      🔎 Kiểm tra đơn hàng
+    </button>
 
-          <h1>
-            📦 QUẢN LÝ ĐƠN NẠP
-          </h1>
+    <div
+      id="historyResult"
+      class="history-result"
+    ></div>
 
-          <div class="small">
-            Đơn khách tạo sẽ xuất hiện ở đây.
-          </div>
+  </div>
 
-        </div>
+</div>
 
-        <div>
 
-          <button
-            class="refresh"
-            onclick="loadOrders()"
-          >
-            🔄 Tải lại
-          </button>
+<!-- =========================
+     POPUP THANH TOÁN
+========================= -->
 
-          <button
-            class="logout"
-            onclick="logout()"
-          >
-            🚪 Đăng xuất
-          </button>
+<div
+  id="paymentPopup"
+  class="payment-overlay"
+>
 
-        </div>
+  <div class="payment-box">
 
+    <button
+      class="close-payment"
+      onclick="dongThanhToan()"
+    >
+      ×
+    </button>
+
+    <div class="payment-title">
+      <span>💳</span>
+      <h2>Thanh toán</h2>
+    </div>
+
+    <p class="payment-subtitle">
+      Quét mã QR bên dưới để thanh toán
+    </p>
+
+    <div class="payment-info">
+
+      <div class="info-row">
+        <span>ID nhân vật</span>
+        <b id="payPlayerId">---</b>
       </div>
 
-      <div class="notice">
-        ⚠️ Tiền khách chuyển khoản thành công chỉ được ghi nhận là
-        <b>ĐÃ THANH TOÁN - CHỜ NẠP</b>.
-        Admin phải tự bấm <b>ĐANG NẠP KIM CƯƠNG</b> và sau khi thực sự
-        nạp xong mới bấm <b>ĐÃ NẠP KIM CƯƠNG</b>.
+      <div class="info-row">
+        <span>Gói</span>
+        <b id="payPackage">---</b>
+      </div>
+
+      <div class="info-row">
+        <span>Số tiền</span>
+        <b id="payAmount">---</b>
+      </div>
+
+      <div class="info-row">
+        <span>Mã đơn hàng</span>
+        <b id="payOrderCode">---</b>
       </div>
 
     </div>
 
+    <div class="qr-container">
 
-    <div class="card">
-
-      <h2>
-        📋 Danh sách đơn hàng
-      </h2>
-
-      <div
-        id="orderList"
-        class="empty"
+      <img
+        id="paymentQR"
+        class="payment-qr"
+        src=""
+        alt="Mã QR thanh toán"
       >
-        Đang tải...
+
+      <p class="qr-hint">
+        📱 Quét mã QR bằng ứng dụng ngân hàng
+      </p>
+
+    </div>
+
+    <div class="bank-info">
+
+      <div class="bank-row">
+        <span class="bank-label">
+          🏦 Ngân hàng
+        </span>
+
+        <b class="bank-value">
+          TPBank
+        </b>
+      </div>
+
+      <div class="bank-row">
+        <span class="bank-label">
+          👤 Chủ tài khoản
+        </span>
+
+        <b class="bank-value">
+          NGUYEN HOANG ANH
+        </b>
+      </div>
+
+      <div class="bank-row">
+
+        <span class="bank-label">
+          💳 Số tài khoản
+        </span>
+
+        <div class="copy-area">
+
+          <b>26112071111</b>
+
+          <button
+            class="copy-btn"
+            type="button"
+            onclick="copyText('26112071111')"
+          >
+            Copy
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="bank-row">
+
+        <span class="bank-label">
+          📝 Nội dung
+        </span>
+
+        <b
+          id="paymentContent"
+          class="bank-value"
+        >
+          ---
+        </b>
+
       </div>
 
     </div>
+
+    <p class="payment-note">
+      ⚠️ Vui lòng chuyển khoản đúng
+      <b>số tiền</b> và
+      <b>nội dung</b> hiển thị bên trên.
+    </p>
+
+    <button
+      class="close-btn"
+      onclick="dongThanhToan()"
+    >
+      Đóng
+    </button>
 
   </div>
 
@@ -316,865 +685,1013 @@ button:disabled{
 
 <script>
 
-/* =====================================================
-   API
-===================================================== */
+/* ================================
+   NGÂN HÀNG
+================================ */
 
-const API_ORDERS =
-  "/api/admin/orders";
-
-const API_PROCESSING = code =>
-  "/api/admin/orders/" +
-  encodeURIComponent(code) +
-  "/processing";
-
-const API_PAID = code =>
-  "/api/admin/orders/" +
-  encodeURIComponent(code) +
-  "/success";
+const BANK_CODE = "TPB";
+const BANK_ACCOUNT = "26112071111";
+const ACCOUNT_NAME = "NGUYEN HOANG ANH";
 
 
-/* =====================================================
-   AUTH
-===================================================== */
+/* ================================
+   ĐƠN HIỆN TẠI
+================================ */
 
-let adminAuth =
-  localStorage.getItem(
-    "ff_admin_auth"
-  ) || "";
+let currentOrderCode = "";
+let orderCheckTimer = null;
 
 
-/* =====================================================
-   HEADERS
-===================================================== */
+/* ================================
+   ESCAPE HTML
+================================ */
 
-function headers(){
-
-  return {
-
-    "Authorization":
-      "Basic " + adminAuth,
-
-    "Accept":
-      "application/json",
-
-    "Content-Type":
-      "application/json"
-
-  };
-
-}
-
-
-/* =====================================================
-   ESCAPE
-===================================================== */
-
-function escapeHtml(value){
+function escapeHtml(value) {
 
   return String(value ?? "")
-
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-/* =====================================================
-   ESCAPE JAVASCRIPT
-===================================================== */
-
-function escapeJs(value){
-
-  return String(value ?? "")
-
-    .replace(/\\/g,"\\\\")
-    .replace(/'/g,"\\'")
-    .replace(/"/g,"&quot;")
-
-    .replace(/\r/g,"\\r")
-    .replace(/\n/g,"\\n");
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 }
 
 
-/* =====================================================
-   FORMAT TIỀN
-===================================================== */
-
-function formatMoney(value){
-
-  return Number(
-    value || 0
-  ).toLocaleString(
-    "vi-VN"
-  ) + " VNĐ";
-
-}
-
-
-/* =====================================================
+/* ================================
    FORMAT NGÀY
-===================================================== */
+================================ */
 
-function formatDate(value){
+function formatDate(value) {
 
-  if(!value){
-
-    return "---";
-
+  if (!value) {
+    return "Chưa có";
   }
 
-  const d =
-    new Date(value);
+  const date = new Date(value);
 
-  if(
-    Number.isNaN(
-      d.getTime()
-    )
-  ){
-
+  if (Number.isNaN(date.getTime())) {
     return String(value);
-
   }
 
-  return d.toLocaleString(
-    "vi-VN"
+  return date.toLocaleString("vi-VN");
+
+}
+
+
+/* ================================
+   CHỌN GÓI
+================================ */
+
+function chonGoi(element) {
+
+  document
+    .querySelectorAll(".package")
+    .forEach(function(pkg) {
+      pkg.classList.remove("active");
+    });
+
+  element.classList.add("active");
+}
+
+
+/* ================================
+   TẠO ĐƠN
+================================ */
+
+async function taoDonHang(
+  playerId,
+  packageName,
+  amount
+) {
+
+  const response = await fetch(
+    "/api/orders",
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+
+      body: JSON.stringify({
+        player_id: playerId,
+        package_name: packageName,
+        amount: amount
+      })
+    }
   );
 
+
+  const result = await response.json();
+
+
+  if (!response.ok) {
+    throw new Error(
+      result.message ||
+      "Không thể tạo đơn."
+    );
+  }
+
+
+  if (
+    !result.success ||
+    !result.order ||
+    !result.order.order_code
+  ) {
+    throw new Error(
+      "Server không trả về mã đơn."
+    );
+  }
+
+
+  return result.order;
 }
 
 
-/* =====================================================
-   TRẠNG THÁI
-===================================================== */
+/* ================================
+   MỞ THANH TOÁN
+================================ */
 
-function statusInfo(status){
+async function moThanhToan() {
 
-  const s =
-    String(status || "")
-      .toUpperCase();
-
-
-  if(s === "PAID"){
-
-    return {
-
-      text:
-        "🟢 ĐÃ NẠP KIM CƯƠNG",
-
-      cls:
-        "paid"
-
-    };
-
-  }
-
-
-  if(s === "PROCESSING"){
-
-    return {
-
-      text:
-        "🔵 ĐANG NẠP KIM CƯƠNG",
-
-      cls:
-        "processing"
-
-    };
-
-  }
-
-
-  if(
-    s === "PAYMENT_RECEIVED"
-  ){
-
-    return {
-
-      text:
-        "🟡 ĐÃ THANH TOÁN - CHỜ NẠP",
-
-      cls:
-        "payment-received"
-
-    };
-
-  }
-
-
-  return {
-
-    text:
-      "🟡 CHỜ THANH TOÁN",
-
-    cls:
-      "pending"
-
-  };
-
-}
-
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
-async function login(){
-
-  const username =
+  const playerId =
     document
-      .getElementById(
-        "username"
-      )
+      .getElementById("playerId")
       .value
       .trim();
 
 
-  const password =
-    document
-      .getElementById(
-        "password"
-      )
-      .value;
+  if (!playerId) {
 
-
-  const error =
-    document
-      .getElementById(
-        "loginError"
-      );
-
-
-  if(
-    !username ||
-    !password
-  ){
-
-    error.innerHTML =
-      '<div class="error">⚠️ Vui lòng nhập tài khoản và mật khẩu.</div>';
+    alert(
+      "Vui lòng nhập ID nhân vật Free Fire!"
+    );
 
     return;
-
   }
 
 
-  adminAuth =
-    btoa(
-      username +
-      ":" +
-      password
+  const cleanPlayerId =
+    playerId.replace(/[^\d]/g, "");
+
+
+  if (!cleanPlayerId) {
+
+    alert(
+      "ID Free Fire không hợp lệ!"
+    );
+
+    return;
+  }
+
+
+  const selectedPackage =
+    document.querySelector(".package.active");
+
+
+  if (!selectedPackage) {
+
+    alert(
+      "Vui lòng chọn gói kim cương!"
+    );
+
+    return;
+  }
+
+
+  const packageName =
+    selectedPackage.dataset.name;
+
+
+  const amount =
+    Number(
+      selectedPackage.dataset.price
     );
 
 
-  try{
+  try {
 
-    const response =
-      await fetch(
-        API_ORDERS,
-        {
-
-          method:
-            "GET",
-
-          headers:
-            headers(),
-
-          cache:
-            "no-store"
-
-        }
+    const order =
+      await taoDonHang(
+        cleanPlayerId,
+        packageName,
+        amount
       );
 
 
-    const data =
-      await response.json();
+    currentOrderCode =
+      order.order_code;
 
 
-    if(
-      !response.ok ||
-      !data.success
-    ){
-
-      throw new Error(
-        data.message ||
-        "Sai tài khoản hoặc mật khẩu."
-      );
-
-    }
-
-
-    localStorage.setItem(
-      "ff_admin_auth",
-      adminAuth
-    );
+    const paymentContent =
+      order.transfer_content ||
+      order.order_code;
 
 
     document
-      .getElementById(
-        "loginBox"
-      )
-      .classList
-      .add("hidden");
+      .getElementById("payPlayerId")
+      .innerText =
+        order.player_id;
 
 
     document
-      .getElementById(
-        "adminPanel"
-      )
-      .classList
-      .remove("hidden");
+      .getElementById("payPackage")
+      .innerText =
+        order.package_name;
 
 
-    renderOrders(
-      data.orders || []
+    document
+      .getElementById("payAmount")
+      .innerText =
+        Number(order.amount)
+          .toLocaleString("vi-VN") +
+        " VND";
+
+
+    document
+      .getElementById("payOrderCode")
+      .innerText =
+        order.order_code;
+
+
+    document
+      .getElementById("paymentContent")
+      .innerText =
+        paymentContent;
+
+
+    const qrUrl =
+      "https://img.vietqr.io/image/" +
+      BANK_CODE +
+      "-" +
+      BANK_ACCOUNT +
+      "-qr_only.png" +
+      "?amount=" +
+      encodeURIComponent(order.amount) +
+      "&addInfo=" +
+      encodeURIComponent(paymentContent) +
+      "&accountName=" +
+      encodeURIComponent(ACCOUNT_NAME);
+
+
+    document
+      .getElementById("paymentQR")
+      .src =
+        qrUrl;
+
+
+    document
+      .getElementById("paymentPopup")
+      .classList.add("show");
+
+
+    /*
+      Chỉ theo dõi THANH TOÁN.
+
+      PAID = khách đã chuyển tiền.
+      RECHARGED = admin đã tự tay nạp.
+
+      Không có đoạn nào ở đây
+      tự đổi PAID thành RECHARGED.
+    */
+
+    batDauKiemTraDon(
+      order.order_code
     );
 
   }
 
-  catch(err){
+  catch (error) {
 
-    adminAuth = "";
+    console.error(
+      "CREATE ORDER ERROR:",
+      error
+    );
 
-    error.innerHTML =
-      '<div class="error">❌ ' +
-      escapeHtml(
-        err.message
-      ) +
-      '</div>';
-
+    alert(
+      error.message ||
+      "Không thể tạo đơn hàng."
+    );
   }
-
 }
 
 
-/* =====================================================
-   LOAD ORDERS
-===================================================== */
+/* ================================
+   KIỂM TRA ĐƠN
+================================ */
 
-async function loadOrders(){
+function batDauKiemTraDon(orderCode) {
 
-  const list =
-    document
-      .getElementById(
-        "orderList"
-      );
+  if (orderCheckTimer) {
 
-
-  list.innerHTML =
-    '<div class="empty">⏳ Đang tải đơn hàng...</div>';
-
-
-  try{
-
-    const response =
-      await fetch(
-        API_ORDERS,
-        {
-
-          method:
-            "GET",
-
-          headers:
-            headers(),
-
-          cache:
-            "no-store"
-
-        }
-      );
-
-
-    if(
-      response.status === 401 ||
-      response.status === 403
-    ){
-
-      logout();
-
-      return;
-
-    }
-
-
-    const data =
-      await response.json();
-
-
-    if(
-      !response.ok ||
-      !data.success
-    ){
-
-      throw new Error(
-        data.message ||
-        "Không lấy được danh sách đơn."
-      );
-
-    }
-
-
-    renderOrders(
-      data.orders || []
+    clearInterval(
+      orderCheckTimer
     );
 
   }
 
-  catch(err){
 
-    list.innerHTML =
-      '<div class="error">❌ ' +
-      escapeHtml(
-        err.message
-      ) +
-      '</div>';
+  orderCheckTimer =
+    setInterval(
+      async function() {
 
-  }
+        try {
 
-}
-
-
-/* =====================================================
-   RENDER ORDERS
-===================================================== */
-
-function renderOrders(orders){
-
-  const list =
-    document
-      .getElementById(
-        "orderList"
-      );
+          const response =
+            await fetch(
+              "/api/orders/" +
+              encodeURIComponent(orderCode) +
+              "?t=" +
+              Date.now(),
+              {
+                method: "GET",
+                cache: "no-store",
+                headers: {
+                  "Accept":
+                    "application/json"
+                }
+              }
+            );
 
 
-  if(!orders.length){
-
-    list.innerHTML =
-      '<div class="empty">📭 Hiện chưa có đơn hàng nào.</div>';
-
-    return;
-
-  }
+          if (!response.ok) {
+            return;
+          }
 
 
-  list.innerHTML =
-    orders.map(
-      order => {
+          const result =
+            await response.json();
 
-        const status =
-          statusInfo(
-            order.status
+
+          if (
+            !result.success ||
+            !result.order
+          ) {
+            return;
+          }
+
+
+          const order =
+            result.order;
+
+
+          /*
+            PAID:
+            khách đã chuyển khoản.
+            KHÔNG đóng popup.
+            KHÔNG báo đã nạp.
+          */
+
+          if (
+            String(order.status)
+              .toUpperCase() === "PAID"
+          ) {
+
+            hienThiTrangThaiDangNap(
+              order
+            );
+
+            return;
+          }
+
+
+          /*
+            RECHARGED:
+            chỉ khi ADMIN đã nạp.
+          */
+
+          if (
+            String(order.status)
+              .toUpperCase() === "RECHARGED"
+          ) {
+
+            clearInterval(
+              orderCheckTimer
+            );
+
+            orderCheckTimer = null;
+
+
+            hienThiTrangThaiThanhCong(
+              order
+            );
+
+          }
+
+        }
+
+        catch (error) {
+
+          console.error(
+            "ORDER STATUS ERROR:",
+            error
           );
 
+        }
 
-        const s =
-          String(
-            order.status || ""
-          ).toUpperCase();
-
-
-        const isPaid =
-          s === "PAID";
+      },
+      3000
+    );
+}
 
 
-        const canStart =
-          s === "PAYMENT_RECEIVED";
+/* ================================
+   ĐANG NẠP
+================================ */
+
+function hienThiTrangThaiDangNap(order) {
+
+  const resultBox =
+    document.getElementById(
+      "historyResult"
+    );
 
 
-        const isProcessing =
-          s === "PROCESSING";
+  if (!resultBox) {
+    return;
+  }
 
 
-        const transferContent =
-          order.payment_content ||
-          order.transfer_content ||
-          "";
+  resultBox.className =
+    "history-result show";
 
 
-        return `
+  resultBox.innerHTML = `
 
-          <div class="order">
+    <div style="
+      padding:18px;
+      background:#3b3210;
+      border:1px solid #665a18;
+      border-radius:15px;
+      text-align:center;
+    ">
 
-            <div class="order-head">
+      <div style="
+        color:#ffd21c;
+        font-size:22px;
+        font-weight:bold;
+      ">
+        🟡 Đang Nạp
+      </div>
 
-              <span class="code">
-                📦 MÃ ĐƠN:
-                ${escapeHtml(
-                  order.order_code
-                )}
-              </span>
+      <div style="
+        color:#ccc;
+        margin-top:10px;
+      ">
+        Khách đã chuyển khoản.
+        Vui lòng chờ admin nạp kim cương.
+      </div>
 
-              <span class="badge ${status.cls}">
-                ${status.text}
-              </span>
+      <div style="
+        margin-top:10px;
+        color:#fff;
+      ">
+        Mã đơn:
+        <b>
+          ${escapeHtml(order.order_code)}
+        </b>
+      </div>
 
-            </div>
-
-
-            <div class="info">
-
-              🎮 ID Free Fire:
-              <b>
-                ${escapeHtml(
-                  order.player_id
-                )}
-              </b>
-
-              <br>
-
-              💎 Gói:
-              <b>
-                ${escapeHtml(
-                  order.package_name
-                )}
-              </b>
-
-              <br>
-
-              💰 Số tiền:
-              <b>
-                ${formatMoney(
-                  order.amount
-                )}
-              </b>
-
-              <br>
-
-              📝 Nội dung chuyển khoản:
-              <b>
-                ${escapeHtml(
-                  transferContent ||
-                  "Chưa có"
-                )}
-              </b>
-
-              <br>
-
-              📅 Tạo đơn:
-              <b>
-                ${escapeHtml(
-                  formatDate(
-                    order.created_at
-                  )
-                )}
-              </b>
-
-              ${
-                order.paid_at
-                ? `
-                  <br>
-
-                  ✅ Nạp lúc:
-                  <b>
-                    ${escapeHtml(
-                      formatDate(
-                        order.paid_at
-                      )
-                    )}
-                  </b>
-                `
-                : ""
-              }
-
-            </div>
+    </div>
+  `;
+}
 
 
-            <div class="actions">
+/* ================================
+   THÀNH CÔNG
+================================ */
 
-              <button
-                class="processing-btn"
-                ${
-                  isPaid ||
-                  isProcessing ||
-                  !canStart
-                  ? "disabled"
-                  : ""
-                }
-                onclick="
-                  setProcessing(
-                    '${escapeJs(
-                      order.order_code
-                    )}'
-                  )
-                "
-              >
-                🔵 ĐANG NẠP KIM CƯƠNG
-              </button>
+function hienThiTrangThaiThanhCong(order) {
+
+  const resultBox =
+    document.getElementById(
+      "historyResult"
+    );
 
 
-              <button
-                class="paid-btn"
-                ${
-                  isPaid ||
-                  !isProcessing
-                  ? "disabled"
-                  : ""
-                }
-                onclick="
-                  setPaid(
-                    '${escapeJs(
-                      order.order_code
-                    )}'
-                  )
-                "
-              >
-                💎 ĐÃ NẠP KIM CƯƠNG
-              </button>
+  resultBox.className =
+    "history-result show";
 
-            </div>
 
+  resultBox.innerHTML = `
+
+    <div style="
+      padding:18px;
+      background:#063d23;
+      border:1px solid #0b7040;
+      border-radius:15px;
+      text-align:center;
+    ">
+
+      <div style="
+        color:#25d366;
+        font-size:22px;
+        font-weight:bold;
+      ">
+        🟢 Thành Công
+      </div>
+
+      <div style="
+        color:#ddd;
+        margin-top:10px;
+      ">
+        Admin đã nạp kim cương thành công.
+      </div>
+
+      <div style="
+        margin-top:10px;
+        color:white;
+      ">
+        Mã đơn:
+        <b>
+          ${escapeHtml(order.order_code)}
+        </b>
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* ================================
+   LỊCH SỬ
+================================ */
+
+async function kiemTraLichSu() {
+
+  const input =
+    document.getElementById(
+      "historyCode"
+    );
+
+
+  const resultBox =
+    document.getElementById(
+      "historyResult"
+    );
+
+
+  const orderCode =
+    input.value
+      .trim()
+      .toUpperCase();
+
+
+  if (!orderCode) {
+
+    resultBox.className =
+      "history-result show status-error";
+
+    resultBox.innerHTML =
+      "❌ Vui lòng nhập mã đơn hàng.";
+
+    return;
+  }
+
+
+  resultBox.className =
+    "history-result show";
+
+
+  resultBox.innerHTML = `
+    <div style="
+      text-align:center;
+      color:#ccc;
+    ">
+      🔄 Đang kiểm tra đơn hàng...
+    </div>
+  `;
+
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/orders/" +
+        encodeURIComponent(orderCode) +
+        "?t=" +
+        Date.now(),
+        {
+          method: "GET",
+          cache: "no-store",
+          headers: {
+            "Accept":
+              "application/json"
+          }
+        }
+      );
+
+
+    const result =
+      await response.json();
+
+
+    if (
+      !response.ok ||
+      !result.success ||
+      !result.order
+    ) {
+
+      resultBox.className =
+        "history-result show status-error";
+
+      resultBox.innerHTML =
+        "❌ Không tìm thấy mã đơn này.";
+
+      return;
+    }
+
+
+    hienThiLichSu(
+      result.order
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "HISTORY ERROR:",
+      error
+    );
+
+
+    resultBox.className =
+      "history-result show status-error";
+
+    resultBox.innerHTML =
+      "❌ Không thể kết nối máy chủ.";
+  }
+}
+
+
+/* ================================
+   HIỂN THỊ LỊCH SỬ
+================================ */
+
+function hienThiLichSu(order) {
+
+  const resultBox =
+    document.getElementById(
+      "historyResult"
+    );
+
+
+  const status =
+    String(
+      order.status || ""
+    ).toUpperCase();
+
+
+  let statusHtml;
+
+
+  if (status === "RECHARGED") {
+
+    statusHtml = `
+      <span style="
+        display:inline-block;
+        padding:10px 15px;
+        border-radius:12px;
+        background:#063d23;
+        color:#25d366;
+        font-weight:bold;
+      ">
+        🟢 Thành Công
+      </span>
+    `;
+
+  }
+
+  else if (status === "PAID") {
+
+    statusHtml = `
+      <span style="
+        display:inline-block;
+        padding:10px 15px;
+        border-radius:12px;
+        background:#3b3210;
+        color:#ffd21c;
+        font-weight:bold;
+      ">
+        🟡 Đang Nạp
+      </span>
+    `;
+
+  }
+
+  else {
+
+    statusHtml = `
+      <span style="
+        display:inline-block;
+        padding:10px 15px;
+        border-radius:12px;
+        background:#292929;
+        color:#aaa;
+        font-weight:bold;
+      ">
+        ⚪ Chờ thanh toán
+      </span>
+    `;
+  }
+
+
+  resultBox.className =
+    "history-result show";
+
+
+  resultBox.innerHTML = `
+
+    <div style="
+      background:#0d0e15;
+      border:1px solid #333;
+      border-radius:16px;
+      padding:18px;
+    ">
+
+      <div style="
+        padding-bottom:15px;
+        border-bottom:1px solid #333;
+      ">
+
+        <div style="
+          color:#aaa;
+          margin-bottom:7px;
+        ">
+          📌 Trạng thái
+        </div>
+
+        ${statusHtml}
+
+      </div>
+
+
+      <div style="
+        padding:15px 0;
+        border-bottom:1px solid #333;
+      ">
+
+        📦 Mã đơn:
+        <b style="
+          color:#4d8dff;
+          word-break:break-all;
+        ">
+          ${escapeHtml(
+            order.order_code
+          )}
+        </b>
+
+      </div>
+
+
+      <div style="
+        padding:15px 0;
+        border-bottom:1px solid #333;
+      ">
+
+        🎮 UID:
+        <b>
+          ${escapeHtml(
+            order.player_id
+          )}
+        </b>
+
+      </div>
+
+
+      <div style="
+        padding:15px 0;
+        border-bottom:1px solid #333;
+      ">
+
+        💎 Gói:
+        <b>
+          ${escapeHtml(
+            order.package_name
+          )}
+        </b>
+
+      </div>
+
+
+      <div style="
+        padding:15px 0;
+        border-bottom:1px solid #333;
+      ">
+
+        💰 Số tiền:
+        <b>
+          ${Number(
+            order.amount || 0
+          ).toLocaleString("vi-VN")}
+          VNĐ
+        </b>
+
+      </div>
+
+
+      <div style="
+        padding:15px 0;
+        border-bottom:1px solid #333;
+      ">
+
+        📝 Nội dung chuyển khoản:
+        <b>
+          ${escapeHtml(
+            order.transfer_content ||
+            order.payment_content ||
+            order.order_code ||
+            "Chưa có"
+          )}
+        </b>
+
+      </div>
+
+
+      <div style="
+        padding:15px 0;
+        border-bottom:1px solid #333;
+      ">
+
+        🕒 Tạo đơn:
+        <b>
+          ${escapeHtml(
+            formatDate(
+              order.created_at
+            )
+          )}
+        </b>
+
+      </div>
+
+
+      ${
+        status === "RECHARGED"
+        ? `
+          <div style="
+            margin-top:18px;
+            padding:15px;
+            border-radius:13px;
+            background:#063d23;
+            color:#25d366;
+            text-align:center;
+            font-size:18px;
+            font-weight:bold;
+          ">
+            💎 Đã nạp kim cương
           </div>
-
-        `;
-
+        `
+        : `
+          <div style="
+            margin-top:18px;
+            padding:15px;
+            border-radius:13px;
+            background:#3b3210;
+            color:#ffd21c;
+            text-align:center;
+            font-size:18px;
+            font-weight:bold;
+          ">
+            💎 Đang nạp kim cương
+          </div>
+        `
       }
-    ).join("");
 
+    </div>
+
+  `;
 }
 
 
-/* =====================================================
-   BẮT ĐẦU NẠP
-===================================================== */
+/* ================================
+   ĐÓNG THANH TOÁN
+================================ */
 
-async function setProcessing(code){
+function dongThanhToan() {
 
-  if(
-    !confirm(
-      "Khách đã chuyển khoản thành công.\n\n" +
-      "Bạn có chắc muốn bắt đầu NẠP KIM CƯƠNG cho đơn " +
-      code +
-      "?"
+  document
+    .getElementById(
+      "paymentPopup"
     )
-  ){
-
-    return;
-
-  }
-
-
-  try{
-
-    const response =
-      await fetch(
-        API_PROCESSING(code),
-        {
-
-          method:
-            "POST",
-
-          headers:
-            headers(),
-
-          body:
-            JSON.stringify({})
-
-        }
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if(
-      !response.ok ||
-      !data.success
-    ){
-
-      throw new Error(
-        data.message ||
-        "Không thể cập nhật đơn."
-      );
-
-    }
-
-
-    await loadOrders();
-
-  }
-
-  catch(err){
-
-    alert(
-      "❌ " +
-      err.message
+    .classList.remove(
+      "show"
     );
 
-  }
 
-}
+  if (orderCheckTimer) {
 
-
-/* =====================================================
-   XÁC NHẬN ĐÃ NẠP
-===================================================== */
-
-async function setPaid(code){
-
-  if(
-    !confirm(
-      "⚠️ CHỈ BẤM OK SAU KHI BẠN ĐÃ THỰC SỰ NẠP KIM CƯƠNG CHO KHÁCH.\n\n" +
-      "Xác nhận đơn " +
-      code +
-      " đã NẠP KIM CƯƠNG?"
-    )
-  ){
-
-    return;
-
-  }
-
-
-  try{
-
-    const response =
-      await fetch(
-        API_PAID(code),
-        {
-
-          method:
-            "POST",
-
-          headers:
-            headers(),
-
-          body:
-            JSON.stringify({})
-
-        }
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if(
-      !response.ok ||
-      !data.success
-    ){
-
-      throw new Error(
-        data.message ||
-        "Không thể cập nhật đơn."
-      );
-
-    }
-
-
-    await loadOrders();
-
-  }
-
-  catch(err){
-
-    alert(
-      "❌ " +
-      err.message
+    clearInterval(
+      orderCheckTimer
     );
 
+    orderCheckTimer = null;
   }
-
 }
 
 
-/* =====================================================
-   LOGOUT
-===================================================== */
+/* ================================
+   COPY
+================================ */
 
-function logout(){
+function copyText(text) {
 
-  adminAuth = "";
+  if (
+    navigator.clipboard &&
+    navigator.clipboard.writeText
+  ) {
 
-  localStorage.removeItem(
-    "ff_admin_auth"
+    navigator.clipboard
+      .writeText(text)
+      .then(function() {
+
+        alert(
+          "Đã copy: " + text
+        );
+
+      })
+      .catch(function() {
+
+        alert(
+          "Số tài khoản: " + text
+        );
+
+      });
+
+  }
+
+  else {
+
+    alert(
+      "Số tài khoản: " + text
+    );
+  }
+}
+
+
+/* ================================
+   CLICK NGOÀI POPUP
+================================ */
+
+document
+  .getElementById("paymentPopup")
+  .addEventListener(
+    "click",
+    function(event) {
+
+      if (
+        event.target === this
+      ) {
+
+        dongThanhToan();
+      }
+
+    }
   );
 
-  location.reload();
 
-}
-
-
-/* =====================================================
-   TỰ ĐĂNG NHẬP
-===================================================== */
-
-if(adminAuth){
-
-  document
-    .getElementById(
-      "loginBox"
-    )
-    .classList
-    .add("hidden");
-
-
-  document
-    .getElementById(
-      "adminPanel"
-    )
-    .classList
-    .remove("hidden");
-
-
-  loadOrders();
-
-}
-
-
-/* =====================================================
-   ENTER LOGIN
-===================================================== */
+/* ================================
+   ESC
+================================ */
 
 document.addEventListener(
   "keydown",
-  function(event){
+  function(event) {
 
-    if(
-      event.key === "Enter" &&
-      !document
-        .getElementById(
-          "loginBox"
-        )
-        .classList
-        .contains("hidden")
-    ){
+    if (
+      event.key === "Escape"
+    ) {
 
-      login();
-
+      dongThanhToan();
     }
 
   }
 );
 
 
-/* =====================================================
-   TỰ LÀM MỚI
-===================================================== */
+/* ================================
+   ENTER
+================================ */
 
-setInterval(
-  function(){
+document
+  .getElementById("historyCode")
+  .addEventListener(
+    "keydown",
+    function(event) {
 
-    if(
-      !document
-        .getElementById(
-          "adminPanel"
-        )
-        .classList
-        .contains("hidden")
-    ){
+      if (
+        event.key === "Enter"
+      ) {
 
-      loadOrders();
+        event.preventDefault();
+
+        kiemTraLichSu();
+      }
 
     }
-
-  },
-  5000
-);
+  );
 
 </script>
 
