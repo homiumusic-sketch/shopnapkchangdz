@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin - Quản lý nạp Free Fire</title>
+<title>Admin - Quản lý đơn nạp</title>
 
 <style>
 * {
@@ -19,7 +19,7 @@ body {
 }
 
 .header {
-  padding: 22px 15px;
+  padding: 25px 15px;
   text-align: center;
   background: linear-gradient(135deg, #11111b, #25113e);
 }
@@ -27,238 +27,200 @@ body {
 .header h1 {
   margin: 0;
   color: #ffd21c;
-  font-size: 27px;
+  font-size: 30px;
 }
 
 .header p {
-  margin: 8px 0 0;
-  color: #aaa;
+  margin: 10px 0 0;
+  color: #ccc;
 }
 
 .container {
   width: 100%;
   max-width: 1000px;
   margin: auto;
-  padding: 20px 15px 80px;
+  padding: 20px 15px 100px;
 }
 
-/* LOGIN */
-
-.login-box {
-  max-width: 450px;
-  margin: 50px auto;
-  padding: 25px;
+.admin-box {
   background: #171821;
-  border-radius: 22px;
-}
-
-.login-box h2 {
-  margin-top: 0;
-  text-align: center;
-  color: #ffd21c;
-}
-
-.login-box input {
-  width: 100%;
-  padding: 15px;
-  margin-top: 12px;
-  border: 1px solid #444;
-  border-radius: 12px;
-  outline: none;
-  background: #0d0e15;
-  color: white;
-  font-size: 17px;
-}
-
-.login-btn {
-  width: 100%;
-  margin-top: 15px;
-  padding: 15px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(90deg,#ffca05,#ff7b00);
-  color: #111;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-/* ADMIN */
-
-#adminPanel {
-  display: none;
-}
-
-.toolbar {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  padding: 20px;
+  border-radius: 20px;
   margin-bottom: 20px;
 }
 
-.search {
-  flex: 1;
-  min-width: 220px;
-  padding: 14px;
-  border: 1px solid #444;
-  border-radius: 12px;
-  background: #171821;
-  color: white;
-  font-size: 16px;
+.admin-title {
+  color: #ffd21c;
+  font-size: 25px;
+  margin: 0 0 20px;
 }
 
-.reload-btn {
-  padding: 14px 18px;
+.refresh-btn {
+  width: 100%;
+  padding: 15px;
   border: none;
-  border-radius: 12px;
+  border-radius: 13px;
   background: #2878e8;
   color: white;
+  font-size: 18px;
   font-weight: bold;
+  cursor: pointer;
 }
 
-/* ORDER */
+.refresh-btn:active {
+  transform: scale(.98);
+}
 
-.order-card {
-  background: #171821;
+.orders {
+  margin-top: 20px;
+}
+
+.order {
+  background: #0d0e15;
   border: 1px solid #333;
-  border-radius: 20px;
-  padding: 20px;
+  border-radius: 18px;
+  padding: 18px;
   margin-bottom: 15px;
-}
-
-.order-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 15px;
-  flex-wrap: wrap;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #333;
 }
 
 .order-code {
   color: #4d8dff;
-  font-size: 21px;
+  font-size: 22px;
+  font-weight: bold;
+  word-break: break-all;
+}
+
+.row {
+  padding: 10px 0;
+  border-bottom: 1px solid #292a32;
+  line-height: 1.6;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  color: #999;
+  display: block;
+  font-size: 15px;
+}
+
+.value {
+  color: white;
+  font-size: 18px;
   font-weight: bold;
   word-break: break-word;
 }
 
 .status {
+  display: inline-block;
+  margin-top: 8px;
   padding: 9px 13px;
   border-radius: 10px;
   font-weight: bold;
 }
 
+.status-paid {
+  background: #123b27;
+  color: #25d366;
+}
+
+.status-recharged {
+  background: #063d2a;
+  color: #2cff83;
+}
+
 .status-pending {
-  background: #514016;
+  background: #3b3210;
   color: #ffd21c;
 }
 
-.status-paid {
-  background: #173d2a;
-  color: #45e681;
+.status-error {
+  background: #431c1c;
+  color: #ff6b6b;
 }
 
-.status-topup {
-  background: #143f2c;
-  color: #42ef91;
-}
-
-.info {
+.recharge-btn {
+  width: 100%;
   margin-top: 15px;
+  padding: 16px;
+  border: none;
+  border-radius: 13px;
+  background: linear-gradient(90deg, #19c463, #08a94e);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.info-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  padding: 11px 0;
-  border-bottom: 1px solid #292a33;
+.recharge-btn:disabled {
+  background: #234532;
+  color: #7aa98c;
+  cursor: not-allowed;
 }
 
-.info-row:last-child {
-  border-bottom: none;
-}
-
-.info-label {
+.empty {
+  text-align: center;
+  padding: 30px 10px;
   color: #aaa;
 }
 
-.info-value {
-  color: white;
-  font-weight: bold;
-  text-align: right;
-  word-break: break-word;
+.loading {
+  text-align: center;
+  padding: 25px;
+  color: #ccc;
 }
 
-.transfer-content {
-  color: #ffd21c;
+.error {
+  padding: 15px;
+  border-radius: 12px;
+  background: #401d1d;
+  color: #ff7777;
 }
 
-.actions {
-  margin-top: 18px;
-}
-
-.topup-btn {
+.search {
   width: 100%;
   padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  background: #0d0e15;
+  color: white;
+  font-size: 17px;
+  outline: none;
+}
+
+.logout {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(90deg,#20c96b,#0ca956);
+  background: #33343c;
   color: white;
   font-size: 17px;
   font-weight: bold;
 }
 
-.topup-btn:disabled {
-  opacity: .55;
-  cursor: not-allowed;
-}
-
-.logout-btn {
-  margin-top: 20px;
-  width: 100%;
-  padding: 13px;
-  border: none;
-  border-radius: 12px;
-  background: #292a33;
-  color: white;
-  font-weight: bold;
-}
-
-.message {
-  margin: 15px 0;
-  padding: 14px;
-  border-radius: 12px;
-  display: none;
-  background: #292a33;
-}
-
-.empty {
-  padding: 35px;
-  text-align: center;
-  background: #171821;
-  border-radius: 18px;
-  color: #aaa;
-}
-
-@media(max-width:600px) {
+@media (max-width: 480px) {
 
   .header h1 {
+    font-size: 26px;
+  }
+
+  .admin-title {
     font-size: 23px;
   }
 
-  .info-row {
-    flex-direction: column;
-    gap: 5px;
+  .order-code {
+    font-size: 19px;
   }
 
-  .info-value {
-    text-align: left;
+  .value {
+    font-size: 17px;
   }
 
-  .order-head {
-    flex-direction: column;
-  }
 }
 </style>
 </head>
@@ -266,79 +228,59 @@ body {
 <body>
 
 <div class="header">
-  <h1>🛠️ QUẢN LÝ NẠP FREE FIRE</h1>
-  <p>Trang quản trị đơn hàng</p>
+
+  <h1>🔐 QUẢN LÝ ĐƠN NẠP</h1>
+
+  <p>
+    Quản lý và xác nhận đơn nạp kim cương Free Fire
+  </p>
+
 </div>
+
 
 <div class="container">
 
-  <!-- LOGIN -->
+  <div class="admin-box">
 
-  <div id="loginBox" class="login-box">
-
-    <h2>🔐 Đăng nhập Admin</h2>
+    <h2 class="admin-title">
+      📋 Danh sách đơn nạp
+    </h2>
 
     <input
-      id="username"
+      id="searchInput"
+      class="search"
       type="text"
-      placeholder="Tên tài khoản"
-      autocomplete="username"
-    >
-
-    <input
-      id="password"
-      type="password"
-      placeholder="Mật khẩu"
-      autocomplete="current-password"
+      placeholder="🔎 Tìm mã đơn hoặc ID Free Fire..."
+      oninput="locDonHang()"
     >
 
     <button
-      class="login-btn"
-      onclick="loginAdmin()"
+      class="refresh-btn"
+      onclick="taiDonHang()"
     >
-      Đăng nhập
+      🔄 Tải lại danh sách
     </button>
 
-    <div id="loginMessage" class="message"></div>
+    <div
+      id="orders"
+      class="orders"
+    >
 
-  </div>
-
-
-  <!-- ADMIN PANEL -->
-
-  <div id="adminPanel">
-
-    <div class="toolbar">
-
-      <input
-        id="searchInput"
-        class="search"
-        type="text"
-        placeholder="🔎 Tìm ID Free Fire hoặc mã đơn..."
-        oninput="renderOrders()"
-      >
-
-      <button
-        class="reload-btn"
-        onclick="loadOrders()"
-      >
-        🔄 Tải lại
-      </button>
+      <div class="loading">
+        ⏳ Đang tải đơn hàng...
+      </div>
 
     </div>
 
-    <div id="message" class="message"></div>
-
-    <div id="ordersList"></div>
-
-    <button
-      class="logout-btn"
-      onclick="logoutAdmin()"
-    >
-      🚪 Đăng xuất
-    </button>
-
   </div>
+
+
+  <button
+    class="logout"
+    onclick="dangXuat()"
+  >
+    🚪 Đăng xuất Admin
+  </button>
 
 </div>
 
@@ -346,182 +288,193 @@ body {
 <script>
 
 /* =====================================================
-   ADMIN AUTH
-   ===================================================== */
-
-let authHeader = "";
+   BIẾN
+===================================================== */
 
 let allOrders = [];
 
 
 /* =====================================================
-   LOGIN
-   ===================================================== */
+   ESCAPE HTML
+===================================================== */
 
-function loginAdmin() {
+function escapeHtml(value) {
 
-  const username =
-    document.getElementById("username").value.trim();
+  return String(value ?? "")
 
-  const password =
-    document.getElementById("password").value;
-
-  if (!username || !password) {
-
-    showLoginMessage(
-      "Vui lòng nhập tài khoản và mật khẩu."
-    );
-
-    return;
-  }
-
-  /*
-    Server hiện tại của bạn đang yêu cầu:
-
-    username = admin
-
-    password = ADMIN_PASSWORD
-  */
-
-  authHeader =
-    "Basic " +
-    btoa(username + ":" + password);
-
-  checkLogin();
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 }
 
 
 /* =====================================================
-   KIỂM TRA ĐĂNG NHẬP
-   ===================================================== */
+   FORMAT TIỀN
+===================================================== */
 
-async function checkLogin() {
+function formatMoney(value) {
+
+  return Number(value || 0)
+    .toLocaleString("vi-VN") + " VNĐ";
+
+}
+
+
+/* =====================================================
+   FORMAT NGÀY
+===================================================== */
+
+function formatDate(value) {
+
+  if (!value) {
+    return "Chưa có";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return String(value);
+  }
+
+  return date.toLocaleString("vi-VN");
+
+}
+
+
+/* =====================================================
+   LẤY TÊN TRẠNG THÁI
+===================================================== */
+
+function getStatus(order) {
+
+  const status =
+    String(order.status || "")
+      .toUpperCase();
+
+  if (status === "RECHARGED") {
+
+    return `
+      <span class="status status-recharged">
+        🟢 ĐÃ NẠP KIM CƯƠNG
+      </span>
+    `;
+
+  }
+
+  if (status === "PAID") {
+
+    return `
+      <span class="status status-paid">
+        💳 ĐÃ THANH TOÁN
+      </span>
+    `;
+
+  }
+
+  if (
+    status === "PENDING" ||
+    status === "UNPAID"
+  ) {
+
+    return `
+      <span class="status status-pending">
+        🟡 CHỜ THANH TOÁN
+      </span>
+    `;
+
+  }
+
+  return `
+    <span class="status status-error">
+      ⚠️ ${escapeHtml(status || "KHÔNG XÁC ĐỊNH")}
+    </span>
+  `;
+
+}
+
+
+/* =====================================================
+   TẢI ĐƠN HÀNG
+===================================================== */
+
+async function taiDonHang() {
+
+  const box =
+    document.getElementById("orders");
+
+  box.innerHTML = `
+    <div class="loading">
+      ⏳ Đang tải đơn hàng...
+    </div>
+  `;
 
   try {
 
     const response =
       await fetch(
-        "/api/admin/orders",
+        "/api/admin/orders?t=" +
+        Date.now(),
         {
+          method: "GET",
+          cache: "no-store",
           headers: {
-            "Authorization": authHeader
+            "Accept": "application/json"
           }
         }
       );
 
-    if (response.status === 401) {
 
-      showLoginMessage(
-        "Sai tài khoản hoặc mật khẩu."
-      );
+    const data =
+      await response.json();
 
-      authHeader = "";
-
-      return;
-    }
-
-    if (response.status === 403) {
-
-      showLoginMessage(
-        "Sai mật khẩu hoặc không được phép."
-      );
-
-      authHeader = "";
-
-      return;
-    }
 
     if (!response.ok) {
 
-      showLoginMessage(
-        "Không thể kết nối máy chủ."
+      throw new Error(
+        data.message ||
+        "Không thể tải danh sách đơn."
       );
 
-      return;
     }
 
-    const data =
-      await response.json();
 
-    allOrders =
-      data.orders || [];
+    if (
+      !data.success ||
+      !Array.isArray(data.orders)
+    ) {
 
-    document
-      .getElementById("loginBox")
-      .style.display = "none";
+      throw new Error(
+        "Server không trả về danh sách đơn."
+      );
 
-    document
-      .getElementById("adminPanel")
-      .style.display = "block";
+    }
 
-    renderOrders();
 
-  } catch (error) {
+    allOrders = data.orders;
 
-    console.error(error);
+    hienThiDonHang(allOrders);
 
-    showLoginMessage(
-      "Không thể kết nối máy chủ."
-    );
   }
 
-}
+  catch (error) {
 
-
-/* =====================================================
-   LOAD ORDERS
-   ===================================================== */
-
-async function loadOrders() {
-
-  if (!authHeader) return;
-
-  try {
-
-    const response =
-      await fetch(
-        "/api/admin/orders",
-        {
-          headers: {
-            "Authorization": authHeader
-          }
-        }
-      );
-
-    if (response.status === 401 ||
-        response.status === 403) {
-
-      logoutAdmin();
-
-      return;
-    }
-
-    const data =
-      await response.json();
-
-    if (!data.success) {
-
-      showMessage(
-        data.message ||
-        "Không thể tải đơn hàng."
-      );
-
-      return;
-    }
-
-    allOrders =
-      data.orders || [];
-
-    renderOrders();
-
-  } catch (error) {
-
-    console.error(error);
-
-    showMessage(
-      "Không thể tải danh sách đơn."
+    console.error(
+      "ADMIN ORDERS ERROR:",
+      error
     );
+
+    box.innerHTML = `
+      <div class="error">
+        ❌ ${escapeHtml(
+          error.message ||
+          "Không thể kết nối máy chủ."
+        )}
+      </div>
+    `;
+
   }
 
 }
@@ -529,61 +482,233 @@ async function loadOrders() {
 
 /* =====================================================
    HIỂN THỊ ĐƠN
-   ===================================================== */
+===================================================== */
 
-function renderOrders() {
+function hienThiDonHang(orders) {
 
-  const container =
-    document.getElementById("ordersList");
-
-  const keyword =
-    document
-      .getElementById("searchInput")
-      .value
-      .trim()
-      .toLowerCase();
-
-  const filtered =
-    allOrders.filter(order => {
-
-      const playerId =
-        String(
-          order.player_id ||
-          order.ff_id ||
-          ""
-        ).toLowerCase();
-
-      const orderCode =
-        String(
-          order.order_code ||
-          ""
-        ).toLowerCase();
-
-      return (
-        !keyword ||
-        playerId.includes(keyword) ||
-        orderCode.includes(keyword)
-      );
-
-    });
+  const box =
+    document.getElementById("orders");
 
 
-  if (!filtered.length) {
+  if (
+    !orders ||
+    orders.length === 0
+  ) {
 
-    container.innerHTML = `
+    box.innerHTML = `
       <div class="empty">
-        📭 Không có đơn hàng.
+        📭 Chưa có đơn hàng nào.
       </div>
     `;
 
     return;
+
   }
 
 
-  container.innerHTML =
-    filtered.map(order => {
+  box.innerHTML =
+    orders.map(function(order) {
 
-      return createOrderCard(order);
+      const status =
+        String(
+          order.status || ""
+        ).toUpperCase();
+
+
+      /*
+        Chỉ cho xác nhận khi
+        đơn đã thanh toán.
+      */
+
+      const canRecharge =
+        status === "PAID";
+
+
+      const recharged =
+        status === "RECHARGED";
+
+
+      let button = "";
+
+
+      if (recharged) {
+
+        button = `
+          <button
+            class="recharge-btn"
+            disabled
+          >
+            ✅ ĐÃ XÁC NHẬN NẠP KIM CƯƠNG
+          </button>
+        `;
+
+      }
+
+      else if (canRecharge) {
+
+        button = `
+          <button
+            class="recharge-btn"
+            onclick="xacNhanNap(
+              '${escapeJs(order.order_code)}'
+            )"
+          >
+            💎 XÁC NHẬN ĐÃ NẠP KIM CƯƠNG
+          </button>
+        `;
+
+      }
+
+      else {
+
+        button = `
+          <button
+            class="recharge-btn"
+            disabled
+          >
+            ⏳ Chưa thể xác nhận
+          </button>
+        `;
+
+      }
+
+
+      return `
+
+        <div
+          class="order"
+          data-order-code="${escapeHtml(
+            order.order_code
+          )}"
+          data-player-id="${escapeHtml(
+            order.player_id
+          )}"
+        >
+
+          <div class="row">
+
+            <span class="label">
+              📦 Mã đơn hàng
+            </span>
+
+            <div class="order-code">
+              ${escapeHtml(
+                order.order_code
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <span class="label">
+              🎮 ID Free Fire
+            </span>
+
+            <div class="value">
+              ${escapeHtml(
+                order.player_id
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <span class="label">
+              💎 Gói
+            </span>
+
+            <div class="value">
+              ${escapeHtml(
+                order.package_name
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <span class="label">
+              💰 Số tiền
+            </span>
+
+            <div class="value">
+              ${formatMoney(
+                order.amount
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <span class="label">
+              📝 Nội dung chuyển khoản
+            </span>
+
+            <div class="value">
+              ${escapeHtml(
+                order.transfer_content ||
+                order.payment_content ||
+                "Chưa có"
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <span class="label">
+              💳 Mã giao dịch
+            </span>
+
+            <div class="value">
+              ${escapeHtml(
+                order.payment_id ||
+                "Chưa có"
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <span class="label">
+              📅 Tạo đơn
+            </span>
+
+            <div class="value">
+              ${formatDate(
+                order.created_at
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="row">
+
+            <span class="label">
+              📊 Trạng thái
+            </span>
+
+            ${getStatus(order)}
+
+          </div>
+
+
+          ${button}
+
+        </div>
+
+      `;
 
     }).join("");
 
@@ -591,290 +716,27 @@ function renderOrders() {
 
 
 /* =====================================================
-   TẠO CARD
-   ===================================================== */
-
-function createOrderCard(order) {
-
-  const orderCode =
-    escapeHtml(
-      order.order_code || "---"
-    );
-
-  const playerId =
-    escapeHtml(
-      order.player_id ||
-      order.ff_id ||
-      "---"
-    );
-
-  const packageName =
-    escapeHtml(
-      order.package_name ||
-      "---"
-    );
-
-  const amount =
-    Number(order.amount || 0)
-      .toLocaleString("vi-VN") +
-    " VNĐ";
-
-
-  const transferContent =
-    escapeHtml(
-      order.payment_content ||
-      order.transfer_content ||
-      "---"
-    );
-
-
-  /*
-    Trạng thái thanh toán
-  */
-
-  const paymentStatus =
-    String(
-      order.status ||
-      order.payment_status ||
-      "PENDING"
-    );
-
-
-  /*
-    Trạng thái nạp kim cương.
-
-    Hệ thống có thể dùng:
-    TOPPED_UP
-    TOPUP_SUCCESS
-    SUCCESS
-    TOPUP_COMPLETED
-  */
-
-  const topupStatus =
-    String(
-      order.topup_status ||
-      ""
-    ).toUpperCase();
-
-
-  let statusText =
-    "⏳ Chờ thanh toán";
-
-  let statusClass =
-    "status-pending";
-
-
-  if (
-    paymentStatus === "PAID" ||
-    paymentStatus === "SUCCESS"
-  ) {
-
-    statusText =
-      "💳 Đã thanh toán";
-
-    statusClass =
-      "status-paid";
-  }
-
-
-  if (
-    topupStatus === "TOPPED_UP" ||
-    topupStatus === "TOPUP_SUCCESS" ||
-    topupStatus === "SUCCESS" ||
-    topupStatus === "TOPUP_COMPLETED"
-  ) {
-
-    statusText =
-      "💎 Đã nạp kim cương";
-
-    statusClass =
-      "status-topup";
-  }
-
-
-  const alreadyTopup =
-    topupStatus === "TOPPED_UP" ||
-    topupStatus === "TOPUP_SUCCESS" ||
-    topupStatus === "SUCCESS" ||
-    topupStatus === "TOPUP_COMPLETED";
-
-
-  return `
-    <div class="order-card">
-
-      <div class="order-head">
-
-        <div>
-          <div style="color:#aaa;font-size:14px">
-            📦 Mã đơn hàng
-          </div>
-
-          <div class="order-code">
-            ${orderCode}
-          </div>
-        </div>
-
-        <div class="status ${statusClass}">
-          ${statusText}
-        </div>
-
-      </div>
-
-
-      <div class="info">
-
-        <div class="info-row">
-
-          <span class="info-label">
-            🎮 ID Free Fire
-          </span>
-
-          <b class="info-value">
-            ${playerId}
-          </b>
-
-        </div>
-
-
-        <div class="info-row">
-
-          <span class="info-label">
-            💎 Gói
-          </span>
-
-          <b class="info-value">
-            ${packageName}
-          </b>
-
-        </div>
-
-
-        <div class="info-row">
-
-          <span class="info-label">
-            💰 Số tiền
-          </span>
-
-          <b class="info-value">
-            ${amount}
-          </b>
-
-        </div>
-
-
-        <div class="info-row">
-
-          <span class="info-label">
-            📝 Nội dung chuyển khoản
-          </span>
-
-          <b class="info-value transfer-content">
-            ${transferContent}
-          </b>
-
-        </div>
-
-
-        <div class="info-row">
-
-          <span class="info-label">
-            🕐 Tạo đơn
-          </span>
-
-          <b class="info-value">
-            ${escapeHtml(
-              order.created_at || "---"
-            )}
-          </b>
-
-        </div>
-
-
-        ${
-          order.paid_at
-          ? `
-            <div class="info-row">
-
-              <span class="info-label">
-                💳 Thanh toán lúc
-              </span>
-
-              <b class="info-value">
-                ${escapeHtml(order.paid_at)}
-              </b>
-
-            </div>
-          `
-          : ""
-        }
-
-
-        ${
-          order.topped_up_at
-          ? `
-            <div class="info-row">
-
-              <span class="info-label">
-                💎 Nạp kim cương lúc
-              </span>
-
-              <b class="info-value">
-                ${escapeHtml(order.topped_up_at)}
-              </b>
-
-            </div>
-          `
-          : ""
-        }
-
-      </div>
-
-
-      <div class="actions">
-
-        ${
-          alreadyTopup
-
-          ? `
-            <button
-              class="topup-btn"
-              disabled
-            >
-              💎 Đã nạp kim cương
-            </button>
-          `
-
-          : `
-            <button
-              class="topup-btn"
-              onclick="confirmTopup(
-                '${escapeJs(orderCode)}'
-              )"
-            >
-              💎 Xác nhận đã nạp kim cương
-            </button>
-          `
-        }
-
-      </div>
-
-    </div>
-  `;
-}
-
-
-/* =====================================================
    XÁC NHẬN ĐÃ NẠP KIM CƯƠNG
-   ===================================================== */
+===================================================== */
 
-async function confirmTopup(orderCode) {
+async function xacNhanNap(orderCode) {
 
-  const ok =
+  if (!orderCode) {
+    return;
+  }
+
+
+  const confirmAction =
     confirm(
-      "Bạn đã thực sự nạp kim cương vào nick khách chưa?"
+      "Bạn chắc chắn đã nạp kim cương cho khách?\n\n" +
+      "Mã đơn: " +
+      orderCode
     );
 
-  if (!ok) return;
+
+  if (!confirmAction) {
+    return;
+  }
 
 
   try {
@@ -882,166 +744,211 @@ async function confirmTopup(orderCode) {
     const response =
       await fetch(
         "/api/admin/orders/" +
-        encodeURIComponent(orderCode) +
-        "/topup",
+        encodeURIComponent(
+          orderCode
+        ) +
+        "/recharge",
         {
           method: "POST",
 
           headers: {
-            "Authorization": authHeader,
-            "Content-Type": "application/json"
-          }
+            "Content-Type":
+              "application/json",
+
+            "Accept":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+            status: "RECHARGED"
+          })
         }
       );
-
-
-    if (response.status === 401 ||
-        response.status === 403) {
-
-      alert(
-        "Phiên đăng nhập đã hết."
-      );
-
-      logoutAdmin();
-
-      return;
-    }
 
 
     const data =
       await response.json();
 
 
-    if (!data.success) {
+    if (!response.ok) {
 
-      alert(
+      throw new Error(
         data.message ||
-        "Không thể xác nhận."
+        "Không thể xác nhận đơn."
       );
 
-      return;
+    }
+
+
+    if (!data.success) {
+
+      throw new Error(
+        data.message ||
+        "Xác nhận thất bại."
+      );
+
     }
 
 
     alert(
-      "💎 Đã xác nhận nạp kim cương thành công!"
+      "✅ Đã xác nhận nạp kim cương!\n\n" +
+      "Mã đơn: " +
+      orderCode
     );
 
 
-    await loadOrders();
+    /*
+      Tải lại danh sách.
+      Khách tra mã đơn sẽ nhận
+      status = RECHARGED.
+    */
 
-  } catch (error) {
+    await taiDonHang();
 
-    console.error(error);
+  }
+
+  catch (error) {
+
+    console.error(
+      "RECHARGE ERROR:",
+      error
+    );
+
 
     alert(
-      "Không thể kết nối máy chủ."
+      "❌ " +
+      (
+        error.message ||
+        "Không thể kết nối máy chủ."
+      )
     );
+
   }
 
 }
 
 
 /* =====================================================
-   LOGOUT
-   ===================================================== */
+   TÌM KIẾM
+===================================================== */
 
-function logoutAdmin() {
+function locDonHang() {
 
-  authHeader = "";
+  const keyword =
+    document
+      .getElementById(
+        "searchInput"
+      )
+      .value
+      .trim()
+      .toLowerCase();
 
-  allOrders = [];
 
-  document
-    .getElementById("adminPanel")
-    .style.display = "none";
+  if (!keyword) {
 
-  document
-    .getElementById("loginBox")
-    .style.display = "block";
+    hienThiDonHang(
+      allOrders
+    );
 
-  document
-    .getElementById("password")
-    .value = "";
+    return;
+
+  }
+
+
+  const filtered =
+    allOrders.filter(
+      function(order) {
+
+        const orderCode =
+          String(
+            order.order_code || ""
+          ).toLowerCase();
+
+
+        const playerId =
+          String(
+            order.player_id || ""
+          ).toLowerCase();
+
+
+        return (
+          orderCode.includes(keyword) ||
+          playerId.includes(keyword)
+        );
+
+      }
+    );
+
+
+  hienThiDonHang(
+    filtered
+  );
 
 }
 
 
 /* =====================================================
-   MESSAGE
-   ===================================================== */
-
-function showLoginMessage(text) {
-
-  const el =
-    document.getElementById(
-      "loginMessage"
-    );
-
-  el.innerText = text;
-  el.style.display = "block";
-
-}
-
-
-function showMessage(text) {
-
-  const el =
-    document.getElementById(
-      "message"
-    );
-
-  el.innerText = text;
-  el.style.display = "block";
-
-  setTimeout(() => {
-
-    el.style.display = "none";
-
-  }, 4000);
-
-}
-
-
-/* =====================================================
-   ESCAPE HTML
-   ===================================================== */
-
-function escapeHtml(value) {
-
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
+   ESCAPE JS
+===================================================== */
 
 function escapeJs(value) {
 
   return String(value ?? "")
     .replace(/\\/g, "\\\\")
-    .replace(/'/g, "\\'");
+    .replace(/'/g, "\\'")
+    .replace(/"/g, '\\"')
+    .replace(/\n/g, "\\n")
+    .replace(/\r/g, "\\r");
+
 }
 
 
 /* =====================================================
-   ENTER ĐỂ ĐĂNG NHẬP
-   ===================================================== */
+   ĐĂNG XUẤT
+===================================================== */
 
-document
-  .getElementById("password")
-  .addEventListener(
-    "keydown",
-    function(event) {
+function dangXuat() {
 
-      if (event.key === "Enter") {
-        loginAdmin();
-      }
+  /*
+    Nếu hệ thống của bạn có
+    API logout thì đổi URL tại đây.
+  */
 
+  fetch(
+    "/api/admin/logout",
+    {
+      method: "POST"
     }
-  );
+  )
+  .finally(function() {
+
+    window.location.href =
+      "/admin.html";
+
+  });
+
+}
+
+
+/* =====================================================
+   TỰ TẢI KHI MỞ TRANG
+===================================================== */
+
+taiDonHang();
+
+
+/* =====================================================
+   TỰ CẬP NHẬT MỖI 5 GIÂY
+===================================================== */
+
+setInterval(
+  function() {
+
+    taiDonHang();
+
+  },
+  5000
+);
 
 </script>
 
