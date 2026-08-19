@@ -1141,326 +1141,114 @@ function chonGoi(element) {
    TẠO NỘI DUNG TỰ ĐỘNG
    ===================================================== */
 
-function taoMaDonHang() {
-
-  /*
-    Ví dụ:
-    NFF85776
-    NFF31452
-    NFF90218
-
-    Chỉ dùng chữ + số để QR
-    dễ nhận diện.
-  */
-
-  const randomNumber =
-    Math.floor(
-      10000 +
-      Math.random() * 90000
-    );
-
-  return "NFF" + randomNumber;
-
-}
-
-
-/* =====================================================
-   MỞ POPUP THANH TOÁN
-   ===================================================== */
-
-function moThanhToan() {
-
-
-  /* ================= ID ================= */
+async function moThanhToan() {
 
   const playerId =
-    document
-      .getElementById("playerId")
-      ?.value
-      .trim() || "---";
+    document.getElementById("playerId")?.value.trim() || "";
 
-
-  /* ================= GÓI ================= */
+  if (!playerId) {
+    alert("Vui lòng nhập ID Free Fire!");
+    return;
+  }
 
   const selectedPackage =
-    document.querySelector(
-      ".package.active"
-    );
-
+    document.querySelector(".package.active");
 
   if (!selectedPackage) {
-
-    alert(
-      "Vui lòng chọn gói kim cương!"
-    );
-
+    alert("Vui lòng chọn gói kim cương!");
     return;
-
   }
-
-
-  /* ================= TÊN GÓI ================= */
 
   const packageName =
-    selectedPackage.dataset.name ||
-    "---";
+    selectedPackage.dataset.name;
 
+  const amount =
+    Number(selectedPackage.dataset.price);
 
-  /* ================= GIÁ ================= */
-
-  let amount =
-    selectedPackage.dataset.price ||
-    "0";
-
-
-  amount =
-    amount.replace(
-      /[^\d]/g,
-      ""
-    );
-
-
-  const amountNumber =
-    parseInt(amount) || 0;
-
-
-  if (amountNumber <= 0) {
-
-    alert(
-      "Gói này chưa có giá!"
-    );
-
+  if (!Number.isInteger(amount) || amount <= 0) {
+    alert("Gói này chưa có giá!");
     return;
-
   }
 
+  try {
 
-  /* =================================================
-     TẠO MÃ ĐƠN HÀNG TỰ ĐỘNG
-     ================================================= */
+    // Tạo đơn trên SERVER
+    const response = await fetch("/api/orders", {
+      method: "POST",
 
-  currentOrderCode =
-    taoMaDonHang();
+      headers: {
+        "Content-Type": "application/json"
+      },
 
+      body: JSON.stringify({
+        player_id: playerId,
+        package_name: packageName,
+        amount: amount
+      })
+    });
 
-  /* =================================================
-     NỘI DUNG CHUYỂN KHOẢN
+    const result = await response.json();
 
-     Ví dụ:
-     NFF85776
-     ================================================= */
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.message || "Không thể tạo đơn hàng"
+      );
+    }
 
-  const paymentContent =
-    currentOrderCode;
+    // Lấy mã đơn do SERVER tạo
+    currentOrderCode =
+      result.order.order_code;
 
+    const paymentContent =
+      result.order.transfer_content;
 
-  /* =================================================
-     HIỂN THỊ THÔNG TIN
-     ================================================= */
+    // Hiển thị thông tin đơn
+    document.getElementById("payPlayerId").innerText =
+      result.order.player_id;
 
-  document
-    .getElementById(
-      "payPlayerId"
-    )
-    .innerText =
-      playerId;
+    document.getElementById("payPackage").innerText =
+      result.order.package_name;
 
+    document.getElementById("payAmount").innerText =
+      Number(result.order.amount).toLocaleString("vi-VN") +
+      " VND";
 
-  document
-    .getElementById(
-      "payPackage"
-    )
-    .innerText =
-      packageName;
-
-
-  document
-    .getElementById(
-      "payAmount"
-    )
-    .innerText =
-      amountNumber.toLocaleString(
-        "vi-VN"
-      ) + " VND";
-
-
-  document
-    .getElementById(
-      "payOrderCode"
-    )
-    .innerText =
+    document.getElementById("payOrderCode").innerText =
       currentOrderCode;
 
-
-  document
-    .getElementById(
-      "paymentContent"
-    )
-    .innerText =
+    document.getElementById("paymentContent").innerText =
       paymentContent;
 
+    // Tạo QR
+    const qrUrl =
+      "https://img.vietqr.io/image/" +
+      BANK_CODE +
+      "-" +
+      BANK_ACCOUNT +
+      "-qr_only.png" +
+      "?amount=" +
+      encodeURIComponent(amount) +
+      "&addInfo=" +
+      encodeURIComponent(paymentContent) +
+      "&accountName=" +
+      encodeURIComponent(ACCOUNT_NAME);
 
-  /* =================================================
-     TẠO QR VIETQR
+    document.getElementById("paymentQR").src = qrUrl;
 
-     QUAN TRỌNG:
-     Dùng qr_only thay compact2.
+    // Mở popup
+    document
+      .getElementById("paymentPopup")
+      .classList.add("show");
 
-     qr_only = chỉ QR.
-     ================================================= */
+  } catch (error) {
 
-  const qrUrl =
-    "https://img.vietqr.io/image/" +
-
-    BANK_CODE +
-    "-" +
-    BANK_ACCOUNT +
-    "-qr_only.png" +
-
-    "?amount=" +
-    encodeURIComponent(
-      amountNumber
-    ) +
-
-    "&addInfo=" +
-    encodeURIComponent(
-      paymentContent
-    ) +
-
-    "&accountName=" +
-    encodeURIComponent(
-      ACCOUNT_NAME
-    );
-
-
-  /* =================================================
-     HIỂN THỊ QR
-     ================================================= */
-
-  const qr =
-    document.getElementById(
-      "paymentQR"
-    );
-
-
-  qr.src = qrUrl;
-
-
-  /* =================================================
-     HIỆN POPUP
-     ================================================= */
-
-  document
-    .getElementById(
-      "paymentPopup"
-    )
-    .classList.add(
-      "show"
-    );
-
-}
-
-
-/* =====================================================
-   ĐÓNG POPUP
-   ===================================================== */
-
-function dongThanhToan() {
-
-  document
-    .getElementById(
-      "paymentPopup"
-    )
-    .classList.remove(
-      "show"
-    );
-
-}
-
-
-/* =====================================================
-   COPY
-   ===================================================== */
-
-function copyText(text) {
-
-  if (
-    navigator.clipboard &&
-    navigator.clipboard.writeText
-  ) {
-
-    navigator.clipboard
-      .writeText(text)
-      .then(function() {
-
-        alert(
-          "Đã copy: " + text
-        );
-
-      })
-      .catch(function() {
-
-        alert(
-          "Số tài khoản: " +
-          text
-        );
-
-      });
-
-  } else {
+    console.error("CREATE ORDER ERROR:", error);
 
     alert(
-      "Số tài khoản: " +
-      text
+      "Không thể tạo đơn hàng. Vui lòng thử lại!"
     );
-
   }
-
 }
-
-
-/* =====================================================
-   CLICK RA NGOÀI POPUP
-   ===================================================== */
-
-document
-  .getElementById(
-    "paymentPopup"
-  )
-  .addEventListener(
-    "click",
-    function(event) {
-
-      if (
-        event.target === this
-      ) {
-
-        dongThanhToan();
-
-      }
-
-    }
-  );
-
-
-/* =====================================================
-   PHÍM ESC
-   ===================================================== */
-
-document.addEventListener(
-  "keydown",
-  function(event) {
-
-    if (
-      event.key === "Escape"
-    ) {
-
-      dongThanhToan();
-
-    }
-
-  }
-);
 
 </script>
 
