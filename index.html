@@ -525,38 +525,80 @@ body {
   </button>
 
 
-<!-- ================= LỊCH SỬ NẠP ================= -->
-<section class="history-section">
-    <h2>🔄 Lịch sử giao dịch</h2>
+<!-- =====================================================
+     LỊCH SỬ NẠP FREE FIRE
+     Khách nhập ID FF để kiểm tra đơn hàng
+===================================================== -->
 
+<section id="napHistory">
+
+    <div class="history-title">
+        <span>🔄</span>
+        <h2>Lịch sử giao dịch</h2>
+    </div>
+
+    <!-- Ô tìm ID -->
     <div class="history-search">
         <input
             type="text"
             id="historyPlayerId"
             placeholder="Nhập ID FF"
             inputmode="numeric"
+            autocomplete="off"
         >
-        <button onclick="timLichSuNap()">🔍</button>
+
+        <button type="button" onclick="searchNapHistory()">
+            🔍
+        </button>
     </div>
 
-    <div id="historyResult"></div>
+    <!-- Kết quả -->
+    <div id="historyResult">
+        <div class="history-empty">
+            🔎 Nhập ID Free Fire để kiểm tra lịch sử nạp
+        </div>
+    </div>
+
 </section>
 
+
 <style>
-.history-section {
-    max-width: 750px;
+
+/* ================= KHUNG CHÍNH ================= */
+
+#napHistory {
+    width: 100%;
+    max-width: 760px;
     margin: 30px auto;
-    padding: 25px 20px;
-    background: #f3f5f8;
+    padding: 25px 15px;
+    box-sizing: border-box;
+    background: #f1f3f6;
     border-radius: 18px;
 }
 
-.history-section h2 {
-    text-align: center;
-    color: #444;
+
+/* ================= TIÊU ĐỀ ================= */
+
+.history-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
     margin-bottom: 25px;
+}
+
+.history-title span {
+    font-size: 32px;
+}
+
+.history-title h2 {
+    margin: 0;
+    color: #444;
     font-size: 28px;
 }
+
+
+/* ================= TÌM KIẾM ================= */
 
 .history-search {
     display: flex;
@@ -566,66 +608,99 @@ body {
 
 .history-search input {
     flex: 1;
-    height: 58px;
+    min-width: 0;
+    height: 60px;
     padding: 0 20px;
-    font-size: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #d8d8d8;
+    border-right: none;
     border-radius: 10px 0 0 10px;
+    background: white;
+    color: #333;
+    font-size: 20px;
     outline: none;
     box-sizing: border-box;
 }
 
+.history-search input:focus {
+    border-color: #1683ff;
+}
+
 .history-search button {
     width: 90px;
+    height: 60px;
     border: none;
-    background: #1677ff;
-    color: white;
-    font-size: 28px;
     border-radius: 0 10px 10px 0;
+    background: #1683ff;
+    color: white;
+    font-size: 27px;
     cursor: pointer;
 }
 
+.history-search button:active {
+    transform: scale(.97);
+}
+
+
+/* ================= ĐƠN HÀNG ================= */
+
 .history-card {
     background: white;
-    padding: 25px 30px;
     margin-bottom: 18px;
-    border-radius: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    padding: 25px 30px;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.07);
 }
+
+
+/* ID + TRẠNG THÁI */
 
 .history-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 15px;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
 }
 
 .history-id {
-    font-size: 24px;
-    color: #444;
+    font-size: 22px;
+    color: #555;
 }
 
 .history-id strong {
-    color: #1677ff;
+    color: #1683ff;
 }
+
+
+/* ================= TRẠNG THÁI ================= */
 
 .history-status {
-    background: #20a34a;
-    color: white;
-    padding: 10px 22px;
+    padding: 10px 18px;
     border-radius: 8px;
-    font-size: 20px;
+    color: white;
+    font-size: 17px;
     font-weight: bold;
+    white-space: nowrap;
 }
 
+.history-status.pending {
+    background: #f39c12;
+}
+
+.history-status.success {
+    background: #20a34a;
+}
+
+
+/* ================= THÔNG TIN ================= */
+
 .history-info {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
     align-items: center;
     gap: 15px;
-    color: #555;
-    font-size: 19px;
+    font-size: 18px;
+    color: #666;
 }
 
 .history-package {
@@ -633,13 +708,40 @@ body {
     font-weight: bold;
 }
 
-.history-time {
-    color: #888;
+.history-price {
+    color: #666;
 }
 
+.history-time {
+    color: #888;
+    white-space: nowrap;
+}
+
+
+/* ================= THÔNG BÁO ================= */
+
+.history-message {
+    margin-top: 15px;
+    padding-top: 13px;
+    border-top: 1px solid #eee;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.pending-message {
+    color: #e58b00;
+}
+
+.success-message {
+    color: #249447;
+}
+
+
+/* ================= TRỐNG / LỖI ================= */
+
 .history-empty {
+    padding: 30px 15px;
     text-align: center;
-    padding: 30px;
     background: white;
     border-radius: 15px;
     color: #777;
@@ -647,161 +749,199 @@ body {
 }
 
 .history-loading {
+    padding: 30px;
     text-align: center;
-    padding: 25px;
+    background: white;
+    border-radius: 15px;
     color: #777;
+    font-size: 18px;
 }
 
+
+/* ================= MOBILE ================= */
+
 @media (max-width: 600px) {
-    .history-section {
-        padding: 18px 12px;
+
+    #napHistory {
+        margin: 20px auto;
+        padding: 18px 10px;
     }
 
-    .history-section h2 {
+    .history-title h2 {
         font-size: 24px;
     }
 
+    .history-title span {
+        font-size: 27px;
+    }
+
+    .history-search input {
+        height: 55px;
+        font-size: 18px;
+    }
+
+    .history-search button {
+        width: 70px;
+        height: 55px;
+    }
+
+    .history-card {
+        padding: 20px 16px;
+    }
+
     .history-top {
-        align-items: flex-start;
         flex-direction: column;
+        align-items: flex-start;
     }
 
     .history-id {
-        font-size: 20px;
-    }
-
-    .history-status {
-        font-size: 17px;
+        font-size: 19px;
     }
 
     .history-info {
+        display: flex;
         flex-direction: column;
         align-items: flex-start;
+        gap: 9px;
+    }
+
+    .history-time {
+        white-space: normal;
     }
 }
+
 </style>
 
-<script>
-async function timLichSuNap() {
-    const playerId = document
-        .getElementById("historyPlayerId")
-        .value
-        .trim();
 
-    const resultBox = document.getElementById("historyResult");
+<script>
+
+/* =====================================================
+   TÌM LỊCH SỬ NẠP
+===================================================== */
+
+async function searchNapHistory() {
+
+    const input =
+        document.getElementById("historyPlayerId");
+
+    const result =
+        document.getElementById("historyResult");
+
+    const playerId =
+        input.value.trim();
+
+
+    /* Kiểm tra ID */
 
     if (!playerId) {
-        alert("Vui lòng nhập ID Free Fire!");
+
+        result.innerHTML = `
+            <div class="history-empty">
+                ⚠️ Vui lòng nhập ID Free Fire
+            </div>
+        `;
+
         return;
     }
 
-    resultBox.innerHTML =
-        '<div class="history-loading">⏳ Đang tìm lịch sử nạp...</div>';
+
+    /* Chỉ cho nhập số */
+
+    if (!/^[0-9]+$/.test(playerId)) {
+
+        result.innerHTML = `
+            <div class="history-empty">
+                ⚠️ ID Free Fire chỉ được nhập số
+            </div>
+        `;
+
+        return;
+    }
+
+
+    /* Loading */
+
+    result.innerHTML = `
+        <div class="history-loading">
+            ⏳ Đang tìm lịch sử nạp...
+        </div>
+    `;
+
 
     try {
+
+        /*
+         * Lấy lịch sử từ SERVER
+         */
         const response = await fetch(
             "/api/orders?player_id=" +
             encodeURIComponent(playerId)
         );
 
+
         if (!response.ok) {
-            throw new Error("Không thể lấy lịch sử");
+
+            throw new Error(
+                "Không thể lấy dữ liệu"
+            );
         }
 
-        const data = await response.json();
+
+        const data =
+            await response.json();
+
 
         /*
-         * Hỗ trợ cả:
-         * { orders: [...] }
-         * hoặc trực tiếp [...]
+         * Backend có thể trả:
+         *
+         * [...]
+         *
+         * hoặc
+         *
+         * {
+         *    orders: [...]
+         * }
          */
-        const orders = Array.isArray(data)
-            ? data
-            : (data.orders || []);
+
+        const orders =
+            Array.isArray(data)
+                ? data
+                : (data.orders || []);
+
+
+        /* Không có đơn */
 
         if (!orders.length) {
-            resultBox.innerHTML = `
+
+            result.innerHTML = `
                 <div class="history-empty">
-                    ❌ Không tìm thấy lịch sử nạp cho ID
-                    <strong>${escapeHtml(playerId)}</strong>
+                    ❌ Không tìm thấy lịch sử nạp
+                    cho ID
+                    <strong>${escapeHistory(playerId)}</strong>
                 </div>
             `;
+
             return;
         }
 
-        resultBox.innerHTML = orders.map(order => {
 
-            const uid = order.player_id || order.uid || playerId;
-            const packageName =
-                order.package_name ||
-                order.package ||
-                "---";
+        /* Hiển thị đơn */
 
-            const amount = Number(
-                order.amount || order.price || 0
-            ).toLocaleString("vi-VN");
+        result.innerHTML =
+            orders.map(renderHistoryOrder).join("");
 
-            const status = order.status || "";
-
-            const isSuccess =
-                status === "DA_THANH_TOAN" ||
-                status === "PAID" ||
-                status === "SUCCESS" ||
-                status === "ĐÃ THANH TOÁN" ||
-                order.paid === true;
-
-            const statusText =
-                isSuccess ? "Thành công" : "Đang xử lý";
-
-            const createdAt =
-                order.paid_at ||
-                order.created_at ||
-                order.createdAt ||
-                "";
-
-            return `
-                <div class="history-card">
-
-                    <div class="history-top">
-
-                        <div class="history-id">
-                            <strong>FF ID:</strong>
-                            ${maskPlayerId(uid)}
-                        </div>
-
-                        <div class="history-status"
-                             style="${isSuccess ? '' : 'background:#f39c12;'}">
-                            ${statusText}
-                        </div>
-
-                    </div>
-
-                    <div class="history-info">
-
-                        <div class="history-package">
-                            💎 ${escapeHtml(packageName)}
-                        </div>
-
-                        <div>
-                            ${amount}đ
-                        </div>
-
-                        <div class="history-time">
-                            ${formatDate(createdAt)}
-                        </div>
-
-                    </div>
-
-                </div>
-            `;
-        }).join("");
 
     } catch (error) {
-        console.error(error);
 
-        resultBox.innerHTML = `
+        console.error(
+            "HISTORY ERROR:",
+            error
+        );
+
+        result.innerHTML = `
             <div class="history-empty">
                 ⚠️ Không thể tải lịch sử nạp.
+                <br>
                 Vui lòng thử lại sau.
             </div>
         `;
@@ -809,42 +949,225 @@ async function timLichSuNap() {
 }
 
 
-/* Che ID giống giao diện bạn gửi */
-function maskPlayerId(id) {
+/* =====================================================
+   HIỂN THỊ 1 ĐƠN
+===================================================== */
+
+function renderHistoryOrder(order) {
+
+    const playerId =
+        order.player_id ||
+        order.uid ||
+        order.playerId ||
+        "---";
+
+
+    const packageName =
+        order.package_name ||
+        order.package ||
+        "---";
+
+
+    const amount =
+        Number(
+            order.amount ||
+            order.price ||
+            0
+        ).toLocaleString("vi-VN");
+
+
+    const createdAt =
+        order.paid_at ||
+        order.created_at ||
+        order.createdAt ||
+        order.created ||
+        "";
+
+
+    const status =
+        String(
+            order.status || "PENDING"
+        ).toUpperCase();
+
+
+    /* =========================
+       ĐÃ THANH TOÁN
+    ========================= */
+
+    const paid =
+        status === "PAID" ||
+        status === "SUCCESS" ||
+        status === "DA_THANH_TOAN" ||
+        status === "ĐÃ THANH TOÁN" ||
+        order.paid === true;
+
+
+    if (paid) {
+
+        return `
+
+            <div class="history-card">
+
+                <div class="history-top">
+
+                    <div class="history-id">
+                        <strong>FF ID:</strong>
+                        ${maskHistoryId(playerId)}
+                    </div>
+
+                    <div class="history-status success">
+                        ✅ Thành công
+                    </div>
+
+                </div>
+
+
+                <div class="history-info">
+
+                    <div class="history-package">
+                        💎 ${escapeHistory(packageName)}
+                    </div>
+
+                    <div class="history-price">
+                        ${amount}đ
+                    </div>
+
+                    <div class="history-time">
+                        ${formatHistoryDate(createdAt)}
+                    </div>
+
+                </div>
+
+
+                <div class="
+                    history-message
+                    success-message
+                ">
+                    💎 Kim cương đã được nạp vào nick
+                </div>
+
+            </div>
+
+        `;
+    }
+
+
+    /* =========================
+       ĐANG CHỜ THANH TOÁN
+    ========================= */
+
+    return `
+
+        <div class="history-card">
+
+            <div class="history-top">
+
+                <div class="history-id">
+                    <strong>FF ID:</strong>
+                    ${maskHistoryId(playerId)}
+                </div>
+
+                <div class="history-status pending">
+                    ⏳ Đang chờ thanh toán
+                </div>
+
+            </div>
+
+
+            <div class="history-info">
+
+                <div class="history-package">
+                    💎 ${escapeHistory(packageName)}
+                </div>
+
+                <div class="history-price">
+                    ${amount}đ
+                </div>
+
+                <div class="history-time">
+                    ${formatHistoryDate(createdAt)}
+                </div>
+
+            </div>
+
+
+            <div class="
+                history-message
+                pending-message
+            ">
+                💳 Đơn hàng đang chờ thanh toán
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+/* =====================================================
+   CHE ID
+   Ví dụ:
+   54889015
+   → 5488****9015
+===================================================== */
+
+function maskHistoryId(id) {
+
     id = String(id);
 
-    if (id.length <= 4) {
+    if (id.length <= 8) {
         return id;
     }
 
-    const first = id.substring(0, 4);
-    const last = id.substring(id.length - 4);
-
-    return first + "****" + last;
+    return (
+        id.substring(0, 4) +
+        "****" +
+        id.substring(id.length - 4)
+    );
 }
 
 
-/* Định dạng ngày giờ */
-function formatDate(value) {
-    if (!value) return "";
+/* =====================================================
+   NGÀY GIỜ
+===================================================== */
 
-    const date = new Date(value);
+function formatHistoryDate(value) {
 
-    if (isNaN(date.getTime())) {
-        return escapeHtml(String(value));
+    if (!value) {
+        return "";
     }
 
-    return date.toLocaleDateString("vi-VN") +
+    const date =
+        new Date(value);
+
+
+    if (isNaN(date.getTime())) {
+        return escapeHistory(value);
+    }
+
+
+    return (
+        date.toLocaleDateString(
+            "vi-VN"
+        ) +
         " " +
-        date.toLocaleTimeString("vi-VN", {
-            hour: "2-digit",
-            minute: "2-digit"
-        });
+        date.toLocaleTimeString(
+            "vi-VN",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        )
+    );
 }
 
 
-/* Chống HTML lạ được đưa vào giao diện */
-function escapeHtml(value) {
+/* =====================================================
+   CHỐNG HTML LẠ
+===================================================== */
+
+function escapeHistory(value) {
+
     return String(value)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -854,14 +1177,23 @@ function escapeHtml(value) {
 }
 
 
-/* Cho khách bấm Enter để tìm */
+/* =====================================================
+   NHẤN ENTER ĐỂ TÌM
+===================================================== */
+
 document
     .getElementById("historyPlayerId")
-    .addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-            timLichSuNap();
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+                searchNapHistory();
+            }
+
         }
-    });
+    );
+
 </script>
 
 
