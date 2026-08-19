@@ -1,338 +1,686 @@
-<!-- ================= LỊCH SỬ NẠP ================= -->
-<section class="history-section">
-    <h2>🔄 Lịch sử giao dịch</h2>
+const express = require("express");
+const path = require("path");
+const Database = require("better-sqlite3");
+const crypto = require("crypto");
 
-    <div class="history-search">
-        <input
-            type="text"
-            id="historyPlayerId"
-            placeholder="Nhập ID FF"
-            inputmode="numeric"
-        >
-        <button onclick="timLichSuNap()">🔍</button>
-    </div>
+const app = express();
 
-    <div id="historyResult"></div>
-</section>
+const PORT = process.env.PORT || 10000;
 
-<style>
-.history-section {
-    max-width: 750px;
-    margin: 30px auto;
-    padding: 25px 20px;
-    background: #f3f5f8;
-    border-radius: 18px;
+const ADMIN_PASSWORD =
+  process.env.ADMIN_PASSWORD || "DOI_MAT_KHAU_NGAY";
+
+const SEPAY_API_KEY =
+  process.env.SEPAY_API_KEY || "";
+
+const db = new Database("shop.db");
+
+// =====================================================
+// DATABASE
+// =====================================================
+
+db.exec(`
+CREATE TABLE IF NOT EXISTS orders (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  order_code TEXT UNIQUE NOT NULL,
+  player_id TEXT NOT NULL,
+  package_name TEXT NOT NULL,
+  amount INTEGER NOT NULL,
+  status TEXT NOT NULL DEFAULT 'PENDING',
+  payment_id TEXT,
+  payment_content TEXT,
+  paid_amount INTEGER,
+  paid_at TEXT,
+  created_at TEXT NOT NULL
+);
+`);
+
+// =====================================================
+// MIDDLEWARE
+// =====================================================
+
+app.use(express.json({ limit: "1mb" }));
+app.use(express.static(__dirname));
+
+// =====================================================
+// HOME
+// =====================================================
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+// =====================================================
+// HEALTH
+// =====================================================
+
+app.get("/health", (req, res) => {
+  res.json({
+    success: true,
+    status: "online"
+  });
+});
+
+// =====================================================
+// TẠO MÃ ĐƠN
+// =====================================================
+
+function createOrderCode() {
+  const random =
+    crypto.randomBytes(4)
+      .toString("hex")
+      .toUpperCase();
+
+  return `NFF${Date.now().toString().slice(-6)}${random}`;
 }
 
-.history-section h2 {
-    text-align: center;
-    color: #444;
-    margin-bottom: 25px;
-    font-size: 28px;
+// =====================================================
+// ADMIN AUTH
+// =====================================================
+
+function checkAdmin(req, res, next) {
+
+  const header =
+    req.headers.authorization || "";
+
+  if (!header.startsWith("Basic ")) {
+
+    res.set(
+      "WWW-Authenticate",
+      'Basic realm="Admin"'
+    );
+
+    return res.status(401).json({
+      error: "Unauthorized"
+    });
+  }
+
+  let decoded;
+
+  try {
+
+    decoded =
+      Buffer.from(
+        header.slice(6),
+        "base64"
+      ).toString("utf8");
+
+  } catch {
+
+    return res.status(401).json({
+      error: "Unauthorized"
+    });
+  }
+
+  const separator =
+    decoded.indexOf(":");
+
+  const username =
+    separator >= 0
+      ? decoded.slice(0, separator)
+      : "";
+
+  const password =
+    separator >= 0
+      ? decoded.slice(separator + 1)
+      : "";
+
+  if (
+    username !== "admin" ||
+    password !== ADMIN_PASSWORD
+  ) {
+
+    return res.status(403).json({
+      error: "Sai mật khẩu hoặc không được phép."
+    });
+  }
+
+  next();
 }
 
-.history-search {
-    display: flex;
-    width: 100%;
-    margin-bottom: 25px;
-}
+// =====================================================
+// TẠO ĐƠN HÀNG
+// =====================================================
 
-.history-search input {
-    flex: 1;
-    height: 58px;
-    padding: 0 20px;
-    font-size: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px 0 0 10px;
-    outline: none;
-    box-sizing: border-box;
-}
+app.post("/api/orders", (req, res) => {
 
-.history-search button {
-    width: 90px;
-    border: none;
-    background: #1677ff;
-    color: white;
-    font-size: 28px;
-    border-radius: 0 10px 10px 0;
-    cursor: pointer;
-}
+  try {
 
-.history-card {
-    background: white;
-    padding: 25px 30px;
-    margin-bottom: 18px;
-    border-radius: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06);
-}
+    const {
+      player_id,
+      package_name,
+      amount
+    } = req.body;
 
-.history-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 18px;
-}
+    if (!player_id) {
 
-.history-id {
-    font-size: 24px;
-    color: #444;
-}
-
-.history-id strong {
-    color: #1677ff;
-}
-
-.history-status {
-    background: #20a34a;
-    color: white;
-    padding: 10px 22px;
-    border-radius: 8px;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.history-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    color: #555;
-    font-size: 19px;
-}
-
-.history-package {
-    color: #429b59;
-    font-weight: bold;
-}
-
-.history-time {
-    color: #888;
-}
-
-.history-empty {
-    text-align: center;
-    padding: 30px;
-    background: white;
-    border-radius: 15px;
-    color: #777;
-    font-size: 18px;
-}
-
-.history-loading {
-    text-align: center;
-    padding: 25px;
-    color: #777;
-}
-
-@media (max-width: 600px) {
-    .history-section {
-        padding: 18px 12px;
+      return res.status(400).json({
+        success: false,
+        message: "Thiếu ID Free Fire."
+      });
     }
 
-    .history-section h2 {
-        font-size: 24px;
+    if (!package_name) {
+
+      return res.status(400).json({
+        success: false,
+        message: "Thiếu tên gói."
+      });
     }
 
-    .history-top {
-        align-items: flex-start;
-        flex-direction: column;
+    const numericAmount =
+      Number(amount);
+
+    if (
+      !Number.isInteger(numericAmount) ||
+      numericAmount <= 0
+    ) {
+
+      return res.status(400).json({
+        success: false,
+        message: "Số tiền không hợp lệ."
+      });
     }
 
-    .history-id {
-        font-size: 20px;
+    const cleanPlayerId =
+      String(player_id)
+        .trim()
+        .replace(/[^\d]/g, "");
+
+    if (!cleanPlayerId) {
+
+      return res.status(400).json({
+        success: false,
+        message: "ID Free Fire không hợp lệ."
+      });
     }
 
-    .history-status {
-        font-size: 17px;
+    const orderCode =
+      createOrderCode();
+
+    const createdAt =
+      new Date().toISOString();
+
+    db.prepare(`
+      INSERT INTO orders (
+        order_code,
+        player_id,
+        package_name,
+        amount,
+        status,
+        created_at
+      )
+      VALUES (?, ?, ?, ?, 'PENDING', ?)
+    `).run(
+      orderCode,
+      cleanPlayerId,
+      String(package_name),
+      numericAmount,
+      createdAt
+    );
+
+    res.json({
+      success: true,
+
+      order: {
+        order_code: orderCode,
+        player_id: cleanPlayerId,
+        package_name: String(package_name),
+        amount: numericAmount,
+        status: "PENDING",
+        transfer_content: orderCode
+      }
+    });
+
+  } catch (error) {
+
+    console.error(
+      "CREATE ORDER ERROR:",
+      error
+    );
+
+    res.status(500).json({
+      success: false,
+      message: "Không thể tạo đơn."
+    });
+  }
+});
+
+// =====================================================
+// KHÁCH KIỂM TRA 1 ĐƠN
+// =====================================================
+
+app.get(
+  "/api/orders/:orderCode",
+  (req, res) => {
+
+    const order =
+      db.prepare(`
+        SELECT
+          id,
+          order_code,
+          player_id,
+          package_name,
+          amount,
+          status,
+          payment_id,
+          paid_amount,
+          paid_at,
+          created_at
+        FROM orders
+        WHERE order_code = ?
+      `).get(
+        req.params.orderCode
+      );
+
+    if (!order) {
+
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy đơn."
+      });
     }
 
-    .history-info {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-</style>
+    res.json({
+      success: true,
+      order
+    });
+  }
+);
 
-<script>
-async function timLichSuNap() {
-    const playerId = document
-        .getElementById("historyPlayerId")
-        .value
-        .trim();
+// =====================================================
+// KHÁCH KIỂM TRA LỊCH SỬ THEO ID FREE FIRE
+// =====================================================
 
-    const resultBox = document.getElementById("historyResult");
-
-    if (!playerId) {
-        alert("Vui lòng nhập ID Free Fire!");
-        return;
-    }
-
-    resultBox.innerHTML =
-        '<div class="history-loading">⏳ Đang tìm lịch sử nạp...</div>';
+app.get(
+  "/api/orders/player/:playerId",
+  (req, res) => {
 
     try {
-        const response = await fetch(
-            "/api/orders?player_id=" +
-            encodeURIComponent(playerId)
-        );
 
-        if (!response.ok) {
-            throw new Error("Không thể lấy lịch sử");
-        }
+      const playerId =
+        String(req.params.playerId)
+          .trim()
+          .replace(/[^\d]/g, "");
 
-        const data = await response.json();
+      if (!playerId) {
 
-        /*
-         * Hỗ trợ cả:
-         * { orders: [...] }
-         * hoặc trực tiếp [...]
-         */
-        const orders = Array.isArray(data)
-            ? data
-            : (data.orders || []);
+        return res.status(400).json({
+          success: false,
+          message: "ID Free Fire không hợp lệ."
+        });
+      }
 
-        if (!orders.length) {
-            resultBox.innerHTML = `
-                <div class="history-empty">
-                    ❌ Không tìm thấy lịch sử nạp cho ID
-                    <strong>${escapeHtml(playerId)}</strong>
-                </div>
-            `;
-            return;
-        }
+      const orders =
+        db.prepare(`
+          SELECT
+            id,
+            order_code,
+            player_id,
+            package_name,
+            amount,
+            status,
+            paid_amount,
+            paid_at,
+            created_at
+          FROM orders
+          WHERE player_id = ?
+          ORDER BY id DESC
+        `).all(playerId);
 
-        resultBox.innerHTML = orders.map(order => {
-
-            const uid = order.player_id || order.uid || playerId;
-            const packageName =
-                order.package_name ||
-                order.package ||
-                "---";
-
-            const amount = Number(
-                order.amount || order.price || 0
-            ).toLocaleString("vi-VN");
-
-            const status = order.status || "";
-
-            const isSuccess =
-                status === "DA_THANH_TOAN" ||
-                status === "PAID" ||
-                status === "SUCCESS" ||
-                status === "ĐÃ THANH TOÁN" ||
-                order.paid === true;
-
-            const statusText =
-                isSuccess ? "Thành công" : "Đang xử lý";
-
-            const createdAt =
-                order.paid_at ||
-                order.created_at ||
-                order.createdAt ||
-                "";
-
-            return `
-                <div class="history-card">
-
-                    <div class="history-top">
-
-                        <div class="history-id">
-                            <strong>FF ID:</strong>
-                            ${maskPlayerId(uid)}
-                        </div>
-
-                        <div class="history-status"
-                             style="${isSuccess ? '' : 'background:#f39c12;'}">
-                            ${statusText}
-                        </div>
-
-                    </div>
-
-                    <div class="history-info">
-
-                        <div class="history-package">
-                            💎 ${escapeHtml(packageName)}
-                        </div>
-
-                        <div>
-                            ${amount}đ
-                        </div>
-
-                        <div class="history-time">
-                            ${formatDate(createdAt)}
-                        </div>
-
-                    </div>
-
-                </div>
-            `;
-        }).join("");
+      res.json({
+        success: true,
+        player_id: playerId,
+        orders
+      });
 
     } catch (error) {
-        console.error(error);
 
-        resultBox.innerHTML = `
-            <div class="history-empty">
-                ⚠️ Không thể tải lịch sử nạp.
-                Vui lòng thử lại sau.
-            </div>
-        `;
+      console.error(
+        "PLAYER HISTORY ERROR:",
+        error
+      );
+
+      res.status(500).json({
+        success: false,
+        message: "Không thể lấy lịch sử nạp."
+      });
     }
-}
+  }
+);
 
+// =====================================================
+// SEPAY WEBHOOK
+// =====================================================
 
-/* Che ID giống giao diện bạn gửi */
-function maskPlayerId(id) {
-    id = String(id);
+app.post(
+  "/webhook/sepay",
+  (req, res) => {
 
-    if (id.length <= 4) {
-        return id;
-    }
+    try {
 
-    const first = id.substring(0, 4);
-    const last = id.substring(id.length - 4);
+      if (SEPAY_API_KEY) {
 
-    return first + "****" + last;
-}
+        const authorization =
+          req.headers.authorization || "";
 
+        const expected =
+          `Apikey ${SEPAY_API_KEY}`;
 
-/* Định dạng ngày giờ */
-function formatDate(value) {
-    if (!value) return "";
+        if (authorization !== expected) {
 
-    const date = new Date(value);
-
-    if (isNaN(date.getTime())) {
-        return escapeHtml(String(value));
-    }
-
-    return date.toLocaleDateString("vi-VN") +
-        " " +
-        date.toLocaleTimeString("vi-VN", {
-            hour: "2-digit",
-            minute: "2-digit"
-        });
-}
-
-
-/* Chống HTML lạ được đưa vào giao diện */
-function escapeHtml(value) {
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-
-/* Cho khách bấm Enter để tìm */
-document
-    .getElementById("historyPlayerId")
-    .addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-            timLichSuNap();
+          return res.status(401).json({
+            success: false,
+            message: "Unauthorized"
+          });
         }
+      }
+
+      const data = req.body || {};
+
+      console.log(
+        "SEPAY WEBHOOK:",
+        JSON.stringify(data)
+      );
+
+      const paymentId =
+        String(
+          data.id ??
+          data.transactionId ??
+          data.referenceCode ??
+          ""
+        );
+
+      const transferAmount =
+        Number(
+          data.transferAmount ??
+          data.amount ??
+          0
+        );
+
+      const content =
+        String(
+          data.content ??
+          data.description ??
+          data.transferDescription ??
+          ""
+        ).trim();
+
+      if (
+        !transferAmount ||
+        transferAmount <= 0
+      ) {
+
+        return res.status(200).json({
+          success: true,
+          message: "Ignored: invalid amount"
+        });
+      }
+
+      const codeMatch =
+        content.match(
+          /NFF\d+[A-Z0-9]*/i
+        );
+
+      if (!codeMatch) {
+
+        return res.status(200).json({
+          success: true,
+          message: "Ignored: no order code"
+        });
+      }
+
+      const orderCode =
+        codeMatch[0].toUpperCase();
+
+      const order =
+        db.prepare(`
+          SELECT *
+          FROM orders
+          WHERE order_code = ?
+        `).get(orderCode);
+
+      if (!order) {
+
+        return res.status(200).json({
+          success: true,
+          message: "Ignored: order not found"
+        });
+      }
+
+      if (
+        paymentId &&
+        order.payment_id === paymentId
+      ) {
+
+        return res.status(200).json({
+          success: true,
+          message: "Already processed"
+        });
+      }
+
+      if (order.status === "PAID") {
+
+        return res.status(200).json({
+          success: true,
+          message: "Order already paid"
+        });
+      }
+
+      if (
+        transferAmount !==
+        Number(order.amount)
+      ) {
+
+        db.prepare(`
+          UPDATE orders
+          SET
+            payment_id = ?,
+            payment_content = ?,
+            paid_amount = ?
+          WHERE order_code = ?
+        `).run(
+          paymentId || null,
+          content,
+          transferAmount,
+          orderCode
+        );
+
+        return res.status(200).json({
+          success: true,
+          message: "Amount mismatch"
+        });
+      }
+
+      const paidAt =
+        new Date().toISOString();
+
+      db.prepare(`
+        UPDATE orders
+        SET
+          status = 'PAID',
+          payment_id = ?,
+          payment_content = ?,
+          paid_amount = ?,
+          paid_at = ?
+        WHERE order_code = ?
+      `).run(
+        paymentId || null,
+        content,
+        transferAmount,
+        paidAt,
+        orderCode
+      );
+
+      console.log(
+        `ĐÃ THANH TOÁN: ${orderCode}`
+      );
+
+      res.status(200).json({
+        success: true,
+        message: "Payment received",
+        order_code: orderCode
+      });
+
+    } catch (error) {
+
+      console.error(
+        "SEPAY WEBHOOK ERROR:",
+        error
+      );
+
+      res.status(500).json({
+        success: false
+      });
+    }
+  }
+);
+
+// =====================================================
+// ADMIN - DANH SÁCH ĐƠN
+// =====================================================
+
+app.get(
+  "/api/admin/orders",
+  checkAdmin,
+  (req, res) => {
+
+    const orders =
+      db.prepare(`
+        SELECT
+          id,
+          order_code,
+          player_id,
+          package_name,
+          amount,
+          status,
+          payment_id,
+          payment_content,
+          paid_amount,
+          paid_at,
+          created_at
+        FROM orders
+        ORDER BY id DESC
+      `).all();
+
+    res.json({
+      success: true,
+      orders
     });
-</script>
+  }
+);
+
+// =====================================================
+// ADMIN - XEM 1 ĐƠN
+// =====================================================
+
+app.get(
+  "/api/admin/orders/:orderCode",
+  checkAdmin,
+  (req, res) => {
+
+    const order =
+      db.prepare(`
+        SELECT *
+        FROM orders
+        WHERE order_code = ?
+      `).get(
+        req.params.orderCode
+      );
+
+    if (!order) {
+
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy đơn."
+      });
+    }
+
+    res.json({
+      success: true,
+      order
+    });
+  }
+);
+
+// =====================================================
+// ADMIN - XÁC NHẬN ĐÃ NẠP THÀNH CÔNG
+// =====================================================
+
+app.post(
+  "/api/admin/orders/:orderCode/success",
+  checkAdmin,
+  (req, res) => {
+
+    try {
+
+      const orderCode =
+        String(
+          req.params.orderCode
+        ).trim().toUpperCase();
+
+      const order =
+        db.prepare(`
+          SELECT *
+          FROM orders
+          WHERE order_code = ?
+        `).get(orderCode);
+
+      if (!order) {
+
+        return res.status(404).json({
+          success: false,
+          message: "Không tìm thấy đơn."
+        });
+      }
+
+      const now =
+        new Date().toISOString();
+
+      db.prepare(`
+        UPDATE orders
+        SET
+          status = 'PAID',
+          paid_at = COALESCE(paid_at, ?)
+        WHERE order_code = ?
+      `).run(
+        now,
+        orderCode
+      );
+
+      res.json({
+        success: true,
+        message: "Đã xác nhận thành công.",
+        order_code: orderCode
+      });
+
+    } catch (error) {
+
+      console.error(
+        "ADMIN SUCCESS ERROR:",
+        error
+      );
+
+      res.status(500).json({
+        success: false,
+        message: "Không thể xác nhận đơn."
+      });
+    }
+  }
+);
+
+// =====================================================
+// SERVER
+// =====================================================
+
+app.listen(
+  PORT,
+  "0.0.0.0",
+  () => {
+
+    console.log(
+      `Server running on port ${PORT}`
+    );
+
+  }
+);
