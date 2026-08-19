@@ -525,472 +525,181 @@ body {
   </button>
 
 
-<!-- =====================================================
-     LỊCH SỬ NẠP - TRA BẰNG MÃ ĐƠN HÀNG
-===================================================== -->
+/* =====================================================
+   HIỂN THỊ LỊCH SỬ NẠP - BẢN THU GỌN
+===================================================== */
 
-<div style="
-  max-width:900px;
-  margin:20px auto;
-  padding:0 15px;
-">
+function hienThiLichSu(order) {
 
-  <div style="
-    background:#171821;
-    padding:20px;
-    border-radius:18px;
-  ">
-
-    <h2 style="
-      color:#ffd21c;
-      margin-top:0;
-    ">
-      📜 Lịch sử nạp
-    </h2>
-
-    <p style="
-      color:#aaa;
-      margin-top:-5px;
-    ">
-      Nhập mã đơn hàng để kiểm tra trạng thái nạp.
-    </p>
-
-    <input
-      id="historyCode"
-      type="text"
-      placeholder="Nhập mã đơn hàng..."
-      autocomplete="off"
-      style="
-        width:100%;
-        padding:15px;
-        border-radius:12px;
-        border:1px solid #444;
-        background:#0d0e15;
-        color:white;
-        font-size:17px;
-        outline:none;
-      "
-    >
-
-    <button
-      type="button"
-      onclick="kiemTraLichSu()"
-      style="
-        width:100%;
-        margin-top:12px;
-        padding:15px;
-        border:0;
-        border-radius:12px;
-        background:linear-gradient(90deg,#ffca05,#ff7b00);
-        color:#111;
-        font-size:18px;
-        font-weight:bold;
-        cursor:pointer;
-      "
-    >
-      🔎 Kiểm tra đơn hàng
-    </button>
-
-    <div
-      id="historyResult"
-      style="margin-top:18px;"
-    ></div>
-
-  </div>
-
-</div>
-
-
-<script>
-
-async function kiemTraLichSu() {
-
-  const input =
-    document.getElementById("historyCode");
-
-  const result =
+  const resultBox =
     document.getElementById("historyResult");
 
-  const orderCode =
-    input.value.trim().toUpperCase();
+  const isPaid =
+    String(order.status || "").toUpperCase() === "PAID";
 
+  let statusHtml = "";
 
-  if (!orderCode) {
+  if (isPaid) {
 
-    result.innerHTML = `
-      <div style="
-        padding:15px;
-        border-radius:12px;
-        background:#3a1d1d;
-        color:#ff7777;
-        text-align:center;
+    statusHtml = `
+      <span style="
+        display:inline-block;
+        padding:8px 14px;
+        border-radius:10px;
+        background:#073b20;
+        color:#25d366;
+        font-weight:bold;
       ">
-        ⚠️ Vui lòng nhập mã đơn hàng.
-      </div>
+        🟢 ĐÃ NẠP KIM CƯƠNG
+      </span>
     `;
 
-    return;
+  } else {
+
+    statusHtml = `
+      <span style="
+        display:inline-block;
+        padding:8px 14px;
+        border-radius:10px;
+        background:#3b3210;
+        color:#ffd21c;
+        font-weight:bold;
+      ">
+        🟡 ĐANG XỬ LÝ
+      </span>
+    `;
+
   }
 
+  resultBox.className =
+    "history-result show";
 
-  result.innerHTML = `
+  resultBox.innerHTML = `
+
     <div style="
-      padding:18px;
       background:#0d0e15;
       border:1px solid #333;
-      border-radius:14px;
-      text-align:center;
-      color:#aaa;
+      border-radius:16px;
+      padding:18px;
+      line-height:1.8;
     ">
-      🔄 Đang kiểm tra đơn hàng...
-    </div>
-  `;
 
-
-  try {
-
-    const response =
-      await fetch(
-        "/api/orders/" +
-        encodeURIComponent(orderCode) +
-        "?t=" +
-        Date.now(),
-        {
-          method:"GET",
-          cache:"no-store",
-          headers:{
-            "Accept":"application/json"
-          }
-        }
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if (
-      !response.ok ||
-      !data.success ||
-      !data.order
-    ) {
-
-      result.innerHTML = `
-        <div style="
-          padding:16px;
-          border-radius:12px;
-          background:#3a1d1d;
-          color:#ff7777;
-          text-align:center;
-        ">
-          ❌ Không tìm thấy mã đơn hàng
-          <br><br>
-          <b>${escapeHistory(orderCode)}</b>
-        </div>
-      `;
-
-      return;
-    }
-
-
-    const order =
-      data.order;
-
-
-    /*
-      TRẠNG THÁI THANH TOÁN
-    */
-
-    const paymentStatus =
-      String(
-        order.status ||
-        order.payment_status ||
-        "PENDING"
-      ).toUpperCase();
-
-
-    /*
-      TRẠNG THÁI NẠP KIM CƯƠNG
-
-      Admin có thể trả về một trong
-      các trạng thái này.
-    */
-
-    const topupStatus =
-      String(
-        order.topup_status ||
-        ""
-      ).toUpperCase();
-
-
-    let statusText =
-      "🟡 CHỜ THANH TOÁN";
-
-    let statusColor =
-      "#ffd21c";
-
-
-    if (
-      paymentStatus === "PAID" ||
-      paymentStatus === "PAYMENT_SUCCESS"
-    ) {
-
-      statusText =
-        "🟢 ĐÃ THANH TOÁN";
-
-      statusColor =
-        "#25d366";
-
-    }
-
-
-    /*
-      ADMIN ĐÃ XÁC NHẬN NẠP
-    */
-
-    if (
-      topupStatus === "TOPPED_UP" ||
-      topupStatus === "TOPUP_SUCCESS" ||
-      topupStatus === "TOPUP_COMPLETED"
-    ) {
-
-      statusText =
-        "💎 ĐÃ NẠP KIM CƯƠNG";
-
-      statusColor =
-        "#25d366";
-
-    }
-
-
-    /*
-      HIỂN THỊ
-    */
-
-    result.innerHTML = `
+      <!-- TRẠNG THÁI -->
 
       <div style="
-        background:#0d0e15;
-        border:1px solid #333;
-        border-radius:15px;
-        padding:18px;
+        margin-bottom:14px;
+        font-size:17px;
       ">
 
+        📌 Trạng thái:
+        <br>
+
+        ${statusHtml}
+
+      </div>
+
+
+      <!-- MÃ ĐƠN -->
+
+      <div style="
+        border-top:1px solid #292a32;
+        padding-top:14px;
+        margin-top:10px;
+      ">
+
+        📦 Mã đơn hàng:
+
         <div style="
-          padding:13px;
-          border-radius:12px;
-          background:#171821;
-          text-align:center;
-          color:${statusColor};
-          font-size:18px;
+          margin-top:5px;
+          color:#4d8cff;
+          font-size:20px;
           font-weight:bold;
-          margin-bottom:15px;
-        ">
-          ${statusText}
-        </div>
-
-
-        <div style="
-          line-height:2;
-          color:#ddd;
+          word-break:break-all;
         ">
 
-          📦 Mã đơn hàng:
-          <b style="color:#4d8dff;">
-            ${escapeHistory(
-              order.order_code ||
-              orderCode
-            )}
-          </b>
-
-          <br>
-
-          🎮 ID Free Fire:
-          <b>
-            ${escapeHistory(
-              order.player_id ||
-              order.ff_id ||
-              "---"
-            )}
-          </b>
-
-          <br>
-
-          💎 Gói:
-          <b>
-            ${escapeHistory(
-              order.package_name ||
-              "---"
-            )}
-          </b>
-
-          <br>
-
-          💰 Số tiền:
-          <b>
-            ${Number(
-              order.amount || 0
-            ).toLocaleString("vi-VN")}
-            VNĐ
-          </b>
-
-          <br>
-
-          📝 Nội dung:
-          <b>
-            ${escapeHistory(
-              order.transfer_content ||
-              order.payment_content ||
-              "---"
-            )}
-          </b>
-
-          <br>
-
-          📅 Ngày tạo:
-          <b>
-            ${escapeHistory(
-              formatHistoryDate(
-                order.created_at
-              )
-            )}
-          </b>
-
-          ${
-            order.paid_at
-            ? `
-              <br>
-              💳 Thanh toán lúc:
-              <b>
-                ${escapeHistory(
-                  formatHistoryDate(
-                    order.paid_at
-                  )
-                )}
-              </b>
-            `
-            : ""
-          }
-
-          ${
-            order.topped_up_at
-            ? `
-              <br>
-              💎 Đã nạp lúc:
-              <b>
-                ${escapeHistory(
-                  formatHistoryDate(
-                    order.topped_up_at
-                  )
-                )}
-              </b>
-            `
-            : ""
-          }
+          ${escapeHtml(
+            order.order_code || "Không có"
+          )}
 
         </div>
 
       </div>
 
-    `;
 
-  }
+      <!-- GÓI KIM CƯƠNG -->
 
-  catch(error) {
-
-    console.error(
-      "HISTORY ERROR:",
-      error
-    );
-
-
-    result.innerHTML = `
       <div style="
-        padding:16px;
-        border-radius:12px;
-        background:#3a1d1d;
-        color:#ff7777;
-        text-align:center;
+        border-top:1px solid #292a32;
+        padding-top:14px;
+        margin-top:14px;
       ">
-        ❌ Không thể kết nối máy chủ.
+
+        💎 Gói:
+
+        <b style="
+          color:#fff;
+          font-size:18px;
+        ">
+
+          ${escapeHtml(
+            order.package_name || "Không có"
+          )}
+
+        </b>
+
       </div>
-    `;
-
-  }
-
-}
 
 
-/*
-  ENTER = KIỂM TRA
-*/
+      <!-- THỜI GIAN TẠO -->
 
-document
-  .getElementById("historyCode")
-  .addEventListener(
-    "keydown",
-    function(event) {
+      <div style="
+        border-top:1px solid #292a32;
+        padding-top:14px;
+        margin-top:14px;
+        color:#aaa;
+      ">
 
-      if (
-        event.key === "Enter"
-      ) {
+        🕒 Tạo đơn:
 
-        event.preventDefault();
+        <b style="color:#ddd;">
 
-        kiemTraLichSu();
+          ${escapeHtml(
+            formatDate(order.created_at)
+          )}
 
+        </b>
+
+      </div>
+
+
+      <!-- ĐÃ NẠP THÀNH CÔNG -->
+
+      ${
+        isPaid
+          ? `
+            <div style="
+              margin-top:18px;
+              padding:13px;
+              border-radius:12px;
+              background:#064d29;
+              color:#25d366;
+              text-align:center;
+              font-size:18px;
+              font-weight:bold;
+            ">
+
+              💎 Đã nạp kim cương thành công
+
+            </div>
+          `
+          : ""
       }
 
-    }
-  );
+    </div>
 
-
-/*
-  FORMAT NGÀY
-*/
-
-function formatHistoryDate(value) {
-
-  if (!value) {
-    return "---";
-  }
-
-  const date =
-    new Date(value);
-
-  if (
-    Number.isNaN(
-      date.getTime()
-    )
-  ) {
-
-    return String(value);
-
-  }
-
-  return date.toLocaleString(
-    "vi-VN"
-  );
+  `;
 
 }
-
-
-/*
-  CHỐNG CHÈN HTML
-*/
-
-function escapeHistory(value) {
-
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-</script>
 
 
 <!-- =========================
