@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Quản lý đơn hàng</title>
 
   <style>
@@ -104,6 +105,12 @@
       margin-bottom: 8px;
     }
 
+    .content-value {
+      color: #2878e8;
+      font-weight: bold;
+      word-break: break-word;
+    }
+
     .paid {
       color: #159447;
       font-weight: bold;
@@ -155,7 +162,7 @@
     >
 
     <button type="button" id="load">
-      🔄 Xem đơn hàng
+      🔄 Xem lịch sử nạp
     </button>
 
     <div id="message"></div>
@@ -164,29 +171,43 @@
 
   </div>
 
+
   <div class="box">
 
-    <h2>📦 Danh sách đơn hàng</h2>
+    <h2>📦 Lịch sử nạp</h2>
 
     <div id="orders">
+
       <div class="empty">
-        Nhập mật khẩu rồi bấm "Xem đơn hàng".
+        Nhập mật khẩu rồi bấm "Xem lịch sử nạp".
       </div>
+
     </div>
 
   </div>
 
 </div>
 
+
 <script>
 
-const loadButton = document.getElementById("load");
-const passwordInput = document.getElementById("password");
-const ordersBox = document.getElementById("orders");
-const messageBox = document.getElementById("message");
-const debugBox = document.getElementById("debug");
+const loadButton =
+  document.getElementById("load");
+
+const passwordInput =
+  document.getElementById("password");
+
+const ordersBox =
+  document.getElementById("orders");
+
+const messageBox =
+  document.getElementById("message");
+
+const debugBox =
+  document.getElementById("debug");
 
 let autoRefreshTimer = null;
+
 let isLoading = false;
 
 
@@ -195,12 +216,19 @@ let isLoading = false;
 ================================ */
 
 function escapeHtml(value) {
+
   return String(value ?? "")
+
     .replace(/&/g, "&amp;")
+
     .replace(/</g, "&lt;")
+
     .replace(/>/g, "&gt;")
+
     .replace(/"/g, "&quot;")
+
     .replace(/'/g, "&#039;");
+
 }
 
 
@@ -209,13 +237,19 @@ function escapeHtml(value) {
 ================================ */
 
 function formatMoney(amount) {
-  const number = Number(amount);
+
+  const number =
+    Number(amount);
 
   if (!Number.isFinite(number)) {
+
     return "0 VNĐ";
+
   }
 
-  return number.toLocaleString("vi-VN") + " VNĐ";
+  return number.toLocaleString("vi-VN")
+    + " VNĐ";
+
 }
 
 
@@ -226,16 +260,22 @@ function formatMoney(amount) {
 function formatDate(date) {
 
   if (!date) {
+
     return "Chưa có";
+
   }
 
-  const d = new Date(date);
+  const d =
+    new Date(date);
 
   if (Number.isNaN(d.getTime())) {
+
     return escapeHtml(date);
+
   }
 
   return d.toLocaleString("vi-VN");
+
 }
 
 
@@ -246,155 +286,216 @@ function formatDate(date) {
 function statusText(status) {
 
   const value =
-    String(status || "").toUpperCase();
+    String(status || "")
+      .toUpperCase();
 
   if (value === "PAID") {
+
     return "ĐÃ THANH TOÁN";
+
   }
 
   if (value === "PENDING") {
+
     return "CHỜ THANH TOÁN";
+
   }
 
   return value || "KHÔNG RÕ";
+
 }
 
 
 function statusClass(status) {
 
   const value =
-    String(status || "").toUpperCase();
+    String(status || "")
+      .toUpperCase();
 
   if (value === "PAID") {
+
     return "paid";
+
   }
 
   if (value === "PENDING") {
+
     return "pending";
+
   }
 
   return "";
+
 }
 
 
 /* ================================
-   HIỂN THỊ LỖI CHI TIẾT
+   HIỂN THỊ LỖI
 ================================ */
 
 function showDebug(text) {
 
-  debugBox.style.display = "block";
+  debugBox.style.display =
+    "block";
 
-  debugBox.textContent = text;
+  debugBox.textContent =
+    text;
 
 }
 
 
 function hideDebug() {
 
-  debugBox.style.display = "none";
+  debugBox.style.display =
+    "none";
 
-  debugBox.textContent = "";
+  debugBox.textContent =
+    "";
 
 }
 
 
 /* ================================
-   HIỂN THỊ ĐƠN
+   HIỂN THỊ LỊCH SỬ NẠP
 ================================ */
 
 function renderOrders(orders) {
 
-  if (!Array.isArray(orders) || orders.length === 0) {
+  if (
+    !Array.isArray(orders) ||
+    orders.length === 0
+  ) {
 
     ordersBox.innerHTML = `
       <div class="empty">
-        Chưa có đơn hàng.
+        Chưa có lịch sử nạp.
       </div>
     `;
 
     return;
+
   }
 
 
-  ordersBox.innerHTML = orders.map(order => {
+  ordersBox.innerHTML =
+    orders.map(order => {
 
-    const status =
-      String(order.status || "");
+      const status =
+        String(order.status || "");
 
 
-    return `
-      <div class="order">
+      /*
+        Nội dung chuyển khoản.
+        Server hiện đang dùng:
+        transfer_content
+      */
 
-        <div class="order-code">
-          ${escapeHtml(
-            order.order_code ||
-            "Không có mã đơn"
-          )}
-        </div>
+      const paymentContent =
+        order.transfer_content ||
+        order.payment_content ||
+        order.content ||
+        "Chưa có";
 
-        <div>
-          👤 UID:
-          <strong>
+
+      return `
+
+        <div class="order">
+
+          <div class="order-code">
             ${escapeHtml(
-              order.player_id ||
-              order.uid ||
-              "N/A"
+              order.order_code ||
+              "Không có mã đơn"
             )}
-          </strong>
-        </div>
+          </div>
 
-        <div>
-          🎁 Gói:
-          <strong>
+
+          <div>
+            👤 UID:
+            <strong>
+              ${escapeHtml(
+                order.player_id ||
+                order.uid ||
+                "N/A"
+              )}
+            </strong>
+          </div>
+
+
+          <div>
+            🎁 Gói:
+            <strong>
+              ${escapeHtml(
+                order.package_name ||
+                order.package ||
+                "N/A"
+              )}
+            </strong>
+          </div>
+
+
+          <div>
+            💰 Số tiền:
+            <strong>
+              ${formatMoney(
+                order.amount
+              )}
+            </strong>
+          </div>
+
+
+          <div>
+            📝 Nội dung nạp:
+            <span class="content-value">
+              ${escapeHtml(
+                paymentContent
+              )}
+            </span>
+          </div>
+
+
+          <div>
+            📌 Trạng thái:
+            <span class="${statusClass(status)}">
+              ${escapeHtml(
+                statusText(status)
+              )}
+            </span>
+          </div>
+
+
+          <div>
+            💳 Mã giao dịch:
             ${escapeHtml(
-              order.package_name ||
-              order.package ||
-              "N/A"
+              order.payment_id ||
+              "Chưa có"
             )}
-          </strong>
+          </div>
+
+
+          <div>
+            🕒 Tạo lúc:
+            ${escapeHtml(
+              formatDate(
+                order.created_at
+              )
+            )}
+          </div>
+
+
+          <div>
+            ✅ Thanh toán lúc:
+            ${escapeHtml(
+              formatDate(
+                order.paid_at
+              )
+            )}
+          </div>
+
         </div>
 
-        <div>
-          💰 Số tiền:
-          <strong>
-            ${formatMoney(order.amount)}
-          </strong>
-        </div>
+      `;
 
-        <div>
-          📌 Trạng thái:
-          <span class="${statusClass(status)}">
-            ${escapeHtml(statusText(status))}
-          </span>
-        </div>
-
-        <div>
-          💳 Mã giao dịch:
-          ${escapeHtml(
-            order.payment_id ||
-            "Chưa có"
-          )}
-        </div>
-
-        <div>
-          🕒 Tạo lúc:
-          ${escapeHtml(
-            formatDate(order.created_at)
-          )}
-        </div>
-
-        <div>
-          ✅ Thanh toán lúc:
-          ${escapeHtml(
-            formatDate(order.paid_at)
-          )}
-        </div>
-
-      </div>
-    `;
-
-  }).join("");
+    }).join("");
 
 }
 
@@ -403,7 +504,9 @@ function renderOrders(orders) {
    LẤY ĐƠN HÀNG
 ================================ */
 
-async function loadOrders(showMessage = true) {
+async function loadOrders(
+  showMessage = true
+) {
 
   const pass =
     passwordInput.value.trim();
@@ -411,7 +514,8 @@ async function loadOrders(showMessage = true) {
 
   if (!pass) {
 
-    messageBox.className = "error";
+    messageBox.className =
+      "error";
 
     messageBox.textContent =
       "Vui lòng nhập mật khẩu Admin.";
@@ -423,11 +527,14 @@ async function loadOrders(showMessage = true) {
     `;
 
     return false;
+
   }
 
 
   if (isLoading) {
+
     return false;
+
   }
 
 
@@ -438,10 +545,11 @@ async function loadOrders(showMessage = true) {
 
   if (showMessage) {
 
-    messageBox.className = "";
+    messageBox.className =
+      "";
 
     messageBox.textContent =
-      "Đang tải đơn hàng...";
+      "Đang tải lịch sử nạp...";
 
     ordersBox.innerHTML = `
       <div class="empty">
@@ -470,7 +578,8 @@ async function loadOrders(showMessage = true) {
 
 
     /*
-      Thêm timestamp để tránh cache
+      Thêm timestamp
+      để tránh cache
     */
 
     const url =
@@ -485,20 +594,25 @@ async function loadOrders(showMessage = true) {
           method: "GET",
 
           headers: {
+
             "Authorization": auth,
-            "Accept": "application/json",
-            "Cache-Control": "no-cache"
+
+            "Accept":
+              "application/json",
+
+            "Cache-Control":
+              "no-cache"
+
           },
 
           cache: "no-store"
+
         }
       );
 
 
     /*
-      Đọc response dạng text trước.
-      Như vậy nếu server trả HTML/error
-      cũng biết chính xác lỗi.
+      Đọc text trước
     */
 
     const rawText =
@@ -515,7 +629,9 @@ async function loadOrders(showMessage = true) {
           ? JSON.parse(rawText)
           : null;
 
-    } catch {
+    }
+
+    catch {
 
       result = null;
 
@@ -530,7 +646,9 @@ async function loadOrders(showMessage = true) {
 
       if (autoRefreshTimer) {
 
-        clearInterval(autoRefreshTimer);
+        clearInterval(
+          autoRefreshTimer
+        );
 
         autoRefreshTimer = null;
 
@@ -564,7 +682,9 @@ async function loadOrders(showMessage = true) {
 
       }
 
-      else if (res.status === 403) {
+      else if (
+        res.status === 403
+      ) {
 
         messageBox.className =
           "error";
@@ -574,7 +694,9 @@ async function loadOrders(showMessage = true) {
 
       }
 
-      else if (res.status === 404) {
+      else if (
+        res.status === 404
+      ) {
 
         messageBox.className =
           "error";
@@ -584,7 +706,9 @@ async function loadOrders(showMessage = true) {
 
       }
 
-      else if (res.status >= 500) {
+      else if (
+        res.status >= 500
+      ) {
 
         messageBox.className =
           "error";
@@ -609,24 +733,29 @@ async function loadOrders(showMessage = true) {
 
 
       showDebug(
+
         "URL: " +
         url +
         "\n\n" +
+
         (
           serverMessage
-            ? "Server: " + serverMessage
+
+            ? "Server: " +
+              serverMessage
+
             : "Response: " +
               (rawText || "(trống)")
         )
+
       );
 
 
       ordersBox.innerHTML = `
         <div class="empty">
-          Không thể tải đơn hàng.
+          Không thể tải lịch sử nạp.
         </div>
       `;
-
 
       return false;
 
@@ -634,7 +763,8 @@ async function loadOrders(showMessage = true) {
 
 
     /*
-      SERVER trả 200 nhưng JSON lỗi
+      SERVER trả 200
+      nhưng JSON lỗi
     */
 
     if (!result) {
@@ -675,24 +805,30 @@ async function loadOrders(showMessage = true) {
     }
 
     else if (
-      Array.isArray(result.orders)
+      Array.isArray(
+        result.orders
+      )
     ) {
 
-      orders = result.orders;
+      orders =
+        result.orders;
 
     }
 
     else if (
-      Array.isArray(result.data)
+      Array.isArray(
+        result.data
+      )
     ) {
 
-      orders = result.data;
+      orders =
+        result.data;
 
     }
 
 
     /*
-      Hiển thị
+      Hiển thị lịch sử
     */
 
     renderOrders(orders);
@@ -706,10 +842,6 @@ async function loadOrders(showMessage = true) {
       orders.length +
       " đơn hàng.";
 
-
-    /*
-      Debug nhẹ để xác nhận API
-    */
 
     if (orders.length > 0) {
 
@@ -739,6 +871,7 @@ async function loadOrders(showMessage = true) {
 
     messageBox.textContent =
       "❌ Không thể kết nối API.";
+
 
     showDebug(
       "Lỗi JavaScript / Network:\n\n" +
@@ -792,21 +925,25 @@ function startAutoRefresh() {
 
 
         if (!pass) {
+
           return;
+
         }
 
 
         await loadOrders(false);
 
       },
+
       3000
+
     );
 
 }
 
 
 /* ================================
-   NÚT XEM ĐƠN
+   NÚT XEM LỊCH SỬ
 ================================ */
 
 loadButton.addEventListener(
@@ -835,8 +972,12 @@ passwordInput.addEventListener(
   "keydown",
   async event => {
 
-    if (event.key !== "Enter") {
+    if (
+      event.key !== "Enter"
+    ) {
+
       return;
+
     }
 
 
@@ -858,7 +999,7 @@ passwordInput.addEventListener(
 
 
 /* ================================
-   DỌN TIMER KHI RỜI TRANG
+   DỌN TIMER
 ================================ */
 
 window.addEventListener(
